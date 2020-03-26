@@ -105,6 +105,10 @@ div.note {
   }
 
 
+.MathJax {
+  font-size: 150%;
+}
+
 /* Style author */
 .author {
     font-family: 'Crimson Text', serif;

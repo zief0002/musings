@@ -1,8 +1,14 @@
-# Kernel Density Estimation
+# Kernel Density Estimation {#KDE}
 
 Adapted from @Zieffler:2011
 
 
+
+<br /><br />
+
+:::note
+This chapter assumes a working knowledge of **dplyr** and **ggplot2** functionality to work with and plot data. 
+:::
 
 <br /><br />
 
@@ -24,7 +30,7 @@ To address this research question, we will use kernel density estimation to visu
 
 ## Loading Packages and Importing the Data
 
-To begin, we will load three packages that we will use in this analysis.
+To begin, we will load two packages that we will use in this analysis.
 
 
 ```r
@@ -33,7 +39,7 @@ library(quantreg)
 library(tidyverse)
 ```
 
-The [vlss-age.csv](https://raw.githubusercontent.com/zief0002/musings/master/data/vlss-age.csv) data contains the ages of 28,633 individuals (in years ranging from 0 to 99). We will import this data using the `read_csv()` function from the **readr** package. 
+The [vlss-age.csv](https://raw.githubusercontent.com/zief0002/musings/master/data/vlss-age.csv) data contains the ages of 28,633 individuals (in years ranging from 0 to 99). We will import this data using the `read_csv()` function from the **tidyverse** package^[The `read_csv()` function is technically included in the **readr** package which is included in the **tidyverse** package.]. 
 
 
 ```r
@@ -43,15 +49,15 @@ head(vlss)
 ```
 
 ```
-## # A tibble: 6 x 2
-##      ID   Age
-##   <dbl> <dbl>
-## 1     1    68
-## 2     2    70
-## 3     3    31
-## 4     4    28
-## 5     5    22
-## 6     6     7
+## # A tibble: 6 x 1
+##     age
+##   <dbl>
+## 1    68
+## 2    70
+## 3    31
+## 4    28
+## 5    22
+## 6     7
 ```
 
 
@@ -101,17 +107,15 @@ Note that the variation (width) in the kernel determines the amount of overlap a
 
 ## Plotting a Kernel Density Estimate
 
-To plot a kernel density estimate of a distribution, we will use the `geom_density()` function from the **ggplot2** package. This package is loaded when the **tidyverse** package is loaded. 
+To plot a kernel density estimate of a distribution, we will use the `geom_density()` function from the **tidyverse** package^[The `geom_density()` function is technically included in the **ggplot2** package, which is included in the **tidyverse** package.]. 
 
 
 ```r
-# Load library
-library(tidyverse)
-
 # Create density plot
-ggplot(data = vlss, aes(x = Age)) +
+ggplot(data = vlss, aes(x = age)) +
   geom_density() +
   theme_bw() +
+  xlab("Age") +
   ylab("Density")
 ```
 
@@ -125,9 +129,10 @@ Changing either the kernel function or the smoothing parameter affects the overa
 
 ```r
 # Change kernel function
-ggplot(data = vlss, aes(x = Age)) +
+ggplot(data = vlss, aes(x = age)) +
   geom_density(kernel="epanechnikov") +
   theme_bw() +
+  xlab("Age") +
   ylab("Density")
 ```
 
@@ -152,9 +157,10 @@ To set the smoothing parameter, we use the `bw=` argument in the `geom_density()
 
 ```r
 # Change smoothing parameter
-ggplot(data = vlss, aes(x = Age)) +
+ggplot(data = vlss, aes(x = age)) +
   geom_density(bw = 10) +
   theme_bw() +
+  xlab("Age") +
   ylab("Density")
 ```
 
@@ -173,16 +179,16 @@ This actual value of the smoothing parameter can be obtained by employing the `d
 
 ```r
 # Obtain smoothing parameter for Silverman's method
-d = density(vlss$Age, bw = "nrd0")
+d = density(vlss$age, bw = "nrd0")
 d
 ```
 
 ```
 ## 
 ## Call:
-## 	density.default(x = vlss$Age, bw = "nrd0")
+## 	density.default(x = vlss$age, bw = "nrd0")
 ## 
-## Data: vlss$Age (28633 obs.);	Bandwidth 'bw' = 2.344
+## Data: vlss$age (28633 obs.);	Bandwidth 'bw' = 2.344
 ## 
 ##        x                 y            
 ##  Min.   : -7.033   Min.   :1.010e-07  
@@ -213,7 +219,7 @@ Adaptive kernel densities can be estimated using the `akj()` function from the *
 
 ```r
 # Create density plot using adaptive kernel density estimation
-adapt = akj(x = vlss$Age, z = d$x) 
+adapt = akj(x = vlss$age, z = d$x) 
 ```
 
 To plot this, we first dreate a data frame that includes the *x*-values used in the `z=` argument and the density estimates, stored in `adapt$dens`. Then we can use `geom_line()` to plot the actual density estimates.

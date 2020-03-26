@@ -1,7 +1,7 @@
 --- 
 title: "Old Notes, Musings, and Miscellany"
 author: "Andrew Zieffler"
-date: "2020-03-23"
+date: "2020-03-25"
 site: bookdown::bookdown_site
 output: 
   bookdown::html_book:
@@ -36,7 +36,7 @@ description: "Old notes, musings, and miscellany"
 
 After 22 years of teaching, I have taught many courses and created many iterations of teaching materials. Some of this was "good" and some wasn't. As the progeny of packrats, I saved a lot of these materials, even the garbage. Now, I have finally begun the process of culling this mess and this work-in-progress is the result.
 
-My goal here is to transfer the stuff I feel is reasonable to an online text of sorts. But unlike most texts, this one will likely not be linear, nor perhaps coherent&mdash; at least across chapters. If it is useful to you; use whatever you want. If not, ignore it.
+My goal here is to transfer the stuff I feel is reasonable to an online text of sorts. But unlike most texts, this one will likely not be linear, nor perhaps coherent---at least across chapters. If it is useful to you; use whatever you want. If not, ignore it.
 
 
 <!-- ## Table Test -->

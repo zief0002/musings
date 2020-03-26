@@ -1,5 +1,4 @@
 /* Style code in text*/
-  
 p code {
     white-space: inherit;
     font-size: 70%;
@@ -11,7 +10,7 @@ pre {
 }
 
 
-
+/* Style syntax */
 .sourceCode {
   background-color: #303030;
   border-color: #303030;
@@ -20,6 +19,8 @@ pre {
   padding-bottom: 5px;
 }
 
+
+/* Style code output */
 pre:not([class]) {
   background-color: #eff4f6;
   padding: 10px;
@@ -36,7 +37,7 @@ pre:not([class]) code {
     padding-left: 10px;
 }
 
-
+/* Change line height so descenders show in syntax*/
 a.sourceLine {
     line-height: 1.7;
 }

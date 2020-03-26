@@ -4,12 +4,13 @@ repo: https://github.com/zief0002/musings
 output_dir: docs
 rmd_files: [
     "index.Rmd",
-    "01-intro.Rmd",
+    #"01-intro.Rmd",
     "02-creating-tables.Rmd",
     #"03-markdown-tables.Rmd",
-    "04-kde.Rmd"
+    "04-kde.Rmd",
+    "05-exploration.Rmd",
     #"05-rm-anova.Rmd",
-    #"06-summary.Rmd"
+    "06-summary.Rmd"
     ]
 clean: [packages.bib, bookdown.bbl]
 new_session: yes

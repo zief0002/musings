@@ -1,4 +1,4 @@
-# Kernel Density Estimation
+# Kernel Density Estimation {#KDE}
 
 Adapted from @Zieffler:2011
 
@@ -16,6 +16,12 @@ knitr::opts_chunk$set(
   tidy = FALSE
   )
 ```
+
+<br /><br />
+
+:::note
+This chapter assumes a working knowledge of **dplyr** and **ggplot2** functionality to work with and plot data. 
+:::
 
 <br /><br />
 
@@ -37,7 +43,7 @@ To address this research question, we will use kernel density estimation to visu
 
 ## Loading Packages and Importing the Data
 
-To begin, we will load three packages that we will use in this analysis.
+To begin, we will load two packages that we will use in this analysis.
 
 ```{r message=FALSE}
 # Load libraries
@@ -45,7 +51,7 @@ library(quantreg)
 library(tidyverse)
 ```
 
-The [vlss-age.csv](https://raw.githubusercontent.com/zief0002/musings/master/data/vlss-age.csv) data contains the ages of 28,633 individuals (in years ranging from 0 to 99). We will import this data using the `read_csv()` function from the **readr** package. 
+The [vlss-age.csv](https://raw.githubusercontent.com/zief0002/musings/master/data/vlss-age.csv) data contains the ages of 28,633 individuals (in years ranging from 0 to 99). We will import this data using the `read_csv()` function from the **tidyverse** package^[The `read_csv()` function is technically included in the **readr** package which is included in the **tidyverse** package.]. 
 
 ```{r message=FALSE}
 # Import data
@@ -64,9 +70,9 @@ Density estimation is one of the most useful methods for examining sample distri
 
 
 ```{r echo=FALSE, message=FALSE, fig.cap='Histogram of the age distribution.', fig.width=5, fig.height=4}
-library(ggplot2)
-ggplot(data = vlss, aes(x = Age)) +
+ggplot(data = vlss, aes(x = age)) +
   geom_histogram(color = "black", fill = "skyblue") +
+  xlab("Age") +
   theme_bw()
 ```
 
@@ -101,16 +107,14 @@ Note that the variation (width) in the kernel determines the amount of overlap a
 
 ## Plotting a Kernel Density Estimate
 
-To plot a kernel density estimate of a distribution, we will use the `geom_density()` function from the **ggplot2** package. This package is loaded when the **tidyverse** package is loaded. 
+To plot a kernel density estimate of a distribution, we will use the `geom_density()` function from the **tidyverse** package^[The `geom_density()` function is technically included in the **ggplot2** package, which is included in the **tidyverse** package.]. 
 
 ```{r message=FALSE, fig.cap='Kernel density plot of the age distribution using the default (Gaussian) kernel.', fig.width=5, fig.height=4}
-# Load library
-library(tidyverse)
-
 # Create density plot
-ggplot(data = vlss, aes(x = Age)) +
+ggplot(data = vlss, aes(x = age)) +
   geom_density() +
   theme_bw() +
+  xlab("Age") +
   ylab("Density")
 ```
 
@@ -118,9 +122,10 @@ Changing either the kernel function or the smoothing parameter affects the overa
 
 ```{r message=FALSE, fig.cap='Kernel density plot of the age distribution using the Epanechnikov kernel. Changing the kernel has little effect on the estimation of the density; this plot looks almost identical to the density plot using the Gaussian kernel.', fig.width=5, fig.height=4}
 # Change kernel function
-ggplot(data = vlss, aes(x = Age)) +
+ggplot(data = vlss, aes(x = age)) +
   geom_density(kernel="epanechnikov") +
   theme_bw() +
+  xlab("Age") +
   ylab("Density")
 ```
 
@@ -130,21 +135,24 @@ Selecting the smoothing parameter is another matter. Change in the amount of var
 
 
 ```{r echo=FALSE, fig.cap='Kernel density estimates using three different smoothing parameters. Each estimate used a Gaussian kernel. The estimate on the left used a smoothing parameter of 0.5. The estimate in the middle used a smoothing parameter of 2. The estimate on the right used a smoothing parameter of 10.', fig.width=15, fig.height=4, out.width='90%'}
-p1 = ggplot(data = vlss, aes(x = Age)) +
+p1 = ggplot(data = vlss, aes(x = age)) +
   geom_density(bw = 0.5) +
   theme_bw() +
+  xlab("Age") +
   ylab("Density") +
   ggtitle("bw = 0.5")
 
-p2 = ggplot(data = vlss, aes(x = Age)) +
+p2 = ggplot(data = vlss, aes(x = age)) +
   geom_density(bw = 2) +
   theme_bw() +
+  xlab("Age") +
   ylab("Density") +
   ggtitle("bw = 2")
 
-p3 = ggplot(data = vlss, aes(x = Age)) +
+p3 = ggplot(data = vlss, aes(x = age)) +
   geom_density(bw = 10) +
   theme_bw() +
+  xlab("Age") +
   ylab("Density") +
   ggtitle("bw = 10")
 
@@ -156,9 +164,10 @@ To set the smoothing parameter, we use the `bw=` argument in the `geom_density()
 
 ```{r message=FALSE, eval=FALSE}
 # Change smoothing parameter
-ggplot(data = vlss, aes(x = Age)) +
+ggplot(data = vlss, aes(x = age)) +
   geom_density(bw = 10) +
   theme_bw() +
+  xlab("Age") +
   ylab("Density")
 ```
 
@@ -176,22 +185,24 @@ This actual value of the smoothing parameter can be obtained by employing the `d
 
 ```{r}
 # Obtain smoothing parameter for Silverman's method
-d = density(vlss$Age, bw = "nrd0")
+d = density(vlss$age, bw = "nrd0")
 d
 ```
 
 For Silverman's method, the default used in the `geom_density()` function, the numerical value of the smoothing parameter for the age variable is 2.344. Although the default smoothing parameter in this case seems reasonable in providing a smooth plot, the prudent data analyst should try several smoothing parameters to ensure that the plot is not oversmoothed. The figure below shows the original plot, as well as additional kernel density plots using the Sheather and Jones method of computing the smoothing parameter. All the methods yield similar curves for the age variable.
 
 ```{r message=FALSE, echo=FALSE, fig.cap="Kernel density estimates using Silverman's rule of thumb for the smoothing parameter (left-hand plot) and Sheather and Jones' method of computing the smoothing parameter, (right-hand plot)", fig.width=10, fig.height=4, out.width='90%'}
-p1 = ggplot(data = vlss, aes(x = Age)) +
+p1 = ggplot(data = vlss, aes(x = age)) +
   geom_density() +
   theme_bw() +
+  xlab("Age") +
   ylab("Density") +
   ggtitle("Silverman's Method")
 
-p2 = ggplot(data = vlss, aes(x = Age)) +
+p2 = ggplot(data = vlss, aes(x = age)) +
   geom_density(bw = "SJ") +
   theme_bw() +
+  xlab("Age") +
   ylab("Density") +
   ggtitle("Sheather and Jones' Method")
 
@@ -210,7 +221,7 @@ Adaptive kernel densities can be estimated using the `akj()` function from the *
 
 ```{r message=FALSE, cache=TRUE}
 # Create density plot using adaptive kernel density estimation
-adapt = akj(x = vlss$Age, z = d$x) 
+adapt = akj(x = vlss$age, z = d$x) 
 ```
 
 To plot this, we first dreate a data frame that includes the *x*-values used in the `z=` argument and the density estimates, stored in `adapt$dens`. Then we can use `geom_line()` to plot the actual density estimates.

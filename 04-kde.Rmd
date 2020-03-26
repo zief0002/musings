@@ -285,4 +285,8 @@ When presenting results, researchers should integrate or synthesize information 
 <br /><br />
 
 
+<!-- FIX MATH -->
+<script type="text/x-mathjax-config">
+   MathJax.Hub.Config({  "HTML-CSS": { minScaleAdjust: 125, availableFonts: [] }  });
+</script>
 

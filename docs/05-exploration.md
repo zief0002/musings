@@ -364,3 +364,7 @@ It is worth noting, that the poverty line---established in 1998 by the General S
 
 
 
+<!-- FIX MATH -->
+<script type="text/x-mathjax-config">
+   MathJax.Hub.Config({  "HTML-CSS": { minScaleAdjust: 125, availableFonts: [] }  });
+</script>

@@ -4,7 +4,7 @@
 
 Below are some sample tables for presenting statistical information. Although some of them are conventional in the social sciences (e.g., the correlation tables), it is important to remember that these are only examples. You will encounter many variations of these tables as you read scientific work in your substantive area. There may be conventions that are adopted in some areas and not in others. Pay attention to how scholars in your discipline present tabular information. 
 
-These examples were created using the [usnews.csv](https://raw.githubusercontent.com/zief0002/epsy-8252/master/data/usnews.csv) dataset (see the [data codebook](http://zief0002.github.io/epsy-8252/codebooks/usnews.html)) and the [riverview.csv](https://raw.githubusercontent.com/zief0002/epsy-8252/master/data/riverview.csv) dataset (see the [data codebook](http://zief0002.github.io/epsy-8252/codebooks/riverview.html)). 
+These examples were created using the data sets [usnews.csv](https://raw.githubusercontent.com/zief0002/musings/main/data/usnews_2014.csv) and [riverview.csv](https://raw.githubusercontent.com/zief0002/musings/main/data/riverview.csv). 
 
 <br /><br />
 
@@ -70,9 +70,9 @@ Here is another table presenting the means and standard deviations, but this tim
 <caption>(\#tab:unnamed-chunk-3)Means and Standard Deviations for Three Measures of Riverview Employees Conditioned on Sex</caption>
  <thead>
 <tr>
-<th style="border-bottom:hidden" colspan="1"></th>
-<th style="border-bottom:hidden; padding-bottom:0; padding-left:3px;padding-right:3px;text-align: center; border-bottom: 1px solid black;" colspan="2"><div style="border-bottom: 1px solid #ddd; padding-bottom: 5px; ">Females</div></th>
-<th style="border-bottom:hidden; padding-bottom:0; padding-left:3px;padding-right:3px;text-align: center; border-bottom: 1px solid black;" colspan="2"><div style="border-bottom: 1px solid #ddd; padding-bottom: 5px; ">Non-females</div></th>
+<th style="empty-cells: hide;border-bottom:hidden;" colspan="1"></th>
+<th style="border-bottom:hidden;padding-bottom:0; padding-left:3px;padding-right:3px;text-align: center; border-bottom: 1px solid black;" colspan="2"><div style="border-bottom: 1px solid #ddd; padding-bottom: 5px; ">Females</div></th>
+<th style="border-bottom:hidden;padding-bottom:0; padding-left:3px;padding-right:3px;text-align: center; border-bottom: 1px solid black;" colspan="2"><div style="border-bottom: 1px solid #ddd; padding-bottom: 5px; ">Non-females</div></th>
 </tr>
   <tr>
    <th style="text-align:left;text-align: center;"> Measure </th>
@@ -117,8 +117,8 @@ This table also presents the means and standard deviations conditioned on sex, b
 <caption>(\#tab:unnamed-chunk-4)Means and Confidence Intervals (CI) for Three Measures of Riverview Employees Conditioned on Sex</caption>
  <thead>
 <tr>
-<th style="border-bottom:hidden" colspan="3"></th>
-<th style="border-bottom:hidden; padding-bottom:0; padding-left:3px;padding-right:3px;text-align: center; border-bottom: 1px solid black;" colspan="2"><div style="border-bottom: 1px solid #ddd; padding-bottom: 5px; ">95% CI</div></th>
+<th style="empty-cells: hide;border-bottom:hidden;" colspan="3"></th>
+<th style="border-bottom:hidden;padding-bottom:0; padding-left:3px;padding-right:3px;text-align: center; border-bottom: 1px solid black;" colspan="2"><div style="border-bottom: 1px solid #ddd; padding-bottom: 5px; ">95% CI</div></th>
 </tr>
   <tr>
    <th style="text-align:left;text-align: center;"> Measure </th>
@@ -225,7 +225,7 @@ Similar to presenting summary statistics, if you only have one or two correlatio
   </tr>
   <tr>
    <td style="text-align:left;"> 2. Acceptance rate for Ph.D. students </td>
-   <td style="text-align:center;"> -.54 </td>
+   <td style="text-align:center;"> -.22 </td>
    <td style="text-align:center;"> — </td>
    <td style="text-align:center;">  </td>
    <td style="text-align:center;">  </td>
@@ -233,26 +233,26 @@ Similar to presenting summary statistics, if you only have one or two correlatio
   </tr>
   <tr>
    <td style="text-align:left;"> 3. Enrollment </td>
-   <td style="text-align:center;"> .10 </td>
-   <td style="text-align:center;"> -.03 </td>
+   <td style="text-align:center;"> .00 </td>
+   <td style="text-align:center;"> .09 </td>
    <td style="text-align:center;"> — </td>
    <td style="text-align:center;">  </td>
    <td style="text-align:center;">  </td>
   </tr>
   <tr>
    <td style="text-align:left;"> 4. GRE score (verbal) </td>
-   <td style="text-align:center;"> .43 </td>
-   <td style="text-align:center;"> -.38 </td>
-   <td style="text-align:center;"> .04 </td>
+   <td style="text-align:center;"> .44 </td>
+   <td style="text-align:center;"> -.50 </td>
+   <td style="text-align:center;"> -.14 </td>
    <td style="text-align:center;"> — </td>
    <td style="text-align:center;">  </td>
   </tr>
   <tr>
    <td style="text-align:left;"> 5. GRE score (quantitative) </td>
-   <td style="text-align:center;"> .49 </td>
-   <td style="text-align:center;"> -.39 </td>
-   <td style="text-align:center;"> .08 </td>
-   <td style="text-align:center;"> .81 </td>
+   <td style="text-align:center;"> .33 </td>
+   <td style="text-align:center;"> -.30 </td>
+   <td style="text-align:center;"> -.19 </td>
+   <td style="text-align:center;"> .50 </td>
    <td style="text-align:center;"> — </td>
   </tr>
 </tbody>
@@ -301,7 +301,7 @@ Here is an alternative table presenting both the summary statistics of each vari
    <td style="text-align:left;"> 2. Acceptance rate for Ph.D. students </td>
    <td style="text-align:center;"> 40.1 </td>
    <td style="text-align:center;"> 20.2 </td>
-   <td style="text-align:center;"> -.54 </td>
+   <td style="text-align:center;"> -.22 </td>
    <td style="text-align:center;"> — </td>
    <td style="text-align:center;">  </td>
    <td style="text-align:center;">  </td>
@@ -311,8 +311,8 @@ Here is an alternative table presenting both the summary statistics of each vari
    <td style="text-align:left;"> 3. Enrollment </td>
    <td style="text-align:center;"> 969.8 </td>
    <td style="text-align:center;"> 664.9 </td>
-   <td style="text-align:center;"> .10 </td>
-   <td style="text-align:center;"> -.03 </td>
+   <td style="text-align:center;"> .00 </td>
+   <td style="text-align:center;"> .09 </td>
    <td style="text-align:center;"> — </td>
    <td style="text-align:center;">  </td>
    <td style="text-align:center;">  </td>
@@ -321,9 +321,9 @@ Here is an alternative table presenting both the summary statistics of each vari
    <td style="text-align:left;"> 4. GRE score (verbal) </td>
    <td style="text-align:center;"> 154.9 </td>
    <td style="text-align:center;"> 3.7 </td>
-   <td style="text-align:center;"> .43 </td>
-   <td style="text-align:center;"> -.38 </td>
-   <td style="text-align:center;"> .04 </td>
+   <td style="text-align:center;"> .44 </td>
+   <td style="text-align:center;"> -.50 </td>
+   <td style="text-align:center;"> -.14 </td>
    <td style="text-align:center;"> — </td>
    <td style="text-align:center;">  </td>
   </tr>
@@ -331,10 +331,10 @@ Here is an alternative table presenting both the summary statistics of each vari
    <td style="text-align:left;"> 5. GRE score (quantitative) </td>
    <td style="text-align:center;"> 151.0 </td>
    <td style="text-align:center;"> 4.4 </td>
-   <td style="text-align:center;"> .49 </td>
-   <td style="text-align:center;"> -.39 </td>
-   <td style="text-align:center;"> .08 </td>
-   <td style="text-align:center;"> .81 </td>
+   <td style="text-align:center;"> .33 </td>
+   <td style="text-align:center;"> -.30 </td>
+   <td style="text-align:center;"> -.19 </td>
+   <td style="text-align:center;"> .50 </td>
    <td style="text-align:center;"> — </td>
   </tr>
 </tbody>
@@ -361,31 +361,31 @@ Typically the results of the "final" adopted model are presented in a table. How
 <tbody>
   <tr>
    <td style="text-align:left;"> Acceptance rate for Ph.D. students </td>
-   <td style="text-align:center;"> -0.01 </td>
-   <td style="text-align:center;"> 0.002 </td>
-   <td style="text-align:center;"> -5.22 </td>
-   <td style="text-align:center;"> &lt;0.001 </td>
+   <td style="text-align:center;"> 0.00 </td>
+   <td style="text-align:center;"> 0.003 </td>
+   <td style="text-align:center;"> 0.02 </td>
+   <td style="text-align:center;"> 0.983 </td>
   </tr>
   <tr>
    <td style="text-align:left;"> GRE score (verbal) </td>
-   <td style="text-align:center;"> 0.00 </td>
-   <td style="text-align:center;"> 0.016 </td>
-   <td style="text-align:center;"> 0.02 </td>
-   <td style="text-align:center;"> 0.986 </td>
+   <td style="text-align:center;"> 0.05 </td>
+   <td style="text-align:center;"> 0.018 </td>
+   <td style="text-align:center;"> 3.01 </td>
+   <td style="text-align:center;"> 0.003 </td>
   </tr>
   <tr>
    <td style="text-align:left;"> GRE score (quantitative) </td>
-   <td style="text-align:center;"> 0.04 </td>
+   <td style="text-align:center;"> 0.02 </td>
    <td style="text-align:center;"> 0.014 </td>
-   <td style="text-align:center;"> 2.67 </td>
-   <td style="text-align:center;"> 0.009 </td>
+   <td style="text-align:center;"> 1.31 </td>
+   <td style="text-align:center;"> 0.193 </td>
   </tr>
   <tr>
    <td style="text-align:left;"> Constant </td>
-   <td style="text-align:center;"> -1.86 </td>
-   <td style="text-align:center;"> 1.630 </td>
-   <td style="text-align:center;"> -1.14 </td>
-   <td style="text-align:center;"> 0.256 </td>
+   <td style="text-align:center;"> -7.72 </td>
+   <td style="text-align:center;"> 2.729 </td>
+   <td style="text-align:center;"> -2.83 </td>
+   <td style="text-align:center;"> 0.006 </td>
   </tr>
 </tbody>
 </table>
@@ -408,8 +408,8 @@ Alternatively, a regression table can include the confidence interval for each o
 <caption>(\#tab:unnamed-chunk-8)Unstandardized Coefficients and Confidence Intervals for an OLS Regression Model Fitted to Estimate Variation in Peer Ratings</caption>
  <thead>
 <tr>
-<th style="border-bottom:hidden" colspan="3"></th>
-<th style="border-bottom:hidden; padding-bottom:0; padding-left:3px;padding-right:3px;text-align: center; border-bottom: 1px solid black;" colspan="2"><div style="border-bottom: 1px solid #ddd; padding-bottom: 5px; ">95% CI</div></th>
+<th style="empty-cells: hide;border-bottom:hidden;" colspan="3"></th>
+<th style="border-bottom:hidden;padding-bottom:0; padding-left:3px;padding-right:3px;text-align: center; border-bottom: 1px solid black;" colspan="2"><div style="border-bottom: 1px solid #ddd; padding-bottom: 5px; ">95% CI</div></th>
 </tr>
   <tr>
    <th style="text-align:left;text-align: center;"> Predictor </th>
@@ -422,31 +422,31 @@ Alternatively, a regression table can include the confidence interval for each o
 <tbody>
   <tr>
    <td style="text-align:left;"> Acceptance rate for Ph.D. students </td>
+   <td style="text-align:center;"> 0.00 </td>
+   <td style="text-align:center;"> 0.003 </td>
    <td style="text-align:center;"> -0.01 </td>
-   <td style="text-align:center;"> 0.002 </td>
-   <td style="text-align:center;"> -0.01 </td>
-   <td style="text-align:center;"> -0.006 </td>
+   <td style="text-align:center;"> 0.006 </td>
   </tr>
   <tr>
    <td style="text-align:left;"> GRE score (verbal) </td>
-   <td style="text-align:center;"> 0.00 </td>
-   <td style="text-align:center;"> 0.016 </td>
-   <td style="text-align:center;"> -0.03 </td>
-   <td style="text-align:center;"> 0.033 </td>
+   <td style="text-align:center;"> 0.05 </td>
+   <td style="text-align:center;"> 0.018 </td>
+   <td style="text-align:center;"> 0.02 </td>
+   <td style="text-align:center;"> 0.089 </td>
   </tr>
   <tr>
    <td style="text-align:left;"> GRE score (quantitative) </td>
-   <td style="text-align:center;"> 0.04 </td>
+   <td style="text-align:center;"> 0.02 </td>
    <td style="text-align:center;"> 0.014 </td>
-   <td style="text-align:center;"> 0.01 </td>
-   <td style="text-align:center;"> 0.064 </td>
+   <td style="text-align:center;"> -0.01 </td>
+   <td style="text-align:center;"> 0.045 </td>
   </tr>
   <tr>
    <td style="text-align:left;"> Constant </td>
-   <td style="text-align:center;"> -1.86 </td>
-   <td style="text-align:center;"> 1.630 </td>
-   <td style="text-align:center;"> -5.09 </td>
-   <td style="text-align:center;"> 1.368 </td>
+   <td style="text-align:center;"> -7.72 </td>
+   <td style="text-align:center;"> 2.729 </td>
+   <td style="text-align:center;"> -13.13 </td>
+   <td style="text-align:center;"> -2.316 </td>
   </tr>
 </tbody>
 </table>
@@ -472,31 +472,31 @@ Another variation on this table includes the standardized regression coefficient
 <tbody>
   <tr>
    <td style="text-align:left;"> Acceptance rate for Ph.D. students </td>
-   <td style="text-align:center;"> -0.01 </td>
+   <td style="text-align:center;"> 0.00 </td>
    <td style="text-align:center;"> -0.41 </td>
-   <td style="text-align:center;"> -5.22 </td>
-   <td style="text-align:center;"> &lt;0.001 </td>
+   <td style="text-align:center;"> 0.02 </td>
+   <td style="text-align:center;"> 0.983 </td>
   </tr>
   <tr>
    <td style="text-align:left;"> GRE score (verbal) </td>
-   <td style="text-align:center;"> 0.00 </td>
+   <td style="text-align:center;"> 0.05 </td>
    <td style="text-align:center;"> 0.002 </td>
-   <td style="text-align:center;"> 0.02 </td>
-   <td style="text-align:center;"> 0.986 </td>
+   <td style="text-align:center;"> 3.01 </td>
+   <td style="text-align:center;"> 0.003 </td>
   </tr>
   <tr>
    <td style="text-align:left;"> GRE score (quantitative) </td>
-   <td style="text-align:center;"> 0.04 </td>
+   <td style="text-align:center;"> 0.02 </td>
    <td style="text-align:center;"> 0.33 </td>
-   <td style="text-align:center;"> 2.67 </td>
-   <td style="text-align:center;"> 0.009 </td>
+   <td style="text-align:center;"> 1.31 </td>
+   <td style="text-align:center;"> 0.193 </td>
   </tr>
   <tr>
    <td style="text-align:left;"> Constant </td>
-   <td style="text-align:center;"> -1.86 </td>
+   <td style="text-align:center;"> -7.72 </td>
    <td style="text-align:center;"> — </td>
-   <td style="text-align:center;"> -1.14 </td>
-   <td style="text-align:center;"> 0.256 </td>
+   <td style="text-align:center;"> -2.83 </td>
+   <td style="text-align:center;"> 0.006 </td>
   </tr>
 </tbody>
 </table>
@@ -512,7 +512,7 @@ In many analyses, you may need to present the results from a set of fitted model
 
 
 <table class="table" style="width: 70%; margin-left: auto; margin-right: auto;">
-<caption>Unstandardized Coefficients and Confidence Intervals for a Series of OLS Regression Models Fitted to Estimate Variation in Peer Ratings</caption>
+<caption><b>Table 9:</b> Unstandardized Coefficients and Confidence Intervals for a Series of OLS Regression Models Fitted to Estimate Variation in Peer Ratings</caption>
 <thead>
 <tr>
   <th></th>
@@ -608,7 +608,7 @@ If you must present *p*-values, do not include stars indicating statistical sign
 
 
 <table class="table" style="width: 90%; margin-left: auto; margin-right: auto;">
-<caption>Unstandardized Coefficients (Standard Errors) and p-Values for a Series of OLS Regression Models Fitted to Estimate Variation in Peer Ratings</caption>
+<caption><b>Table 10:</b> Unstandardized Coefficients (Standard Errors) and p-Values for a Series of OLS Regression Models Fitted to Estimate Variation in Peer Ratings</caption>
 <thead>
 <tr>
   <th style="border-bottom:hidden; padding-bottom:0; padding-left:3px;padding-right:3px;text-align: center;"></th>

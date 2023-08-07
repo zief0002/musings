@@ -9,8 +9,8 @@ library(kableExtra)
 library(tidyverse)
 
 # Read in data
-usnews = read_csv(file = "~/Documents/github/epsy-8252/data/usnews.csv") %>% drop_na()
-riverview = read_csv(file = "~/Documents/github/epsy-8252/data/riverview.csv")
+usnews = read_csv(file = "data/usnews_2014.csv") %>% drop_na()
+riverview = read_csv(file = "data/riverview.csv")
 
 # Set global options
 options(knitr.kable.NA = "")
@@ -18,7 +18,7 @@ options(knitr.kable.NA = "")
 
 Below are some sample tables for presenting statistical information. Although some of them are conventional in the social sciences (e.g., the correlation tables), it is important to remember that these are only examples. You will encounter many variations of these tables as you read scientific work in your substantive area. There may be conventions that are adopted in some areas and not in others. Pay attention to how scholars in your discipline present tabular information. 
 
-These examples were created using the [usnews.csv](https://raw.githubusercontent.com/zief0002/epsy-8252/master/data/usnews.csv) dataset (see the [data codebook](http://zief0002.github.io/epsy-8252/codebooks/usnews.html)) and the [riverview.csv](https://raw.githubusercontent.com/zief0002/epsy-8252/master/data/riverview.csv) dataset (see the [data codebook](http://zief0002.github.io/epsy-8252/codebooks/riverview.html)). 
+These examples were created using the data sets [usnews.csv](https://raw.githubusercontent.com/zief0002/musings/main/data/usnews_2014.csv) and [riverview.csv](https://raw.githubusercontent.com/zief0002/musings/main/data/riverview.csv). 
 
 <br /><br />
 
@@ -122,7 +122,8 @@ tab_04 = usnews %>%
   select(peer, doc_accept, enroll, gre_verbal, gre_quant) %>%
   correlate() %>%
   shave(upper = TRUE) %>%
-  fashion(decimals = 2, na_print = "") 
+  fashion(decimals = 2, na_print = "")  |>
+  data.frame()
 
 tab_04[1, 2] = "&mdash;"
 tab_04[2, 3] = "&mdash;"
@@ -132,7 +133,7 @@ tab_04[5, 6] = "&mdash;"
 
 tab_04 %>%
   mutate(
-    rowname = c("1. Peer rating", "2. Acceptance rate for Ph.D. students", "3. Enrollment", 
+    term = c("1. Peer rating", "2. Acceptance rate for Ph.D. students", "3. Enrollment", 
                 "4. GRE score (verbal)", "5. GRE score (quantitative)")
   ) %>%
   kable(
@@ -308,7 +309,7 @@ stargazer(
 
 
 <table class="table" style="width: 70%; margin-left: auto; margin-right: auto;">
-<caption>Unstandardized Coefficients and Confidence Intervals for a Series of OLS Regression Models Fitted to Estimate Variation in Peer Ratings</caption>
+<caption><b>Table 9:</b> Unstandardized Coefficients and Confidence Intervals for a Series of OLS Regression Models Fitted to Estimate Variation in Peer Ratings</caption>
 <thead>
 <tr>
   <th></th>
@@ -404,7 +405,7 @@ If you must present *p*-values, do not include stars indicating statistical sign
 
 
 <table class="table" style="width: 90%; margin-left: auto; margin-right: auto;">
-<caption>Unstandardized Coefficients (Standard Errors) and p-Values for a Series of OLS Regression Models Fitted to Estimate Variation in Peer Ratings</caption>
+<caption><b>Table 10:</b> Unstandardized Coefficients (Standard Errors) and p-Values for a Series of OLS Regression Models Fitted to Estimate Variation in Peer Ratings</caption>
 <thead>
 <tr>
   <th style="border-bottom:hidden; padding-bottom:0; padding-left:3px;padding-right:3px;text-align: center;"></th>

@@ -1,0 +1,119 @@
+rank,name,location,year,USnewsRate,peerRate,superRate,GRE.V,GRE.Q,docAccept,SFratio,phdFacRatio,totRes,avgRes,enroll,tuition,tuitionOutState,tuitionUnit
+1,Vanderbilt University,"Nashville, TN",2014,100,4.6,4.7,162,158,5.5,2.6,0.6,40.6,455.9,808,1712,,credit
+2,Johns Hopkins University ,"Baltimore, MD",2014,98,3.8,4.8,164,152,24.1,0.3,0,43.3,849.8,1404,1000,,credit
+3,Harvard University ,"Cambridge, MA",2014,97,4.4,4.8,163,158,6.2,4.7,0.7,31.1,598.1,945,38480,,year
+4,University of Texas-Austin ,"Austin, TX",2014,94,4.1,4.3,159,152,19.4,4.5,0.9,60.9,438.4,1225,8402,16338,year
+5,Stanford University ,"Stanford, CA",2014,93,4.7,4.9,161,156,6.4,3.9,0.5,21,437.2,380,41250,,year
+6,"Teachers College, Columbia University ","New York, NY",2014,90,4.4,4.7,158,153,19.3,5.3,1.6,47.5,322.9,5034,1286,,credit
+7,University of Pennsylvania ,"Philadelphia, PA",2014,88,4.1,4.2,162,156,6.3,1.9,0.3,30.4,468,1222,42224,,year
+8,University of California-Los Angeles ,"Los Angeles, CA",2014,87,4.2,4.5,158,152,29,9.1,1.8,31.3,696.2,795,11220,15102,year
+8,University of Oregon ,"Eugene, OR",2014,87,3.5,3.8,159,152,17.1,3.6,0.7,34.8,965.8,677,13230,20898,year
+10,University of Wisconsin-Madison ,"Madison, WI",2014,85,4.3,4.5,157,153,29.1,4.2,1.1,35.5,358.4,1010,11839,25166,year
+11,University of Michigan-Ann Arbor ,"Ann Arbor, MI",2014,83,4.4,4.3,157,154,21.5,5.1,0.5,22,467.2,473,19616,39666,year
+12,University of California-Berkeley ,"Berkeley, CA",2014,81,4.3,4.4,159,152,16.9,8.3,1.2,16.1,502.6,344,11220,26322,year
+12,University of Washington ,"Seattle, WA",2014,81,4,4,155,152,38.3,5.2,1.3,39.4,729.5,971,13623,26241,year
+14,Northwestern University ,"Evanston, IL",2014,80,3.9,4.5,161,153,8.9,2.1,0.2,12.5,403.1,378,43380,,year
+15,Michigan State University ,"East Lansing, MI",2014,78,4.3,4.2,156,151,37.1,5.2,0.6,32.3,301.8,2051,630,1206,credit
+16,Ohio State University ,"Columbus, OH",2014,77,3.9,4.3,156,153,34,2,0.4,40.5,235.2,1161,11336,28648,year
+17,New York University,"New York, NY",2014,75,4,4.2,161,153,8.2,3,0.8,23.9,178.1,3451,32808,,year
+17,University of Southern California,"Los Angeles, CA",2014,75,3.9,4.2,161,154,16.4,7.6,5.6,19,704.1,1993,1473,,credit
+19,Boston College (Lynch,"Chestnut Hill, MA",2014,72,3.7,4.3,160,156,6,3.4,1,13.3,238.2,861,1166,,credit
+19,Indiana University-Bloomington ,"Bloomington, IN",2014,72,3.9,4.3,156,151,31.6,3.4,0.8,24,244.9,919,397,1155,credit
+19,University of Illinois-Urbana-Champaign ,"Champaign, IL",2014,72,4.1,4.2,156,157,38.1,3.9,0.9,14,177,936,11432,24698,year
+22,University of Kansas ,"Lawrence, KS",2014,71,3.8,4,152,150,67.9,4,0.8,36.8,471.9,962,330,772,credit
+22,University of Virginia,"Charlottesville, VA",2014,71,4.1,4.3,157,154,22.2,3.1,0.7,14.7,209.7,949,13278,22602,year
+24,Arizona State University ,"Phoenix, AZ",2014,69,3.6,3.6,160,149,28.6,2.8,1.3,31.7,348,2462,10002,24550,year
+24,Utah State University ,"Logan, UT",2014,69,3,3.3,155,156,24.9,1,0.3,42.8,321.9,1010,4294,15030,year
+26,University of Minnesota-Twin Cities ,"Minneapolis, MN",2014,68,3.8,3.9,156,151,41.4,5.2,0.9,33,259.6,1880,14570,22320,year
+27,University of Maryland-College Park ,"College Park, MD",2014,65,3.9,4.1,157,152,23.1,4.1,1.1,12.6,126.8,986,551,1188,credit
+28,Pennsylvania State University-University Park ,"University Park, PA",2014,63,3.8,4.1,157,151,41.5,4,0.8,16.1,136.8,1138,17670,30374,year
+28,University of Colorado-Boulder ,"Boulder, CO",2014,63,3.7,3.9,159,151,16.3,2.6,0.4,6.4,211.8,354,9738,26208,year
+28,University of Connecticut (Neag),"Storrs, CT",2014,63,3.7,4.2,156,153,39.3,3.2,0.8,13.4,216.1,796,10782,27990,year
+28,Virginia Commonwealth University ,"Richmond, VA",2014,63,3.1,3.7,158,150,40.5,1.4,0.5,17.2,358.3,1075,9530,19594,year
+32,College of William and Mary ,"Williamsburg, VA",2014,61,3.4,4.5,157,155,48.2,2.3,0.6,7,183.6,398,6779,20608,year
+32,Purdue University-West Lafayette ,"West Lafayette, IN",2014,61,3.5,4,151,150,42,2.4,0.6,12.7,191.7,523,9208,28010,year
+32,University of Illinois-Chicago ,"Chicago, IL",2014,61,3.5,4.3,153,148,56.4,3.1,0.6,13.8,306.6,691,10882,22880,year
+32,University of Iowa ,"Iowa City, IA",2014,61,3.6,4,155,150,48.8,4.5,0.9,14.7,186.5,693,9310,25562,year
+32,University of Pittsburgh ,"Pittsburgh, PA",2014,61,3.6,3.8,149,144,46.9,4.5,0.8,22.2,397,1047,19336,31658,year
+37,University of California-Irvine ,"Irvine, CA",2014,60,3.3,3.8,162,156,13,3.5,0.7,4.2,198.9,229,11220,26322,year
+37,University of Delaware ,"Newark, DE",2014,60,3.2,3.6,160,156,41.9,3.3,0.9,16.5,459.2,363,27240,27240,year
+37,University of North Carolina-Chapel Hill ,"Chapel Hill, NC",2014,60,3.9,4.2,156,149,45.7,4.8,0.6,7.6,179.8,522,8834,24924,year
+40,Syracuse University ,"Syracuse, NY",2014,59,3.4,4.3,157,153,44.1,2.6,0.4,8.6,143.6,678,1249,,credit
+40,University of California-Santa Barbara (Gevirtz),"Santa Barbara, CA",2014,59,3.4,4.5,154,151,14.7,6.3,1.3,3.5,97.5,344,12957,28059,year
+40,University of Florida ,"Gainesville, FL",2014,59,3.6,4,155,147,41.2,6.6,1,17.9,251.5,1268,449,1249,credit
+43,University of Georgia ,"Athens, GA",2014,58,3.9,4.1,153,148,34,3.4,0.9,13.5,73.7,1857,7400,22400,year
+44,Florida State University ,"Tallahassee, FL",2014,57,3.4,3.8,153,150,35.5,3.4,0.9,12.8,170.9,1069,404,1035,credit
+44,George Washington University ,"Washington, DC",2014,57,3.4,4,156,152,49.1,5.3,1.2,12.7,259.9,1699,1310,,credit
+46,University of Miami ,"Coral Gables, FL",2014,56,3.2,3.8,158,152,15.8,3.4,0.4,6.3,196.5,310,1660,,credit
+47,"Rutgers, the State University of New Jersey-New Brunswick ","New Brunswick, NJ",2014,55,3.4,3.8,156,152,47.1,2.7,0.5,8.8,184.2,1008,15024,24600,year
+47,Temple University ,"Philadelphia, PA",2014,55,3.1,4.1,155,151,61.8,5.2,0.8,14.8,344.9,1153,687,961,credit
+47,Texas A&M University-College Station,"College Station, TX",2014,55,3.6,4.2,151,148,57.9,3.9,0.9,13.3,126.6,1289,227,778,credit
+47,University at Albany-SUNY ,"Albany, NY",2014,55,3.4,3.7,155,155,26,3.5,0.5,6.8,125.8,1001,9370,16680,year
+51,Boston University ,"Boston, MA",2014,54,3.4,4.2,153,148,37.3,3.2,0.7,2.9,96.1,576,42400,,year
+51,Lehigh University ,"Bethlehem, PA",2014,54,2.8,3.7,157,147,15.8,3.1,1,11.1,412.6,523,550,,credit
+51,University of Arizona ,"Tucson, AZ",2014,54,3.6,3.9,154,150,66.2,4.8,0.6,10,204.5,716,11136,26547,year
+51,University of Missouri ,"Columbia, MO",2014,54,3.4,3.7,154,146,16.2,4.7,0.8,11.4,123.7,1498,337,869,credit
+51,University of Nebraska-Lincoln ,"Lincoln, NE",2014,54,3.4,4.1,155,149,43.4,3.2,0.6,12.8,150.5,1075,285,769,credit
+51,University of North Carolina-Greensboro ,"Greensboro, NC",2014,54,3.2,3.9,155,149,40.5,2.4,0.6,13.5,197.8,925,4366,17815,year
+51,University of Tennessee-Knoxville ,"Knoxville, TN",2014,54,3.3,4,156,154,53.3,1.2,0.4,11.7,104.5,640,10280,28768,year
+58,University of Massachusetts-Amherst ,"Amherst, MA",2014,53,3.4,4,154,145,44.7,3.7,0.6,9.9,193.7,708,2640,9937,year
+58,Washington University in St. Louis ,"St. Louis, MO",2014,53,3.1,3.9,162,158,15,1,0.1,0.8,90.7,22,42500,,year
+60,Georgia State University ,"Atlanta, GA",2014,52,3,4.1,155,151,39.1,2.4,0.7,12.3,118.3,1582,6048,21600,year
+60,University of California-Davis ,"Davis, CA",2014,52,3.4,3.8,155,150,34.1,5.6,0.9,6.5,217.1,429,15387,30489,year
+60,University of Vermont ,"Burlington, VT",2014,52,3.2,3.7,154,148,55.2,0.7,0.2,9.8,256.8,353,13344,33672,year
+63,George Mason University ,"Fairfax, VA",2014,51,3.2,3.8,155,149,54.4,2.2,0.2,11.3,164,2317,378,1042,credit
+63,University of Kentucky ,"Lexington, KY",2014,51,3.2,3.9,157,150,37.1,3,0.5,10.1,110,818,9392,20480,year
+65,Fordham University ,"New York, NY",2014,50,3,4.1,154,153,36.3,9,1.6,7,219.3,1165,1136,,credit
+65,Marquette University ,"Milwaukee, WI",2014,50,2.8,4.4,159,151,14.3,1.4,0.6,0.1,6.2,238,735,,credit
+65,Old Dominion University (Darden),"Norfolk, VA",2014,50,2.8,3.7,152,147,39.5,1.8,0.6,33.7,366.2,1611,393,997,credit
+65,San Diego State University ,"San Diego, CA",2014,50,3.1,3.5,153,146,50,0.7,0.3,16.4,178.5,1155,6738,372,credit
+65,University of Cincinnati ,"Cincinnati, OH",2014,50,3,3.5,153,150,26.9,2.4,0.5,13.7,151,1258,14182,25696,year
+65,University of Hawaii-Manoa ,"Honolulu, HI",2014,50,2.8,3.3,155,150,44.1,1,0.3,19.7,171.2,990,11592,28152,year
+65,University of Oklahoma (Rainbolt),"Norman, OK",2014,50,3,4.1,153,148,16.3,3.2,0.6,6.6,97.9,769,4205,15667,year
+65,University of Utah ,"Salt Lake City, UT",2014,50,3.1,3.7,160,151,23.7,3.5,0.8,5,97.1,585,5008,17684,year
+65,University of Wisconsin-Milwaukee ,"Milwaukee, WI",2014,50,3.3,4.1,153,150,25.2,1.6,0.4,2.7,36.7,650,11482,23948,year
+74,Loyola Marymount University ,"Los Angeles, CA",2014,49,2.7,4,155,152,40,2,0.5,5.6,175.2,1402,1009,,credit
+74,Oklahoma State University ,"Stillwater, OK",2014,49,2.9,3.8,153,163,29.6,2.4,0.8,9.8,109.1,832,178,709,credit
+74,University of California-Riverside ,"Riverside, CA",2014,49,3.3,3.9,153,152,43,4.8,0.7,2.3,113.7,212,14647,29749,year
+74,University of Louisville ,"Louisville, KY",2014,49,2.8,4,154,148,22,2,0.8,7.7,113.1,1143,10274,21378,year
+78,Auburn University ,"Auburn, AL",2014,48,3.2,4.1,152,144,27.1,2.4,0.8,5.1,62.6,872,7866,23598,year
+79,North Carolina State University-Raleigh ,"Raleigh, NC",2014,47,3.1,3.6,155,147,40.1,3,0.8,12.7,165.4,1457,8933,20981,year
+79,University at Buffalo-SUNY ,"Buffalo, NY",2014,47,3.1,3.5,151,149,40.5,4.5,0.7,7.7,151.9,1085,9370,16680,year
+81,Ball State University ,"Muncie, IN",2014,46,3,3.9,154,148,23.6,1.7,0.6,2.9,35,2728,354,990,credit
+81,Brigham Young University-Provo (McKay),"Provo, UT",2014,46,2.8,3.7,158,151,22.1,1,0.2,1.4,16.7,345,11900,,year
+81,Southern Illinois University-Carbondale,"Carbondale, IL",2014,46,2.8,3.4,144,145,61.4,2,0.5,20.9,239.7,929,750,1876,credit
+81,University of Alabama,"Tuscaloosa, AL",2014,46,3.2,4.1,151,149,54.2,3.7,0.7,4.3,44,1087,9200,22950,year
+81,University of California-Santa Cruz ,"Santa Cruz, CA",2014,46,2.8,4,158,148,39.5,1.9,0.1,2.5,157.8,93,12192,15102,year
+81,University of Colorado-Denver ,"Denver, CO",2014,46,3,3.8,155,144,55.6,1.2,0.5,5,139,1329,349,1160,credit
+81,University of South Florida ,"Tampa, FL",2014,46,2.9,3.5,160,154,31.5,3.2,0.6,11.5,110.6,1490,431,855,credit
+88,American University ,"Washington, DC",2014,45,2.7,3.9,154,147,,,,3.1,240.2,205,25182,,year
+88,Kansas State University ,"Manhattan, KS",2014,45,3.1,3.7,153,147,73.1,2.4,0.5,6,145.9,1058,327,738,credit
+88,Washington State University ,"Pullman, WA",2014,45,3,4.1,153,146,35.8,2.6,0.5,2.5,39.9,674,11736,25168,year
+91,Clemson University (Moore),"Clemson, SC",2014,44,2.9,3.9,152,148,56.4,1.4,0.3,4.1,71.4,504,7488,14909,year
+91,Illinois State University ,"Normal, IL",2014,44,2.9,3.8,154,148,62.9,1,0.3,10.4,90.9,722,308,639,credit
+91,Loyola University Chicago ,"Chicago, IL",2014,44,3.1,4,152,145,27.4,5.3,1.2,2.4,67.3,675,905,,credit
+91,Miami University ,"Oxford, OH",2014,44,3,3.8,158,150,0,0.4,0.1,1.8,22.8,691,12444,27483,year
+91,University of Central Florida ,"Orlando, FL",2014,44,3.1,3.8,152,146,48.4,3.4,0.7,7.3,100.9,1928,357,1182,credit
+91,University of San Diego ,"San Diego, CA",2014,44,3.1,3.6,157,149,45.8,2.1,0.4,0.7,24.5,596,1280,,credit
+97,Baylor University ,"Waco, TX",2014,43,2.9,4,152,152,33.3,1,0.2,0.3,6,229,1274,,credit
+97,Hofstra University ,"Hempstead, NY",2014,43,2.8,4.1,155,149,50.8,1.7,0.4,2,39.7,813,1055,,credit
+97,University of South Carolina ,"Columbia, SC",2014,43,3.1,3.8,154,153,53.6,2.2,1,1,15.8,1103,11272,24196,year
+100,CUNY-Graduate Center ,"New York, NY",2014,42,3,3.9,159,150,12.4,12.6,2.1,0.8,85.1,92,7770,755,credit
+100,Louisiana State University-Baton Rouge ,"Baton Rouge, LA",2014,42,3,3.7,151,146,54.9,1.7,0.5,6.5,86.3,512,5875,21263,year
+100,Virginia Tech ,"Blacksburg, VA",2014,42,3,3.9,,,79.5,4.4,1.2,8.9,194.6,833,10677,20926,year
+103,Claremont Graduate University ,"Claremont, CA",2014,41,3.2,4.1,152,147,65.3,12.4,2,1.9,147.7,471,37640,,year
+103,Iowa State University ,"Ames, IA",2014,41,3.2,3.7,152,144,85.2,1.6,0.8,2.9,71,613,7756,19696,year
+103,Kent State University ,"Kent, OH",2014,41,2.8,3.8,151,147,27.7,3,0.5,5.5,47.8,1982,8424,14580,year
+103,Ohio University ,"Athens, OH",2014,41,2.9,3.9,147,152,55.9,2.8,0.6,2.1,43.3,934,9444,17436,year
+103,University of North Carolina-Charlotte ,"Charlotte, NC",2014,41,3,3.8,151,144,56.8,1.4,0.4,4.2,46,1681,3929,16216,year
+108,Northern Arizona University ,"Flagstaff, AZ",2014,40,2.8,3.5,152,150,70.3,1.7,0.6,5.2,78.2,2238,8346,19440,year
+108,University of Idaho ,"Moscow, ID",2014,40,2.7,3.3,152,145,40,2.1,0.5,9.7,262.2,490,7162,19950,year
+108,University of Maine ,"Orono, ME",2014,40,2.7,3.4,154,145,63.2,1.8,0.3,3.1,103,458,418,1259,credit
+111,Howard University ,"Washington, DC",2014,39,3,4,146,141,61.8,3.6,0.4,3.7,115.5,288,29090,,year
+111,Mills College ,"Oakland, CA",2014,39,2.6,3.9,,,73,2.7,0.6,2.2,224.5,222,28850,,year
+111,Mississippi State University ,"Mississippi State, MS",2014,39,2.5,3.3,152,145,23.3,1.9,0.3,10.1,116.2,808,6264,9564,year
+111,University of Houston ,"Houston, TX",2014,39,2.8,3.6,153,151,32.4,5.1,1.3,2.7,50.5,768,8604,14922,year
+111,University of Mississippi ,"University, MS",2014,39,2.7,3.7,149,139,38.7,1.5,0.4,5.6,121.9,623,349,903,credit
+111,University of South Alabama ,"Mobile, AL",2014,39,2.3,3.7,150,157,50,0.4,0.2,5.2,81.6,409,358,716,credit
+111,University of Texas-San Antonio,"San Antonio, TX",2014,39,2.8,3.5,149,143,52.9,1.2,0.3,6.8,65.2,1660,259,961,credit
+111,West Virginia University ,"Morgantown, WV",2014,39,2.8,3.7,150,146,53.2,2,0.6,4.7,66.9,1249,6810,19508,year

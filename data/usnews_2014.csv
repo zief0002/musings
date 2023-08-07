@@ -1,4 +1,4 @@
-rank,name,location,year,USnewsRate,peerRate,superRate,GRE.V,GRE.Q,docAccept,SFratio,phdFacRatio,totRes,avgRes,enroll,tuition,tuitionOutState,tuitionUnit
+rank,name,location,year,USnewsRate,peer,superRate,gre_verbal,gre_quant,doc_accept,sf_ratio,phd_fac_ratio,total_research,avg_research,enroll,tuition,tuition_out_state,tuition_unit
 1,Vanderbilt University,"Nashville, TN",2014,100,4.6,4.7,162,158,5.5,2.6,0.6,40.6,455.9,808,1712,,credit
 2,Johns Hopkins University ,"Baltimore, MD",2014,98,3.8,4.8,164,152,24.1,0.3,0,43.3,849.8,1404,1000,,credit
 3,Harvard University ,"Cambridge, MA",2014,97,4.4,4.8,163,158,6.2,4.7,0.7,31.1,598.1,945,38480,,year

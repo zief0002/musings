@@ -212,6 +212,12 @@ window.Quarto = {
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
+  <a href="./02-01-latex-tables.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Creating Tables: LaTeX and Quarto</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
   <a href="./04-kde.html" class="sidebar-item-text sidebar-link active">
  <span class="menu-text">Kernel Density Estimation</span></a>
   </div>
@@ -305,7 +311,7 @@ window.Quarto = {
 <p>Density estimation is one of the most useful methods for examining sample distributions. Nonparametric density estimation is an approach to estimating the distribution of the population from which the sample was drawn. This allows the observed sample data to provide insight into the structure of the unknown probability distribution underlying the population. The density estimation is nonparametric in the sense that the sample data suggest the shape, rather than imposing the shape of a known population distribution with particular values of its parameters.</p>
 <div class="cell" data-layout-align="center">
 <div class="cell-output-display">
-<div id="fig-hist" class="quarto-float quarto-figure quarto-figure-center anchored" data-fig-align="center" alt="Histogram of the age distribution.">
+<div id="fig-hist" class="quarto-float quarto-figure quarto-figure-center anchored" alt="Histogram of the age distribution." data-fig-align="center">
 <figure class="quarto-float quarto-float-fig figure">
 <figcaption class="quarto-float-caption-top quarto-float-caption quarto-float-fig" id="fig-hist-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
 Figure&nbsp;1: Histogram of the age distribution.
@@ -328,7 +334,7 @@ Figure&nbsp;1: Histogram of the age distribution.
 <p>Kernel density estimation works by estimating the density at each observation, <em>x</em>, using a smooth, weighted function, known as a <em>kernel</em>. The figure below shows a conceptual illustration of kernel density estimation <span class="citation" data-cites="sain">(adapted from <a href="#ref-sain" role="doc-biblioref">Sain, 1994</a>)</span>. The vertical lines below the axis represent the <span class="math inline">\(N=6\)</span> sample observations. The dashed lines represent the Gaussian kernel function, and the solid line represents the overall density estimate. The smoothing parameter, represented by the variation in each distribution, is fixed (i.e., it is the same value in each kernel).</p>
 <div class="cell" data-layout-align="center">
 <div class="cell-output-display">
-<div id="fig-kde" class="quarto-float quarto-figure quarto-figure-center anchored" data-fig-align="center" alt="Illustration of the kernel density estimation (solid line) for *N=6* observations (vertical lines). A Gaussian kernel function (dashed lines) with a fixed smoothing parameter was centered at each observation. The figure was adapted from Sain (1994).">
+<div id="fig-kde" class="quarto-float quarto-figure quarto-figure-center anchored" alt="Illustration of the kernel density estimation (solid line) for *N=6* observations (vertical lines). A Gaussian kernel function (dashed lines) with a fixed smoothing parameter was centered at each observation. The figure was adapted from Sain (1994)." data-fig-align="center">
 <figure class="quarto-float quarto-float-fig figure">
 <figcaption class="quarto-float-caption-top quarto-float-caption quarto-float-fig" id="fig-kde-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
 Figure&nbsp;2: Illustration of the kernel density estimation (solid line) for <em>N=6</em> observations (vertical lines). A Gaussian kernel function (dashed lines) with a fixed smoothing parameter was centered at each observation. The figure was adapted from <span class="citation" data-cites="sain">Sain (<a href="#ref-sain" role="doc-biblioref">1994</a>)</span>.
@@ -355,7 +361,7 @@ Figure&nbsp;2: Illustration of the kernel density estimation (solid line) for <e
 <span id="cb4-5"><a href="#cb4-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">xlab</span>(<span class="st">"Age"</span>) <span class="sc">+</span></span>
 <span id="cb4-6"><a href="#cb4-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ylab</span>(<span class="st">"Density"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
-<div id="fig-kde-age" class="quarto-float quarto-figure quarto-figure-center anchored" data-fig-align="center" alt="Kernel density plot of the age distribution using the default (Gaussian) kernel.">
+<div id="fig-kde-age" class="quarto-float quarto-figure quarto-figure-center anchored" alt="Kernel density plot of the age distribution using the default (Gaussian) kernel." data-fig-align="center">
 <figure class="quarto-float quarto-float-fig figure">
 <figcaption class="quarto-float-caption-top quarto-float-caption quarto-float-fig" id="fig-kde-age-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
 Figure&nbsp;3: Kernel density plot of the age distribution using the default (Gaussian) kernel.
@@ -376,7 +382,7 @@ Figure&nbsp;3: Kernel density plot of the age distribution using the default (Ga
 <span id="cb5-5"><a href="#cb5-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">xlab</span>(<span class="st">"Age"</span>) <span class="sc">+</span></span>
 <span id="cb5-6"><a href="#cb5-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ylab</span>(<span class="st">"Density"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
-<div id="fig-kde-age-epi" class="quarto-float quarto-figure quarto-figure-center anchored" data-fig-align="center" alt="Kernel density plot of the age distribution using the Epanechnikov kernel. Changing the kernel has little effect on the estimation of the density; this plot looks almost identical to the density plot using the Gaussian kernel.">
+<div id="fig-kde-age-epi" class="quarto-float quarto-figure quarto-figure-center anchored" alt="Kernel density plot of the age distribution using the Epanechnikov kernel. Changing the kernel has little effect on the estimation of the density; this plot looks almost identical to the density plot using the Gaussian kernel." data-fig-align="center">
 <figure class="quarto-float quarto-float-fig figure">
 <figcaption class="quarto-float-caption-top quarto-float-caption quarto-float-fig" id="fig-kde-age-epi-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
 Figure&nbsp;4: Kernel density plot of the age distribution using the Epanechnikov kernel. Changing the kernel has little effect on the estimation of the density; this plot looks almost identical to the density plot using the Gaussian kernel.
@@ -392,7 +398,7 @@ Figure&nbsp;4: Kernel density plot of the age distribution using the Epanechniko
 <p>Selecting the smoothing parameter is another matter. Change in the amount of variation in the kernel has a large effect on the appearance and interpretation of the density estimate. This is similar to forcing fewer or additional bins in the traditional histogram. The figure below shows the difference in appearance in the overall plot of the kernel density that is associated with changing the smoothing parameter. The three density estimates are based on the same sample of data, and all use the Gaussian kernel function. It can be seen that using a smoothing parameter of 0.5 produces an estimate of the density which is quite rough (left-hand plot), while using a smoothing parameter of 2 (middle plot) produces a smoother estimate. A smoothing parameter of 10 (right-hand plot) produces an even smoother plot. As the smoothing parameter increases, the density curve becomes smoother.</p>
 <div class="cell" data-layout-align="center">
 <div class="cell-output-display">
-<div id="fig-kde-age-three" class="quarto-float quarto-figure quarto-figure-center anchored" data-fig-align="center" alt="Kernel density estimates using three different smoothing parameters. Each estimate used a Gaussian kernel. The estimate on the left used a smoothing parameter of 0.5. The estimate in the middle used a smoothing parameter of 2. The estimate on the right used a smoothing parameter of 10.">
+<div id="fig-kde-age-three" class="quarto-float quarto-figure quarto-figure-center anchored" alt="Kernel density estimates using three different smoothing parameters. Each estimate used a Gaussian kernel. The estimate on the left used a smoothing parameter of 0.5. The estimate in the middle used a smoothing parameter of 2. The estimate on the right used a smoothing parameter of 10." data-fig-align="center">
 <figure class="quarto-float quarto-float-fig figure">
 <figcaption class="quarto-float-caption-top quarto-float-caption quarto-float-fig" id="fig-kde-age-three-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
 Figure&nbsp;5: Kernel density estimates using three different smoothing parameters. Each estimate used a Gaussian kernel. The estimate on the left used a smoothing parameter of 0.5. The estimate in the middle used a smoothing parameter of 2. The estimate on the right used a smoothing parameter of 10.
@@ -446,7 +452,7 @@ Data: vlss$age (28633 obs.);    Bandwidth 'bw' = 2.344
 <p>For Silverman’s method, the default used in the <code>geom_density()</code> function, the numerical value of the smoothing parameter for the age variable is 2.344. Although the default smoothing parameter in this case seems reasonable in providing a smooth plot, the prudent data analyst should try several smoothing parameters to ensure that the plot is not oversmoothed. The figure below shows the original plot, as well as additional kernel density plots using the Sheather and Jones method of computing the smoothing parameter. All the methods yield similar curves for the age variable.</p>
 <div class="cell" data-layout-align="center">
 <div class="cell-output-display">
-<div id="fig-kde-age-two" class="quarto-float quarto-figure quarto-figure-center anchored" data-fig-align="center" alt="Kernel density estimates using Silverman's rule of thumb for the smoothing parameter (left-hand plot) and Sheather and Jones' method of computing the smoothing parameter, (right-hand plot).">
+<div id="fig-kde-age-two" class="quarto-float quarto-figure quarto-figure-center anchored" alt="Kernel density estimates using Silverman's rule of thumb for the smoothing parameter (left-hand plot) and Sheather and Jones' method of computing the smoothing parameter, (right-hand plot)." data-fig-align="center">
 <figure class="quarto-float quarto-float-fig figure">
 <figcaption class="quarto-float-caption-top quarto-float-caption quarto-float-fig" id="fig-kde-age-two-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
 Figure&nbsp;6: Kernel density estimates using Silverman’s rule of thumb for the smoothing parameter (left-hand plot) and Sheather and Jones’ method of computing the smoothing parameter, (right-hand plot).
@@ -483,7 +489,7 @@ Figure&nbsp;6: Kernel density estimates using Silverman’s rule of thumb for th
 <span id="cb10-11"><a href="#cb10-11" aria-hidden="true" tabindex="-1"></a>  <span class="fu">xlab</span>(<span class="st">"Age"</span>) <span class="sc">+</span></span>
 <span id="cb10-12"><a href="#cb10-12" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ylab</span>(<span class="st">"Density"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
-<div id="fig-kde-age-adapt" class="quarto-float quarto-figure quarto-figure-center anchored" data-fig-align="center" alt="Density plot using adaptive kernel density estimation.">
+<div id="fig-kde-age-adapt" class="quarto-float quarto-figure quarto-figure-center anchored" alt="Density plot using adaptive kernel density estimation." data-fig-align="center">
 <figure class="quarto-float quarto-float-fig figure">
 <figcaption class="quarto-float-caption-top quarto-float-caption quarto-float-fig" id="fig-kde-age-adapt-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
 Figure&nbsp;7: Density plot using adaptive kernel density estimation.

@@ -212,6 +212,12 @@ window.Quarto = {
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
+  <a href="./02-01-latex-tables.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Creating Tables: LaTeX and Quarto</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
   <a href="./04-kde.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Kernel Density Estimation</span></a>
   </div>
@@ -301,7 +307,7 @@ window.Quarto = {
 <p>Initially, the distribution of the per capita expenditures for all 5,999 households—ignoring whether they are urban or rural—is examined. The distribution ignoring the population area is known as the <strong>marginal distribution</strong>. The syntax to create a plot of the kernel density estimate (KDE) for the marginal distribution of the per capita expenditures is show below.</p>
 <div class="cell" data-layout-align="center">
 <div class="cell-output-display">
-<div id="fig-01" class="quarto-float quarto-figure quarto-figure-center anchored" alt="Kernel density estimate for the marginal distribution of household per capita expenditures." data-fig-align="center">
+<div id="fig-01" class="quarto-float quarto-figure quarto-figure-center anchored" data-fig-align="center" alt="Kernel density estimate for the marginal distribution of household per capita expenditures.">
 <figure class="quarto-float quarto-float-fig figure">
 <figcaption class="quarto-float-caption-top quarto-float-caption quarto-float-fig" id="fig-01-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
 Figure&nbsp;1: Kernel density estimate for the marginal distribution of household per capita expenditures.
@@ -322,7 +328,7 @@ Figure&nbsp;1: Kernel density estimate for the marginal distribution of househol
 <p>To graphically examine the conditional distributions, we will plot the KDE for the distribution of household per capita expenditures separately for the urban and rural households. There are many ways to do this using the <code>{tidyverse}</code> functionality. Below we will map the fill aesthetic to the <code>area</code> attribute in the dataframe. This will create the two KDEs in different colors in our plot. Because we are mapping an attribute in the data to an aesthetic, this is included inside the <code>aes()</code> function. The <code>alpha=0.6</code> argument makes the density plots semi-transparent<a href="#fn1" class="footnote-ref" id="fnref1" role="doc-noteref"><sup>1</sup></a> so that we can see both plots in the figure. The <code>scale_fill_manual()</code> layer changes the fill color used to shade in the density plots.</p>
 <div class="cell" data-layout-align="center">
 <div class="cell-output-display">
-<div id="fig-02" class="quarto-float quarto-figure quarto-figure-center anchored" alt="Kernel density estimate for the distribution of household per capita expenditures conditioned on area." data-fig-align="center">
+<div id="fig-02" class="quarto-float quarto-figure quarto-figure-center anchored" data-fig-align="center" alt="Kernel density estimate for the distribution of household per capita expenditures conditioned on area.">
 <figure class="quarto-float quarto-float-fig figure">
 <figcaption class="quarto-float-caption-top quarto-float-caption quarto-float-fig" id="fig-02-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
 Figure&nbsp;2: Kernel density estimate for the distribution of household per capita expenditures conditioned on area.
@@ -398,7 +404,7 @@ Figure&nbsp;2: Kernel density estimate for the distribution of household per cap
 <p>In contrast, in the right-panel of <a href="#fig-04" class="quarto-xref">Figure&nbsp;<span>3</span></a>, there is essentially no overlap between the two distributions. This means that the mean difference also characterizes the difference between almost every pair of households from the two distributions. If we were to randomly select one rural and one urban household, the rural household would almost surely have a lower annual income. The same cannot be said of the overlapping distributions in the right-panel of <a href="#fig-04" class="quarto-xref">Figure&nbsp;<span>3</span></a>.</p>
 <div class="cell" data-layout-align="center">
 <div class="cell-output-display">
-<div id="fig-04" class="quarto-float quarto-figure quarto-figure-center anchored" alt="Simulated density plots for the distribution of household per capita expenditures conditioned on area showing large within-group variation (LEFT PANEL) and small within-group variation (RIGHT PANEL)." data-fig-align="center">
+<div id="fig-04" class="quarto-float quarto-figure quarto-figure-center anchored" data-fig-align="center" alt="Simulated density plots for the distribution of household per capita expenditures conditioned on area showing large within-group variation (LEFT PANEL) and small within-group variation (RIGHT PANEL).">
 <figure class="quarto-float quarto-float-fig figure">
 <figcaption class="quarto-float-caption-top quarto-float-caption quarto-float-fig" id="fig-04-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
 Figure&nbsp;3: Simulated density plots for the distribution of household per capita expenditures conditioned on area showing large within-group variation (LEFT PANEL) and small within-group variation (RIGHT PANEL).
@@ -503,7 +509,7 @@ Figure&nbsp;3: Simulated density plots for the distribution of household per cap
 <p>The left- and right-hand panels of <a href="#fig-05" class="quarto-xref">Figure&nbsp;<span>4</span></a> depict distributions with different kurtosis values. The mesokurtic distribution is shown for a basis of comparison in both figures. The distributions in the left-hand panel show positive kurtosis, whereas the distributions in the right-hand panel show negative kurtosis.</p>
 <div class="cell" data-layout-align="center">
 <div class="cell-output-display">
-<div id="fig-05" class="quarto-float quarto-figure quarto-figure-center anchored" alt="LEFT PANEL: Kernel density estimate for a mesokurtic distribution (dashed, orange line) and a leptokurtic distribution (solid, purple line). The leptokurtic distributions are skinnier and more peaked than the mesokurtic distribution. RIGHT PANEL: Kernel density estimate for a mesokurtic distribution (dashed, orange line) and a platykurtic distribution (solid, blue line). The platykurtic distribution is flatter than the mesokurtic distribution." data-fig-align="center">
+<div id="fig-05" class="quarto-float quarto-figure quarto-figure-center anchored" data-fig-align="center" alt="LEFT PANEL: Kernel density estimate for a mesokurtic distribution (dashed, orange line) and a leptokurtic distribution (solid, purple line). The leptokurtic distributions are skinnier and more peaked than the mesokurtic distribution. RIGHT PANEL: Kernel density estimate for a mesokurtic distribution (dashed, orange line) and a platykurtic distribution (solid, blue line). The platykurtic distribution is flatter than the mesokurtic distribution.">
 <figure class="quarto-float quarto-float-fig figure">
 <figcaption class="quarto-float-caption-top quarto-float-caption quarto-float-fig" id="fig-05-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
 Figure&nbsp;4: LEFT PANEL: Kernel density estimate for a mesokurtic distribution (dashed, orange line) and a leptokurtic distribution (solid, purple line). The leptokurtic distributions are skinnier and more peaked than the mesokurtic distribution. RIGHT PANEL: Kernel density estimate for a mesokurtic distribution (dashed, orange line) and a platykurtic distribution (solid, blue line). The platykurtic distribution is flatter than the mesokurtic distribution.

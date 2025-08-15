@@ -1,0 +1,1391 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
+
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.7.32">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+
+<title>rm-anova</title>
+<style>
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: min(4vw, 1.5em);}
+div.column{flex: auto; overflow-x: auto;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+  width: 0.8em;
+  margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
+  vertical-align: middle;
+}
+/* CSS for syntax highlighting */
+html { -webkit-text-size-adjust: 100%; }
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+  }
+pre.numberSource { margin-left: 3em;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+</style>
+
+
+<script src="06-rm-anova_files/libs/clipboard/clipboard.min.js"></script>
+<script src="06-rm-anova_files/libs/quarto-html/quarto.js" type="module"></script>
+<script src="06-rm-anova_files/libs/quarto-html/tabsets/tabsets.js" type="module"></script>
+<script src="06-rm-anova_files/libs/quarto-html/popper.min.js"></script>
+<script src="06-rm-anova_files/libs/quarto-html/tippy.umd.min.js"></script>
+<script src="06-rm-anova_files/libs/quarto-html/anchor.min.js"></script>
+<link href="06-rm-anova_files/libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="06-rm-anova_files/libs/quarto-html/quarto-syntax-highlighting-37eea08aefeeee20ff55810ff984fec1.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<script src="06-rm-anova_files/libs/bootstrap/bootstrap.min.js"></script>
+<link href="06-rm-anova_files/libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="06-rm-anova_files/libs/bootstrap/bootstrap-81267100e462c21b3d6c0d5bf76a3417.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
+<script src="06-rm-anova_files/libs/kePrint/kePrint.js"></script>
+<link href="06-rm-anova_files/libs/lightable/lightable.css" rel="stylesheet">
+
+  <script src="https://cdnjs.cloudflare.com/polyfill/v3/polyfill.min.js?features=es6"></script>
+  <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js" type="text/javascript"></script>
+
+<script type="text/javascript">
+const typesetMath = (el) => {
+  if (window.MathJax) {
+    // MathJax Typeset
+    window.MathJax.typeset([el]);
+  } else if (window.katex) {
+    // KaTeX Render
+    var mathElements = el.getElementsByClassName("math");
+    var macros = [];
+    for (var i = 0; i < mathElements.length; i++) {
+      var texText = mathElements[i].firstChild;
+      if (mathElements[i].tagName == "SPAN") {
+        window.katex.render(texText.data, mathElements[i], {
+          displayMode: mathElements[i].classList.contains('display'),
+          throwOnError: false,
+          macros: macros,
+          fleqn: false
+        });
+      }
+    }
+  }
+}
+window.Quarto = {
+  typesetMath
+};
+</script>
+
+</head>
+
+<body class="fullcontent quarto-light">
+
+<div id="quarto-content" class="page-columns page-rows-contents page-layout-article">
+
+<main class="content" id="quarto-document-content">
+
+
+
+
+<section id="rm-anova" class="level1 unnumbered">
+<h1 class="unnumbered">RM-ANOVA</h1>
+<div class="cell" data-layout-align="center">
+<div class="cell-output-display">
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="figs/work-in-progress.jpg" class="img-fluid quarto-figure quarto-figure-center figure-img" style="width:50.0%"></p>
+</figure>
+</div>
+</div>
+</div>
+<p>In this essay we will use data from <span class="math inline">\(n=22\)</span> students to explore the longitudinal question of whether there are mean differences in reading scores over time. To do this we will carry out a <strong>repeated measures analysis of variance</strong> (RM-ANOVA) on a set of data provided by <span class="citation" data-cites="Long:2011">@Long:2011</span>. To begin the analysis, we will load four packages that we will use in this analysis.</p>
+<div class="cell" data-layout-align="center">
+<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Load libraries</span></span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(broom)</span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(corrr)</span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(ez)</span>
+<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(tidyverse)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>We will import the data from the file <em>minneapolis.csv</em> using the <code>read_csv()</code> function from the <code>{tidyverse}</code> package.</p>
+<div class="cell" data-layout-align="center">
+<div class="sourceCode cell-code" id="cb2"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Import data</span></span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a>mpls <span class="ot">=</span> <span class="fu">read_csv</span>(<span class="st">"https://raw.githubusercontent.com/zief0002/musings/master/data/minneapolis.csv"</span>)</span>
+<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a><span class="co"># View data</span></span>
+<span id="cb2-5"><a href="#cb2-5" aria-hidden="true" tabindex="-1"></a>mpls</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 22 × 6
+   student read_5 read_6 read_7 read_8 minority
+     &lt;dbl&gt;  &lt;dbl&gt;  &lt;dbl&gt;  &lt;dbl&gt;  &lt;dbl&gt;    &lt;dbl&gt;
+ 1       1    172    185    179    194        1
+ 2       2    200    210    209     NA        1
+ 3       3    191    199    203    215        1
+ 4       4    200    195    194     NA        1
+ 5       5    207    213    212    213        1
+ 6       6    191    189    206    195        1
+ 7       7    199    208    213    218        1
+ 8       8    191    194    194     NA        1
+ 9       9    149    154    174    177        1
+10      10    200    212    213     NA        1
+# ℹ 12 more rows</code></pre>
+</div>
+</div>
+<p><br></p>
+<section id="wide-vs.-long-data-structures" class="level2">
+<h2 class="anchored" data-anchor-id="wide-vs.-long-data-structures">Wide vs.&nbsp;Long Data Structures</h2>
+<p>There are two primary data structures for working with repeated measures data, wide and long formatted data. Currently, the <code>mpls</code> data is structured as <strong>wide data</strong>. In the wide structure, there are multiple columns representing the repeated measures that are collected for each case. In the <code>mpls</code> data, the data collected longitudinally, the reading scores (i.e., the repeated measures), are recorded in multiple columns, one per grade level, for each student.</p>
+<div class="cell" data-layout-align="center">
+<div id="tbl-01" class="cell quarto-float quarto-figure quarto-figure-center anchored" data-layout-align="center">
+<figure class="quarto-float quarto-float-tbl figure">
+<figcaption class="quarto-float-caption-top quarto-float-caption quarto-float-tbl" id="tbl-01-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Table&nbsp;1: Minneapolis reading data shown in the wide structure. Each of the repeated measures columns is highlighted.
+</figcaption>
+<div aria-describedby="tbl-01-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<div class="cell-output-display">
+<table class="do-not-create-environment cell caption-top table table-sm table-striped small" data-quarto-postprocess="true">
+<thead>
+<tr class="header">
+<th style="text-align: right;" data-quarto-table-cell-role="th">student</th>
+<th style="text-align: right;" data-quarto-table-cell-role="th">read_5</th>
+<th style="text-align: right;" data-quarto-table-cell-role="th">read_6</th>
+<th style="text-align: right;" data-quarto-table-cell-role="th">read_7</th>
+<th style="text-align: right;" data-quarto-table-cell-role="th">read_8</th>
+<th style="text-align: right;" data-quarto-table-cell-role="th">minority</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: right;">1</td>
+<td style="text-align: right; background-color: yellow !important;">172</td>
+<td style="text-align: right; background-color: yellow !important;">185</td>
+<td style="text-align: right; background-color: yellow !important;">179</td>
+<td style="text-align: right; background-color: yellow !important;">194</td>
+<td style="text-align: right;">1</td>
+</tr>
+<tr class="even">
+<td style="text-align: right;">2</td>
+<td style="text-align: right; background-color: yellow !important;">200</td>
+<td style="text-align: right; background-color: yellow !important;">210</td>
+<td style="text-align: right; background-color: yellow !important;">209</td>
+<td style="text-align: right; background-color: yellow !important;"></td>
+<td style="text-align: right;">1</td>
+</tr>
+<tr class="odd">
+<td style="text-align: right;">3</td>
+<td style="text-align: right; background-color: yellow !important;">191</td>
+<td style="text-align: right; background-color: yellow !important;">199</td>
+<td style="text-align: right; background-color: yellow !important;">203</td>
+<td style="text-align: right; background-color: yellow !important;">215</td>
+<td style="text-align: right;">1</td>
+</tr>
+<tr class="even">
+<td style="text-align: right;">4</td>
+<td style="text-align: right; background-color: yellow !important;">200</td>
+<td style="text-align: right; background-color: yellow !important;">195</td>
+<td style="text-align: right; background-color: yellow !important;">194</td>
+<td style="text-align: right; background-color: yellow !important;"></td>
+<td style="text-align: right;">1</td>
+</tr>
+<tr class="odd">
+<td style="text-align: right;">5</td>
+<td style="text-align: right; background-color: yellow !important;">207</td>
+<td style="text-align: right; background-color: yellow !important;">213</td>
+<td style="text-align: right; background-color: yellow !important;">212</td>
+<td style="text-align: right; background-color: yellow !important;">213</td>
+<td style="text-align: right;">1</td>
+</tr>
+<tr class="even">
+<td style="text-align: right;">6</td>
+<td style="text-align: right; background-color: yellow !important;">191</td>
+<td style="text-align: right; background-color: yellow !important;">189</td>
+<td style="text-align: right; background-color: yellow !important;">206</td>
+<td style="text-align: right; background-color: yellow !important;">195</td>
+<td style="text-align: right;">1</td>
+</tr>
+<tr class="odd">
+<td style="text-align: right;">7</td>
+<td style="text-align: right; background-color: yellow !important;">199</td>
+<td style="text-align: right; background-color: yellow !important;">208</td>
+<td style="text-align: right; background-color: yellow !important;">213</td>
+<td style="text-align: right; background-color: yellow !important;">218</td>
+<td style="text-align: right;">1</td>
+</tr>
+<tr class="even">
+<td style="text-align: right;">8</td>
+<td style="text-align: right; background-color: yellow !important;">191</td>
+<td style="text-align: right; background-color: yellow !important;">194</td>
+<td style="text-align: right; background-color: yellow !important;">194</td>
+<td style="text-align: right; background-color: yellow !important;"></td>
+<td style="text-align: right;">1</td>
+</tr>
+<tr class="odd">
+<td style="text-align: right;">9</td>
+<td style="text-align: right; background-color: yellow !important;">149</td>
+<td style="text-align: right; background-color: yellow !important;">154</td>
+<td style="text-align: right; background-color: yellow !important;">174</td>
+<td style="text-align: right; background-color: yellow !important;">177</td>
+<td style="text-align: right;">1</td>
+</tr>
+<tr class="even">
+<td style="text-align: right;">10</td>
+<td style="text-align: right; background-color: yellow !important;">200</td>
+<td style="text-align: right; background-color: yellow !important;">212</td>
+<td style="text-align: right; background-color: yellow !important;">213</td>
+<td style="text-align: right; background-color: yellow !important;"></td>
+<td style="text-align: right;">1</td>
+</tr>
+<tr class="odd">
+<td style="text-align: right;">11</td>
+<td style="text-align: right; background-color: yellow !important;">218</td>
+<td style="text-align: right; background-color: yellow !important;">231</td>
+<td style="text-align: right; background-color: yellow !important;">233</td>
+<td style="text-align: right; background-color: yellow !important;">239</td>
+<td style="text-align: right;">0</td>
+</tr>
+<tr class="even">
+<td style="text-align: right;">12</td>
+<td style="text-align: right; background-color: yellow !important;">228</td>
+<td style="text-align: right; background-color: yellow !important;">232</td>
+<td style="text-align: right; background-color: yellow !important;">248</td>
+<td style="text-align: right; background-color: yellow !important;">246</td>
+<td style="text-align: right;">0</td>
+</tr>
+<tr class="odd">
+<td style="text-align: right;">13</td>
+<td style="text-align: right; background-color: yellow !important;">228</td>
+<td style="text-align: right; background-color: yellow !important;">236</td>
+<td style="text-align: right; background-color: yellow !important;">228</td>
+<td style="text-align: right; background-color: yellow !important;">239</td>
+<td style="text-align: right;">0</td>
+</tr>
+<tr class="even">
+<td style="text-align: right;">14</td>
+<td style="text-align: right; background-color: yellow !important;">199</td>
+<td style="text-align: right; background-color: yellow !important;">210</td>
+<td style="text-align: right; background-color: yellow !important;">225</td>
+<td style="text-align: right; background-color: yellow !important;">235</td>
+<td style="text-align: right;">1</td>
+</tr>
+<tr class="odd">
+<td style="text-align: right;">15</td>
+<td style="text-align: right; background-color: yellow !important;">218</td>
+<td style="text-align: right; background-color: yellow !important;">223</td>
+<td style="text-align: right; background-color: yellow !important;">236</td>
+<td style="text-align: right; background-color: yellow !important;"></td>
+<td style="text-align: right;">0</td>
+</tr>
+<tr class="even">
+<td style="text-align: right;">16</td>
+<td style="text-align: right; background-color: yellow !important;">228</td>
+<td style="text-align: right; background-color: yellow !important;">226</td>
+<td style="text-align: right; background-color: yellow !important;">234</td>
+<td style="text-align: right; background-color: yellow !important;">227</td>
+<td style="text-align: right;">0</td>
+</tr>
+<tr class="odd">
+<td style="text-align: right;">17</td>
+<td style="text-align: right; background-color: yellow !important;">201</td>
+<td style="text-align: right; background-color: yellow !important;">210</td>
+<td style="text-align: right; background-color: yellow !important;">208</td>
+<td style="text-align: right; background-color: yellow !important;">219</td>
+<td style="text-align: right;">0</td>
+</tr>
+<tr class="even">
+<td style="text-align: right;">18</td>
+<td style="text-align: right; background-color: yellow !important;">218</td>
+<td style="text-align: right; background-color: yellow !important;">220</td>
+<td style="text-align: right; background-color: yellow !important;">217</td>
+<td style="text-align: right; background-color: yellow !important;">221</td>
+<td style="text-align: right;">0</td>
+</tr>
+<tr class="odd">
+<td style="text-align: right;">19</td>
+<td style="text-align: right; background-color: yellow !important;">215</td>
+<td style="text-align: right; background-color: yellow !important;">216</td>
+<td style="text-align: right; background-color: yellow !important;">221</td>
+<td style="text-align: right; background-color: yellow !important;"></td>
+<td style="text-align: right;">0</td>
+</tr>
+<tr class="even">
+<td style="text-align: right;">20</td>
+<td style="text-align: right; background-color: yellow !important;">204</td>
+<td style="text-align: right; background-color: yellow !important;">215</td>
+<td style="text-align: right; background-color: yellow !important;">219</td>
+<td style="text-align: right; background-color: yellow !important;">214</td>
+<td style="text-align: right;">1</td>
+</tr>
+<tr class="odd">
+<td style="text-align: right;">21</td>
+<td style="text-align: right; background-color: yellow !important;">237</td>
+<td style="text-align: right; background-color: yellow !important;">241</td>
+<td style="text-align: right; background-color: yellow !important;">243</td>
+<td style="text-align: right; background-color: yellow !important;"></td>
+<td style="text-align: right;">0</td>
+</tr>
+<tr class="even">
+<td style="text-align: right;">22</td>
+<td style="text-align: right; background-color: yellow !important;">219</td>
+<td style="text-align: right; background-color: yellow !important;">233</td>
+<td style="text-align: right; background-color: yellow !important;">236</td>
+<td style="text-align: right; background-color: yellow !important;"></td>
+<td style="text-align: right;">1</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+</figure>
+</div>
+</div>
+<p>Long structured (or formatted) data each row is a different case-by-repeated-measure combination. In our example, each row would indicate the data for a particular student at a particular grade level. Each case (i.e., student) would be associated with multiple rows in the long structure. The entire long structured data would have 88 rows (22 students, each with 4 grade levels).</p>
+<div class="cell" data-layout-align="center">
+<div id="tbl-02" class="cell quarto-float quarto-figure quarto-figure-center anchored" data-layout-align="center">
+<figure class="quarto-float quarto-float-tbl figure">
+<figcaption class="quarto-float-caption-top quarto-float-caption quarto-float-tbl" id="tbl-02-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Table&nbsp;2: Minneapolis reading data shown in the long structure. Each of student is now represented by multiple rows, with each row indicating a particular grade level. Only the data for the first four students are shown. The rows associated with the first student are highlighted.
+</figcaption>
+<div aria-describedby="tbl-02-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<div class="cell-output-display">
+<table class="do-not-create-environment cell caption-top table table-sm table-striped small" data-quarto-postprocess="true">
+<thead>
+<tr class="header">
+<th style="text-align: right;" data-quarto-table-cell-role="th">student</th>
+<th style="text-align: right;" data-quarto-table-cell-role="th">minority</th>
+<th style="text-align: left;" data-quarto-table-cell-role="th">grade</th>
+<th style="text-align: right;" data-quarto-table-cell-role="th">reading_score</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: right; background-color: yellow !important;">1</td>
+<td style="text-align: right; background-color: yellow !important;">1</td>
+<td style="text-align: left; background-color: yellow !important;">read_5</td>
+<td style="text-align: right; background-color: yellow !important;">172</td>
+</tr>
+<tr class="even">
+<td style="text-align: right; background-color: yellow !important;">1</td>
+<td style="text-align: right; background-color: yellow !important;">1</td>
+<td style="text-align: left; background-color: yellow !important;">read_6</td>
+<td style="text-align: right; background-color: yellow !important;">185</td>
+</tr>
+<tr class="odd">
+<td style="text-align: right; background-color: yellow !important;">1</td>
+<td style="text-align: right; background-color: yellow !important;">1</td>
+<td style="text-align: left; background-color: yellow !important;">read_7</td>
+<td style="text-align: right; background-color: yellow !important;">179</td>
+</tr>
+<tr class="even">
+<td style="text-align: right; background-color: yellow !important;">1</td>
+<td style="text-align: right; background-color: yellow !important;">1</td>
+<td style="text-align: left; background-color: yellow !important;">read_8</td>
+<td style="text-align: right; background-color: yellow !important;">194</td>
+</tr>
+<tr class="odd">
+<td style="text-align: right;">2</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: left;">read_5</td>
+<td style="text-align: right;">200</td>
+</tr>
+<tr class="even">
+<td style="text-align: right;">2</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: left;">read_6</td>
+<td style="text-align: right;">210</td>
+</tr>
+<tr class="odd">
+<td style="text-align: right;">2</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: left;">read_7</td>
+<td style="text-align: right;">209</td>
+</tr>
+<tr class="even">
+<td style="text-align: right;">2</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: left;">read_8</td>
+<td style="text-align: right;"></td>
+</tr>
+<tr class="odd">
+<td style="text-align: right;">3</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: left;">read_5</td>
+<td style="text-align: right;">191</td>
+</tr>
+<tr class="even">
+<td style="text-align: right;">3</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: left;">read_6</td>
+<td style="text-align: right;">199</td>
+</tr>
+<tr class="odd">
+<td style="text-align: right;">3</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: left;">read_7</td>
+<td style="text-align: right;">203</td>
+</tr>
+<tr class="even">
+<td style="text-align: right;">3</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: left;">read_8</td>
+<td style="text-align: right;">215</td>
+</tr>
+<tr class="odd">
+<td style="text-align: right;">4</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: left;">read_5</td>
+<td style="text-align: right;">200</td>
+</tr>
+<tr class="even">
+<td style="text-align: right;">4</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: left;">read_6</td>
+<td style="text-align: right;">195</td>
+</tr>
+<tr class="odd">
+<td style="text-align: right;">4</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: left;">read_7</td>
+<td style="text-align: right;">194</td>
+</tr>
+<tr class="even">
+<td style="text-align: right;">4</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: left;">read_8</td>
+<td style="text-align: right;"></td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+</figure>
+</div>
+</div>
+<p>Both the wide and long structures are useful at different times during the data-analytic cycle. For example, most repeated measures data are entered into a spreadsheet and stored in the wide-format. This is a good way to organize these data initially because it minimizes the redundancy (only 1 row per case) while entering the data into the spreadsheet, thereby minimizing initial coding errors. The wide format can also be useful for descriptive analysis (e.g., computing means, SDs, and correlations) and for carrying out listwise deletion of cases. The long structure is necessary for plotting the data when using <code>{ggplot}</code>. It is also the appropriate structure for computing summaries with <code>{dplyr}</code> functionality and for carrying out all modeling of the data, including the RM-ANOVA.</p>
+<p><br></p>
+</section>
+<section id="missing-data-listwise-deletion" class="level2">
+<h2 class="anchored" data-anchor-id="missing-data-listwise-deletion">Missing Data: Listwise Deletion</h2>
+<p>Many repeated measures studies will have missing data since it is often difficult to obtain data for every subject at every timepoint. The missingness shown in the <code>mpls</code> data, which is consistent with dropout especially at later timepoints, is common for educational studies.</p>
+<div id="tbl-03" class="cell quarto-float quarto-figure quarto-figure-center anchored" data-layout-align="center">
+<figure class="quarto-float quarto-float-tbl figure">
+<figcaption class="quarto-float-caption-top quarto-float-caption quarto-float-tbl" id="tbl-03-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Table&nbsp;3: Minneapolis reading data shown in the wide structure. Missing data are highlighted.
+</figcaption>
+<div aria-describedby="tbl-03-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<table class="cell caption-top table table-sm table-striped small">
+<colgroup>
+<col style="width: 4%">
+<col style="width: 3%">
+<col style="width: 3%">
+<col style="width: 3%">
+<col style="width: 79%">
+<col style="width: 4%">
+</colgroup>
+<thead>
+<tr class="header">
+<th style="text-align: right;">student</th>
+<th style="text-align: right;">read_5</th>
+<th style="text-align: right;">read_6</th>
+<th style="text-align: right;">read_7</th>
+<th style="text-align: left;">read_8</th>
+<th style="text-align: right;">minority</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">172</td>
+<td style="text-align: right;">185</td>
+<td style="text-align: right;">179</td>
+<td style="text-align: left;"><span style="     border-radius: 4px; padding-right: 4px; padding-left: 4px; background-color: none !important;text-align:right;">194</span></td>
+<td style="text-align: right;">1</td>
+</tr>
+<tr class="even">
+<td style="text-align: right;">2</td>
+<td style="text-align: right;">200</td>
+<td style="text-align: right;">210</td>
+<td style="text-align: right;">209</td>
+<td style="text-align: left;"><span style="     border-radius: 4px; padding-right: 4px; padding-left: 4px; background-color: yellow !important;text-align:right;">NA</span></td>
+<td style="text-align: right;">1</td>
+</tr>
+<tr class="odd">
+<td style="text-align: right;">3</td>
+<td style="text-align: right;">191</td>
+<td style="text-align: right;">199</td>
+<td style="text-align: right;">203</td>
+<td style="text-align: left;"><span style="     border-radius: 4px; padding-right: 4px; padding-left: 4px; background-color: none !important;text-align:right;">215</span></td>
+<td style="text-align: right;">1</td>
+</tr>
+<tr class="even">
+<td style="text-align: right;">4</td>
+<td style="text-align: right;">200</td>
+<td style="text-align: right;">195</td>
+<td style="text-align: right;">194</td>
+<td style="text-align: left;"><span style="     border-radius: 4px; padding-right: 4px; padding-left: 4px; background-color: yellow !important;text-align:right;">NA</span></td>
+<td style="text-align: right;">1</td>
+</tr>
+<tr class="odd">
+<td style="text-align: right;">5</td>
+<td style="text-align: right;">207</td>
+<td style="text-align: right;">213</td>
+<td style="text-align: right;">212</td>
+<td style="text-align: left;"><span style="     border-radius: 4px; padding-right: 4px; padding-left: 4px; background-color: none !important;text-align:right;">213</span></td>
+<td style="text-align: right;">1</td>
+</tr>
+<tr class="even">
+<td style="text-align: right;">6</td>
+<td style="text-align: right;">191</td>
+<td style="text-align: right;">189</td>
+<td style="text-align: right;">206</td>
+<td style="text-align: left;"><span style="     border-radius: 4px; padding-right: 4px; padding-left: 4px; background-color: none !important;text-align:right;">195</span></td>
+<td style="text-align: right;">1</td>
+</tr>
+<tr class="odd">
+<td style="text-align: right;">7</td>
+<td style="text-align: right;">199</td>
+<td style="text-align: right;">208</td>
+<td style="text-align: right;">213</td>
+<td style="text-align: left;"><span style="     border-radius: 4px; padding-right: 4px; padding-left: 4px; background-color: none !important;text-align:right;">218</span></td>
+<td style="text-align: right;">1</td>
+</tr>
+<tr class="even">
+<td style="text-align: right;">8</td>
+<td style="text-align: right;">191</td>
+<td style="text-align: right;">194</td>
+<td style="text-align: right;">194</td>
+<td style="text-align: left;"><span style="     border-radius: 4px; padding-right: 4px; padding-left: 4px; background-color: yellow !important;text-align:right;">NA</span></td>
+<td style="text-align: right;">1</td>
+</tr>
+<tr class="odd">
+<td style="text-align: right;">9</td>
+<td style="text-align: right;">149</td>
+<td style="text-align: right;">154</td>
+<td style="text-align: right;">174</td>
+<td style="text-align: left;"><span style="     border-radius: 4px; padding-right: 4px; padding-left: 4px; background-color: none !important;text-align:right;">177</span></td>
+<td style="text-align: right;">1</td>
+</tr>
+<tr class="even">
+<td style="text-align: right;">10</td>
+<td style="text-align: right;">200</td>
+<td style="text-align: right;">212</td>
+<td style="text-align: right;">213</td>
+<td style="text-align: left;"><span style="     border-radius: 4px; padding-right: 4px; padding-left: 4px; background-color: yellow !important;text-align:right;">NA</span></td>
+<td style="text-align: right;">1</td>
+</tr>
+<tr class="odd">
+<td style="text-align: right;">11</td>
+<td style="text-align: right;">218</td>
+<td style="text-align: right;">231</td>
+<td style="text-align: right;">233</td>
+<td style="text-align: left;"><span style="     border-radius: 4px; padding-right: 4px; padding-left: 4px; background-color: none !important;text-align:right;">239</span></td>
+<td style="text-align: right;">0</td>
+</tr>
+<tr class="even">
+<td style="text-align: right;">12</td>
+<td style="text-align: right;">228</td>
+<td style="text-align: right;">232</td>
+<td style="text-align: right;">248</td>
+<td style="text-align: left;"><span style="     border-radius: 4px; padding-right: 4px; padding-left: 4px; background-color: none !important;text-align:right;">246</span></td>
+<td style="text-align: right;">0</td>
+</tr>
+<tr class="odd">
+<td style="text-align: right;">13</td>
+<td style="text-align: right;">228</td>
+<td style="text-align: right;">236</td>
+<td style="text-align: right;">228</td>
+<td style="text-align: left;"><span style="     border-radius: 4px; padding-right: 4px; padding-left: 4px; background-color: none !important;text-align:right;">239</span></td>
+<td style="text-align: right;">0</td>
+</tr>
+<tr class="even">
+<td style="text-align: right;">14</td>
+<td style="text-align: right;">199</td>
+<td style="text-align: right;">210</td>
+<td style="text-align: right;">225</td>
+<td style="text-align: left;"><span style="     border-radius: 4px; padding-right: 4px; padding-left: 4px; background-color: none !important;text-align:right;">235</span></td>
+<td style="text-align: right;">1</td>
+</tr>
+<tr class="odd">
+<td style="text-align: right;">15</td>
+<td style="text-align: right;">218</td>
+<td style="text-align: right;">223</td>
+<td style="text-align: right;">236</td>
+<td style="text-align: left;"><span style="     border-radius: 4px; padding-right: 4px; padding-left: 4px; background-color: yellow !important;text-align:right;">NA</span></td>
+<td style="text-align: right;">0</td>
+</tr>
+<tr class="even">
+<td style="text-align: right;">16</td>
+<td style="text-align: right;">228</td>
+<td style="text-align: right;">226</td>
+<td style="text-align: right;">234</td>
+<td style="text-align: left;"><span style="     border-radius: 4px; padding-right: 4px; padding-left: 4px; background-color: none !important;text-align:right;">227</span></td>
+<td style="text-align: right;">0</td>
+</tr>
+<tr class="odd">
+<td style="text-align: right;">17</td>
+<td style="text-align: right;">201</td>
+<td style="text-align: right;">210</td>
+<td style="text-align: right;">208</td>
+<td style="text-align: left;"><span style="     border-radius: 4px; padding-right: 4px; padding-left: 4px; background-color: none !important;text-align:right;">219</span></td>
+<td style="text-align: right;">0</td>
+</tr>
+<tr class="even">
+<td style="text-align: right;">18</td>
+<td style="text-align: right;">218</td>
+<td style="text-align: right;">220</td>
+<td style="text-align: right;">217</td>
+<td style="text-align: left;"><span style="     border-radius: 4px; padding-right: 4px; padding-left: 4px; background-color: none !important;text-align:right;">221</span></td>
+<td style="text-align: right;">0</td>
+</tr>
+<tr class="odd">
+<td style="text-align: right;">19</td>
+<td style="text-align: right;">215</td>
+<td style="text-align: right;">216</td>
+<td style="text-align: right;">221</td>
+<td style="text-align: left;"><span style="     border-radius: 4px; padding-right: 4px; padding-left: 4px; background-color: yellow !important;text-align:right;">NA</span></td>
+<td style="text-align: right;">0</td>
+</tr>
+<tr class="even">
+<td style="text-align: right;">20</td>
+<td style="text-align: right;">204</td>
+<td style="text-align: right;">215</td>
+<td style="text-align: right;">219</td>
+<td style="text-align: left;"><span style="     border-radius: 4px; padding-right: 4px; padding-left: 4px; background-color: none !important;text-align:right;">214</span></td>
+<td style="text-align: right;">1</td>
+</tr>
+<tr class="odd">
+<td style="text-align: right;">21</td>
+<td style="text-align: right;">237</td>
+<td style="text-align: right;">241</td>
+<td style="text-align: right;">243</td>
+<td style="text-align: left;"><span style="     border-radius: 4px; padding-right: 4px; padding-left: 4px; background-color: yellow !important;text-align:right;">NA</span></td>
+<td style="text-align: right;">0</td>
+</tr>
+<tr class="even">
+<td style="text-align: right;">22</td>
+<td style="text-align: right;">219</td>
+<td style="text-align: right;">233</td>
+<td style="text-align: right;">236</td>
+<td style="text-align: left;"><span style="     border-radius: 4px; padding-right: 4px; padding-left: 4px; background-color: yellow !important;text-align:right;">NA</span></td>
+<td style="text-align: right;">1</td>
+</tr>
+</tbody>
+</table>
+</div>
+</figure>
+</div>
+<p>Missing data is a problem for most data analysis. There are several ways to deal with missing data, the two most common being:</p>
+<ul>
+<li>Remove missing data (deletion)</li>
+<li>Replace missing values with an actual value (imputation)</li>
+</ul>
+<p>Unfortunately, no matter how you treat missing data, there may be a problems for your inferences. If you delete data, is your sample still an unbiased representation of the population? How do you pick values to replace missing values? And, once you do, are the estimates you get still valid? For a fuller treatment of missing data, see <span class="citation" data-cites="little">@little</span>.</p>
+<p>The RM-ANOVA methodology is quite prickly about missing data, namely it cannot use any data from a subject that is missing data at even a single timepoint. This means that we need to delete the eight students with missing data. To do this we will use the <code>drop_na()</code> function from the <code>{tidyverse}</code> package. This function will drop any row with missing data.</p>
+<div class="cell" data-layout-align="center">
+<div class="sourceCode cell-code" id="cb4"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Drop rows with missing data</span></span>
+<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a>mpls_complete_cases <span class="ot">=</span> mpls <span class="sc">|&gt;</span></span>
+<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">drop_na</span>()</span>
+<span id="cb4-4"><a href="#cb4-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-5"><a href="#cb4-5" aria-hidden="true" tabindex="-1"></a><span class="co"># View new data</span></span>
+<span id="cb4-6"><a href="#cb4-6" aria-hidden="true" tabindex="-1"></a>mpls_complete_cases</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 14 × 6
+   student read_5 read_6 read_7 read_8 minority
+     &lt;dbl&gt;  &lt;dbl&gt;  &lt;dbl&gt;  &lt;dbl&gt;  &lt;dbl&gt;    &lt;dbl&gt;
+ 1       1    172    185    179    194        1
+ 2       3    191    199    203    215        1
+ 3       5    207    213    212    213        1
+ 4       6    191    189    206    195        1
+ 5       7    199    208    213    218        1
+ 6       9    149    154    174    177        1
+ 7      11    218    231    233    239        0
+ 8      12    228    232    248    246        0
+ 9      13    228    236    228    239        0
+10      14    199    210    225    235        1
+11      16    228    226    234    227        0
+12      17    201    210    208    219        0
+13      18    218    220    217    221        0
+14      20    204    215    219    214        1</code></pre>
+</div>
+</div>
+<p>The data now contains only the <strong>complete cases</strong>, the students with no missing data. This treatment of missing data is referred to as <strong>listwise</strong> or <strong>casewise</strong> deletion since we deleted whole rows or cases from the data. Note that in our sample, using the complete cases drops our sample size from <span class="math inline">\(N=22\)</span> to <span class="math inline">\(N=14\)</span> students. We have omitted nearly 40% of the initial cases! In practice, listwise deletion can result in omitting almost everyone, especially in studies with many timepoints as dropout tends to be high.</p>
+<p><br></p>
+</section>
+<section id="re-structuring-the-data-to-the-long-format" class="level2">
+<h2 class="anchored" data-anchor-id="re-structuring-the-data-to-the-long-format">Re-Structuring the Data to the Long Format</h2>
+<p>Ultimately, we will also need the data in the long format to carry out the RM-ANOVA. Structuring from wide to long structured data (or vice versa) is referred to as <strong>pivoting</strong> the data. As an example of pivoting, consider the first student’s data in the wide data:</p>
+<div class="cell" data-layout-align="center">
+<div class="cell-output-display">
+<table class="caption-top table table-sm table-striped small">
+<caption>First student’s data in the wide format.</caption>
+<thead>
+<tr class="header">
+<th style="text-align: right;">student</th>
+<th style="text-align: right;">read_5</th>
+<th style="text-align: right;">read_6</th>
+<th style="text-align: right;">read_7</th>
+<th style="text-align: right;">read_8</th>
+<th style="text-align: right;">minority</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">172</td>
+<td style="text-align: right;">185</td>
+<td style="text-align: right;">179</td>
+<td style="text-align: right;">194</td>
+<td style="text-align: right;">1</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<p>When we pivot this to the long format, we will combine the four reading scores into a single column called <code>reading_score</code> in the long data. We also need to include a column that identifies the grade level (<code>grade</code>) for each of the four reading scores (this is pulled from the original varaible names in the wide data). Finally, the <code>student</code> number and <code>minority</code> data from the wide data are appended to each row of the student’s long data.</p>
+<div class="cell" data-layout-align="center">
+<div id="tbl-04" class="cell quarto-float quarto-figure quarto-figure-center anchored" data-layout-align="center">
+<figure class="quarto-float quarto-float-tbl figure">
+<figcaption class="quarto-float-caption-top quarto-float-caption quarto-float-tbl" id="tbl-04-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Table&nbsp;4: First student’s data in the long format.
+</figcaption>
+<div aria-describedby="tbl-04-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<div class="cell-output-display">
+<table class="do-not-create-environment cell caption-top table table-sm table-striped small">
+<thead>
+<tr class="header">
+<th style="text-align: right;">student</th>
+<th style="text-align: right;">minority</th>
+<th style="text-align: left;">grade</th>
+<th style="text-align: right;">reading_score</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: left;">read_5</td>
+<td style="text-align: right;">172</td>
+</tr>
+<tr class="even">
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: left;">read_6</td>
+<td style="text-align: right;">185</td>
+</tr>
+<tr class="odd">
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: left;">read_7</td>
+<td style="text-align: right;">179</td>
+</tr>
+<tr class="even">
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: left;">read_8</td>
+<td style="text-align: right;">194</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+</figure>
+</div>
+</div>
+<p>To re-structure the data from the wide to the long format, we will use the function <code>pivot_longer()</code> from the <code>{tidyverse}</code> package. (The <code>pivot_wider()</code> function re-structures data from the long to the wide format.) We specify the columns that include the data we want to combine into a single column in the long data (<code>cols=</code>), and the new variable names we want in the long data associated with the original variable names (<code>names_to=</code>), and the data values (<code>values_to=</code>). In our example:</p>
+<div class="cell" data-layout-align="center">
+<div class="sourceCode cell-code" id="cb6"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Re-structure data to long format</span></span>
+<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a>mpls_long <span class="ot">=</span> mpls_complete_cases <span class="sc">|&gt;</span></span>
+<span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">pivot_longer</span>(</span>
+<span id="cb6-4"><a href="#cb6-4" aria-hidden="true" tabindex="-1"></a>    <span class="at">cols =</span> read_5<span class="sc">:</span>read_8,</span>
+<span id="cb6-5"><a href="#cb6-5" aria-hidden="true" tabindex="-1"></a>    <span class="at">names_to =</span> <span class="st">"grade"</span>,</span>
+<span id="cb6-6"><a href="#cb6-6" aria-hidden="true" tabindex="-1"></a>    <span class="at">values_to =</span> <span class="st">"reading_score"</span></span>
+<span id="cb6-7"><a href="#cb6-7" aria-hidden="true" tabindex="-1"></a>    )</span>
+<span id="cb6-8"><a href="#cb6-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-9"><a href="#cb6-9" aria-hidden="true" tabindex="-1"></a><span class="co"># View long data</span></span>
+<span id="cb6-10"><a href="#cb6-10" aria-hidden="true" tabindex="-1"></a>mpls_long</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 56 × 4
+   student minority grade  reading_score
+     &lt;dbl&gt;    &lt;dbl&gt; &lt;chr&gt;          &lt;dbl&gt;
+ 1       1        1 read_5           172
+ 2       1        1 read_6           185
+ 3       1        1 read_7           179
+ 4       1        1 read_8           194
+ 5       3        1 read_5           191
+ 6       3        1 read_6           199
+ 7       3        1 read_7           203
+ 8       3        1 read_8           215
+ 9       5        1 read_5           207
+10       5        1 read_6           213
+# ℹ 46 more rows</code></pre>
+</div>
+</div>
+<p><br></p>
+</section>
+<section id="evaluating-the-sample-change-over-time" class="level2">
+<h2 class="anchored" data-anchor-id="evaluating-the-sample-change-over-time">Evaluating the Sample Change Over Time</h2>
+<p>Is there an effect of time (i.e., a longitudinal effect) on reading scores? To begin to evaluate this, we can plot and numerically summarize the sample data. To graphically evaluate this question, we can plot the reading scores over time using the long formatted data. In this plot, we will (1) group the data by <code>student</code> to examine the individual change profiles, and (2) plot the average reading score over grade level to examine the mean profile.</p>
+<div class="cell" data-layout-align="center">
+<div class="sourceCode cell-code" id="cb8"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(<span class="at">data =</span> mpls_long, <span class="fu">aes</span>(<span class="at">x =</span> grade, <span class="at">y =</span> reading_score)) <span class="sc">+</span></span>
+<span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a>  <span class="co"># Plot individual profiles</span></span>
+<span id="cb8-3"><a href="#cb8-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_line</span>(<span class="fu">aes</span>(<span class="at">group =</span> student), <span class="at">alpha =</span> <span class="fl">0.3</span>) <span class="sc">+</span></span>
+<span id="cb8-4"><a href="#cb8-4" aria-hidden="true" tabindex="-1"></a>  <span class="co"># Plot mean profile</span></span>
+<span id="cb8-5"><a href="#cb8-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">stat_summary</span>(<span class="at">fun.y =</span> mean, <span class="at">group =</span> <span class="dv">1</span>, <span class="at">geom =</span> <span class="st">"line"</span>, <span class="at">color =</span> <span class="st">"red"</span>, <span class="at">lwd =</span> <span class="fl">1.5</span>) <span class="sc">+</span></span>
+<span id="cb8-6"><a href="#cb8-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">stat_summary</span>(<span class="at">fun.y =</span> mean, <span class="at">group =</span> <span class="dv">1</span>, <span class="at">geom =</span> <span class="st">"point"</span>, <span class="at">color =</span> <span class="st">"red"</span>, <span class="at">size =</span> <span class="dv">2</span>) <span class="sc">+</span></span>
+<span id="cb8-7"><a href="#cb8-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_bw</span>() <span class="sc">+</span></span>
+<span id="cb8-8"><a href="#cb8-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">xlab</span>(<span class="st">"Grade level"</span>) <span class="sc">+</span></span>
+<span id="cb8-9"><a href="#cb8-9" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ylab</span>(<span class="st">"Reading score"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<div id="fig-01" class="quarto-float quarto-figure quarto-figure-center anchored" data-fig-align="center">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-01-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="06-rm-anova_files/figure-html/fig-01-1.png" class="img-fluid quarto-figure quarto-figure-center figure-img" style="width:70.0%">
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-01-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure&nbsp;1: Plot of the individual (black) and mean (red) profiles indicating change in reading scores by grade level.
+</figcaption>
+</figure>
+</div>
+</div>
+</div>
+<p>The plot indicates that the average reading score seems to differ by grade level in the sample. The average reading score seems to be higher at higher grade levels. We can confirm this by computing the mean reading score at each grade level.</p>
+<div class="cell" data-layout-align="center">
+<div class="sourceCode cell-code" id="cb9"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a>mpls_long <span class="sc">|&gt;</span></span>
+<span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(grade) <span class="sc">|&gt;</span></span>
+<span id="cb9-3"><a href="#cb9-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summarize</span>(</span>
+<span id="cb9-4"><a href="#cb9-4" aria-hidden="true" tabindex="-1"></a>    <span class="at">M =</span> <span class="fu">mean</span>(reading_score),</span>
+<span id="cb9-5"><a href="#cb9-5" aria-hidden="true" tabindex="-1"></a>    <span class="at">SD =</span> <span class="fu">sd</span>(reading_score)</span>
+<span id="cb9-6"><a href="#cb9-6" aria-hidden="true" tabindex="-1"></a>  )</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 4 × 3
+  grade      M    SD
+  &lt;chr&gt;  &lt;dbl&gt; &lt;dbl&gt;
+1 read_5  202.  22.4
+2 read_6  209.  22.0
+3 read_7  214.  20.2
+4 read_8  218   19.4</code></pre>
+</div>
+</div>
+<p><br></p>
+</section>
+<section id="effect-of-grade-level" class="level2">
+<h2 class="anchored" data-anchor-id="effect-of-grade-level">Effect of Grade-Level</h2>
+<p>If we didn’t think about the analysis, to examine whether there was a longitudinal effect of grade-level on reading scores, we might fit a model that includes the main effect of grade-level using our long formatted data. To fit the model as an ANOVA, all of the predictors are required to be factors. Since <code>grade</code> is a character variable, it will be treated as a factor in the model.</p>
+<div class="cell" data-layout-align="center">
+<div class="sourceCode cell-code" id="cb11"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Fit model</span></span>
+<span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a>lm<span class="fl">.1</span> <span class="ot">=</span> <span class="fu">lm</span>(reading_score <span class="sc">~</span> <span class="dv">1</span> <span class="sc">+</span> grade, <span class="at">data =</span> mpls_long)</span>
+<span id="cb11-3"><a href="#cb11-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb11-4"><a href="#cb11-4" aria-hidden="true" tabindex="-1"></a><span class="co"># Partition variation</span></span>
+<span id="cb11-5"><a href="#cb11-5" aria-hidden="true" tabindex="-1"></a><span class="fu">anova</span>(lm<span class="fl">.1</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>Analysis of Variance Table
+
+Response: reading_score
+          Df  Sum Sq Mean Sq F value Pr(&gt;F)
+grade      3  1924.4  641.48  1.4474 0.2397
+Residuals 52 23045.3  443.18               </code></pre>
+</div>
+</div>
+<p>There does not appear to be a main effect of time, <span class="math inline">\(F(3, 52) = 1.45\)</span>, <span class="math inline">\(p = 0.240\)</span>. This suggests that the empirical data are consistent with the hypothesis of no differences in the average reading scores across grades.</p>
+<p><br></p>
+</section>
+<section id="grade-by-student-interaction-model" class="level2">
+<h2 class="anchored" data-anchor-id="grade-by-student-interaction-model">Grade-by-Student Interaction Model</h2>
+<p>Aside from an effect of time, the plot in <a href="#fig-01" class="quarto-xref">Figure&nbsp;1</a> also clearly displays an effect of student; some students have higher reading scores on average than others. Moreover, the plot suggests that there is an interaction effect between grade-level and individual student on reading score. We can see this because the individual growth profiles are not parallel. This implies that the effect of grade-level differs by student.</p>
+<p>This implies that we need to fit a model (using the long formatted data) that predicts variation in reading scores and includes:</p>
+<ul>
+<li>A main effect of grade-level</li>
+<li>A main effect of student</li>
+<li>An interaction effect between grade-level and student</li>
+</ul>
+<p>To fit this as an ANOVA, all of the predictors are required to be factors. Since <code>grade</code> is a character variable, it will be treated as a factor in the model. The <code>student</code> variable, however, is currently numeric and will need to be coerced into a factor everytime it appears in the model. To fit this model:</p>
+<div class="cell" data-layout-align="center">
+<div class="sourceCode cell-code" id="cb13"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Fit model</span></span>
+<span id="cb13-2"><a href="#cb13-2" aria-hidden="true" tabindex="-1"></a>lm<span class="fl">.1</span> <span class="ot">=</span> <span class="fu">lm</span>(reading_score <span class="sc">~</span> <span class="dv">1</span> <span class="sc">+</span> grade <span class="sc">+</span> <span class="fu">factor</span>(student) <span class="sc">+</span> grade<span class="sc">:</span><span class="fu">factor</span>(student), <span class="at">data =</span> mpls_long)</span>
+<span id="cb13-3"><a href="#cb13-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-4"><a href="#cb13-4" aria-hidden="true" tabindex="-1"></a><span class="co"># Partition variation</span></span>
+<span id="cb13-5"><a href="#cb13-5" aria-hidden="true" tabindex="-1"></a><span class="fu">anova</span>(lm<span class="fl">.1</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>Analysis of Variance Table
+
+Response: reading_score
+                      Df  Sum Sq Mean Sq F value Pr(&gt;F)
+grade                  3  1924.4  641.48     NaN    NaN
+factor(student)       13 21696.2 1668.94     NaN    NaN
+grade:factor(student) 39  1349.1   34.59     NaN    NaN
+Residuals              0     0.0     NaN               </code></pre>
+</div>
+</div>
+<p>Before we put too much stock in these results, however, we will evaluate the model’s assumptions.</p>
+<div class="cell" data-layout-align="center">
+<div class="cell-output-display">
+<div id="fig-02" class="quarto-float quarto-figure quarto-figure-center anchored" data-fig-align="center">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-02-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="06-rm-anova_files/figure-html/fig-02-1.png" class="img-fluid quarto-figure quarto-figure-center figure-img" style="width:100.0%">
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-02-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure&nbsp;2: Residual plots for Model 1.
+</figcaption>
+</figure>
+</div>
+</div>
+</div>
+<!--  -->
+<p>The residual plots look pretty good—it seems that the assumptions of linearity, normality, and homoskedasticity are all satisfied. But, the assumption of independence is likely violated. Based on our understanding of how education works, we believe that a student’s reading scores from year-to-year are correlated. We can examine this by computing the correlation matrix for the repeated measures using the wide data.</p>
+<div class="cell" data-layout-align="center">
+<div class="sourceCode cell-code" id="cb15"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a>mpls_complete_cases <span class="sc">|&gt;</span></span>
+<span id="cb15-2"><a href="#cb15-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(read_5<span class="sc">:</span>read_8) <span class="sc">|&gt;</span></span>
+<span id="cb15-3"><a href="#cb15-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">correlate</span>() <span class="sc">|&gt;</span></span>
+<span id="cb15-4"><a href="#cb15-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">shave</span>() <span class="sc">|&gt;</span></span>
+<span id="cb15-5"><a href="#cb15-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">fashion</span>(<span class="at">decimals =</span> <span class="dv">3</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>    term read_5 read_6 read_7 read_8
+1 read_5                            
+2 read_6   .976                     
+3 read_7   .928   .913              
+4 read_8   .883   .929   .923       </code></pre>
+</div>
+</div>
+<p>This matrix suggests that students reading scores from grade-to-grade are highly correlated.</p>
+<p><br></p>
+</section>
+<section id="analyzing-the-data-using-rm-anova" class="level2">
+<h2 class="anchored" data-anchor-id="analyzing-the-data-using-rm-anova">Analyzing the Data using RM-ANOVA</h2>
+</section>
+<section id="analyzing-the-data-under-the-assumption-of-independence" class="level2">
+<h2 class="anchored" data-anchor-id="analyzing-the-data-under-the-assumption-of-independence">Analyzing the Data under the Assumption of Independence</h2>
+</section>
+</section>
+
+</main>
+<!-- /main column -->
+<script id="quarto-html-after-body" type="application/javascript">
+  window.document.addEventListener("DOMContentLoaded", function (event) {
+    const icon = "";
+    const anchorJS = new window.AnchorJS();
+    anchorJS.options = {
+      placement: 'right',
+      icon: icon
+    };
+    anchorJS.add('.anchored');
+    const isCodeAnnotation = (el) => {
+      for (const clz of el.classList) {
+        if (clz.startsWith('code-annotation-')) {                     
+          return true;
+        }
+      }
+      return false;
+    }
+    const onCopySuccess = function(e) {
+      // button target
+      const button = e.trigger;
+      // don't keep focus
+      button.blur();
+      // flash "checked"
+      button.classList.add('code-copy-button-checked');
+      var currentTitle = button.getAttribute("title");
+      button.setAttribute("title", "Copied!");
+      let tooltip;
+      if (window.bootstrap) {
+        button.setAttribute("data-bs-toggle", "tooltip");
+        button.setAttribute("data-bs-placement", "left");
+        button.setAttribute("data-bs-title", "Copied!");
+        tooltip = new bootstrap.Tooltip(button, 
+          { trigger: "manual", 
+            customClass: "code-copy-button-tooltip",
+            offset: [0, -8]});
+        tooltip.show();    
+      }
+      setTimeout(function() {
+        if (tooltip) {
+          tooltip.hide();
+          button.removeAttribute("data-bs-title");
+          button.removeAttribute("data-bs-toggle");
+          button.removeAttribute("data-bs-placement");
+        }
+        button.setAttribute("title", currentTitle);
+        button.classList.remove('code-copy-button-checked');
+      }, 1000);
+      // clear code selection
+      e.clearSelection();
+    }
+    const getTextToCopy = function(trigger) {
+        const codeEl = trigger.previousElementSibling.cloneNode(true);
+        for (const childEl of codeEl.children) {
+          if (isCodeAnnotation(childEl)) {
+            childEl.remove();
+          }
+        }
+        return codeEl.innerText;
+    }
+    const clipboard = new window.ClipboardJS('.code-copy-button:not([data-in-quarto-modal])', {
+      text: getTextToCopy
+    });
+    clipboard.on('success', onCopySuccess);
+    if (window.document.getElementById('quarto-embedded-source-code-modal')) {
+      const clipboardModal = new window.ClipboardJS('.code-copy-button[data-in-quarto-modal]', {
+        text: getTextToCopy,
+        container: window.document.getElementById('quarto-embedded-source-code-modal')
+      });
+      clipboardModal.on('success', onCopySuccess);
+    }
+      var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
+      var mailtoRegex = new RegExp(/^mailto:/);
+        var filterRegex = new RegExp('/' + window.location.host + '/');
+      var isInternal = (href) => {
+          return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
+      }
+      // Inspect non-navigation links and adorn them if external
+     var links = window.document.querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item):not(.quarto-navigation-tool):not(.about-link)');
+      for (var i=0; i<links.length; i++) {
+        const link = links[i];
+        if (!isInternal(link.href)) {
+          // undo the damage that might have been done by quarto-nav.js in the case of
+          // links that we want to consider external
+          if (link.dataset.originalHref !== undefined) {
+            link.href = link.dataset.originalHref;
+          }
+        }
+      }
+    function tippyHover(el, contentFn, onTriggerFn, onUntriggerFn) {
+      const config = {
+        allowHTML: true,
+        maxWidth: 500,
+        delay: 100,
+        arrow: false,
+        appendTo: function(el) {
+            return el.parentElement;
+        },
+        interactive: true,
+        interactiveBorder: 10,
+        theme: 'quarto',
+        placement: 'bottom-start',
+      };
+      if (contentFn) {
+        config.content = contentFn;
+      }
+      if (onTriggerFn) {
+        config.onTrigger = onTriggerFn;
+      }
+      if (onUntriggerFn) {
+        config.onUntrigger = onUntriggerFn;
+      }
+      window.tippy(el, config); 
+    }
+    const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+    for (var i=0; i<noterefs.length; i++) {
+      const ref = noterefs[i];
+      tippyHover(ref, function() {
+        // use id or data attribute instead here
+        let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+        try { href = new URL(href).hash; } catch {}
+        const id = href.replace(/^#\/?/, "");
+        const note = window.document.getElementById(id);
+        if (note) {
+          return note.innerHTML;
+        } else {
+          return "";
+        }
+      });
+    }
+    const xrefs = window.document.querySelectorAll('a.quarto-xref');
+    const processXRef = (id, note) => {
+      // Strip column container classes
+      const stripColumnClz = (el) => {
+        el.classList.remove("page-full", "page-columns");
+        if (el.children) {
+          for (const child of el.children) {
+            stripColumnClz(child);
+          }
+        }
+      }
+      stripColumnClz(note)
+      if (id === null || id.startsWith('sec-')) {
+        // Special case sections, only their first couple elements
+        const container = document.createElement("div");
+        if (note.children && note.children.length > 2) {
+          container.appendChild(note.children[0].cloneNode(true));
+          for (let i = 1; i < note.children.length; i++) {
+            const child = note.children[i];
+            if (child.tagName === "P" && child.innerText === "") {
+              continue;
+            } else {
+              container.appendChild(child.cloneNode(true));
+              break;
+            }
+          }
+          if (window.Quarto?.typesetMath) {
+            window.Quarto.typesetMath(container);
+          }
+          return container.innerHTML
+        } else {
+          if (window.Quarto?.typesetMath) {
+            window.Quarto.typesetMath(note);
+          }
+          return note.innerHTML;
+        }
+      } else {
+        // Remove any anchor links if they are present
+        const anchorLink = note.querySelector('a.anchorjs-link');
+        if (anchorLink) {
+          anchorLink.remove();
+        }
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(note);
+        }
+        if (note.classList.contains("callout")) {
+          return note.outerHTML;
+        } else {
+          return note.innerHTML;
+        }
+      }
+    }
+    for (var i=0; i<xrefs.length; i++) {
+      const xref = xrefs[i];
+      tippyHover(xref, undefined, function(instance) {
+        instance.disable();
+        let url = xref.getAttribute('href');
+        let hash = undefined; 
+        if (url.startsWith('#')) {
+          hash = url;
+        } else {
+          try { hash = new URL(url).hash; } catch {}
+        }
+        if (hash) {
+          const id = hash.replace(/^#\/?/, "");
+          const note = window.document.getElementById(id);
+          if (note !== null) {
+            try {
+              const html = processXRef(id, note.cloneNode(true));
+              instance.setContent(html);
+            } finally {
+              instance.enable();
+              instance.show();
+            }
+          } else {
+            // See if we can fetch this
+            fetch(url.split('#')[0])
+            .then(res => res.text())
+            .then(html => {
+              const parser = new DOMParser();
+              const htmlDoc = parser.parseFromString(html, "text/html");
+              const note = htmlDoc.getElementById(id);
+              if (note !== null) {
+                const html = processXRef(id, note);
+                instance.setContent(html);
+              } 
+            }).finally(() => {
+              instance.enable();
+              instance.show();
+            });
+          }
+        } else {
+          // See if we can fetch a full url (with no hash to target)
+          // This is a special case and we should probably do some content thinning / targeting
+          fetch(url)
+          .then(res => res.text())
+          .then(html => {
+            const parser = new DOMParser();
+            const htmlDoc = parser.parseFromString(html, "text/html");
+            const note = htmlDoc.querySelector('main.content');
+            if (note !== null) {
+              // This should only happen for chapter cross references
+              // (since there is no id in the URL)
+              // remove the first header
+              if (note.children.length > 0 && note.children[0].tagName === "HEADER") {
+                note.children[0].remove();
+              }
+              const html = processXRef(null, note);
+              instance.setContent(html);
+            } 
+          }).finally(() => {
+            instance.enable();
+            instance.show();
+          });
+        }
+      }, function(instance) {
+      });
+    }
+        let selectedAnnoteEl;
+        const selectorForAnnotation = ( cell, annotation) => {
+          let cellAttr = 'data-code-cell="' + cell + '"';
+          let lineAttr = 'data-code-annotation="' +  annotation + '"';
+          const selector = 'span[' + cellAttr + '][' + lineAttr + ']';
+          return selector;
+        }
+        const selectCodeLines = (annoteEl) => {
+          const doc = window.document;
+          const targetCell = annoteEl.getAttribute("data-target-cell");
+          const targetAnnotation = annoteEl.getAttribute("data-target-annotation");
+          const annoteSpan = window.document.querySelector(selectorForAnnotation(targetCell, targetAnnotation));
+          const lines = annoteSpan.getAttribute("data-code-lines").split(",");
+          const lineIds = lines.map((line) => {
+            return targetCell + "-" + line;
+          })
+          let top = null;
+          let height = null;
+          let parent = null;
+          if (lineIds.length > 0) {
+              //compute the position of the single el (top and bottom and make a div)
+              const el = window.document.getElementById(lineIds[0]);
+              top = el.offsetTop;
+              height = el.offsetHeight;
+              parent = el.parentElement.parentElement;
+            if (lineIds.length > 1) {
+              const lastEl = window.document.getElementById(lineIds[lineIds.length - 1]);
+              const bottom = lastEl.offsetTop + lastEl.offsetHeight;
+              height = bottom - top;
+            }
+            if (top !== null && height !== null && parent !== null) {
+              // cook up a div (if necessary) and position it 
+              let div = window.document.getElementById("code-annotation-line-highlight");
+              if (div === null) {
+                div = window.document.createElement("div");
+                div.setAttribute("id", "code-annotation-line-highlight");
+                div.style.position = 'absolute';
+                parent.appendChild(div);
+              }
+              div.style.top = top - 2 + "px";
+              div.style.height = height + 4 + "px";
+              div.style.left = 0;
+              let gutterDiv = window.document.getElementById("code-annotation-line-highlight-gutter");
+              if (gutterDiv === null) {
+                gutterDiv = window.document.createElement("div");
+                gutterDiv.setAttribute("id", "code-annotation-line-highlight-gutter");
+                gutterDiv.style.position = 'absolute';
+                const codeCell = window.document.getElementById(targetCell);
+                const gutter = codeCell.querySelector('.code-annotation-gutter');
+                gutter.appendChild(gutterDiv);
+              }
+              gutterDiv.style.top = top - 2 + "px";
+              gutterDiv.style.height = height + 4 + "px";
+            }
+            selectedAnnoteEl = annoteEl;
+          }
+        };
+        const unselectCodeLines = () => {
+          const elementsIds = ["code-annotation-line-highlight", "code-annotation-line-highlight-gutter"];
+          elementsIds.forEach((elId) => {
+            const div = window.document.getElementById(elId);
+            if (div) {
+              div.remove();
+            }
+          });
+          selectedAnnoteEl = undefined;
+        };
+          // Handle positioning of the toggle
+      window.addEventListener(
+        "resize",
+        throttle(() => {
+          elRect = undefined;
+          if (selectedAnnoteEl) {
+            selectCodeLines(selectedAnnoteEl);
+          }
+        }, 10)
+      );
+      function throttle(fn, ms) {
+      let throttle = false;
+      let timer;
+        return (...args) => {
+          if(!throttle) { // first call gets through
+              fn.apply(this, args);
+              throttle = true;
+          } else { // all the others get throttled
+              if(timer) clearTimeout(timer); // cancel #2
+              timer = setTimeout(() => {
+                fn.apply(this, args);
+                timer = throttle = false;
+              }, ms);
+          }
+        };
+      }
+        // Attach click handler to the DT
+        const annoteDls = window.document.querySelectorAll('dt[data-target-cell]');
+        for (const annoteDlNode of annoteDls) {
+          annoteDlNode.addEventListener('click', (event) => {
+            const clickedEl = event.target;
+            if (clickedEl !== selectedAnnoteEl) {
+              unselectCodeLines();
+              const activeEl = window.document.querySelector('dt[data-target-cell].code-annotation-active');
+              if (activeEl) {
+                activeEl.classList.remove('code-annotation-active');
+              }
+              selectCodeLines(clickedEl);
+              clickedEl.classList.add('code-annotation-active');
+            } else {
+              // Unselect the line
+              unselectCodeLines();
+              clickedEl.classList.remove('code-annotation-active');
+            }
+          });
+        }
+    const findCites = (el) => {
+      const parentEl = el.parentElement;
+      if (parentEl) {
+        const cites = parentEl.dataset.cites;
+        if (cites) {
+          return {
+            el,
+            cites: cites.split(' ')
+          };
+        } else {
+          return findCites(el.parentElement)
+        }
+      } else {
+        return undefined;
+      }
+    };
+    var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+    for (var i=0; i<bibliorefs.length; i++) {
+      const ref = bibliorefs[i];
+      const citeInfo = findCites(ref);
+      if (citeInfo) {
+        tippyHover(citeInfo.el, function() {
+          var popup = window.document.createElement('div');
+          citeInfo.cites.forEach(function(cite) {
+            var citeDiv = window.document.createElement('div');
+            citeDiv.classList.add('hanging-indent');
+            citeDiv.classList.add('csl-entry');
+            var biblioDiv = window.document.getElementById('ref-' + cite);
+            if (biblioDiv) {
+              citeDiv.innerHTML = biblioDiv.innerHTML;
+            }
+            popup.appendChild(citeDiv);
+          });
+          return popup.innerHTML;
+        });
+      }
+    }
+  });
+  </script>
+</div> <!-- /content -->
+
+
+
+
+</body></html>

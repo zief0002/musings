@@ -1,0 +1,30 @@
+# Foreword {-}
+
+
+```{r}
+#| out-width: "100%"
+#| fig-alt: "UMN Building in the fall."
+#| echo: false
+
+knitr::include_graphics("figs/umn-building-fall.jpg")
+```
+
+
+
+After 22 years of teaching, I have taught many courses and created many iterations of teaching materials. Some of this was "good" and some wasn't. As the progeny of packrats, I saved a lot of these materials, even the garbage. Now, I have finally begun the process of culling this mess and this work-in-progress is the result.
+
+My goal here is to transfer the stuff I feel is reasonable to an online text of sorts. But unlike most texts, this one will likely not be linear, nor perhaps coherent---at least across chapters. If it is useful to you; use whatever you want. If not, ignore it.
+
+<br />
+
+## Colophon
+
+Artwork by [&commat;allison_horst](https://twitter.com/allison_horst)
+
+
+<br />
+
+## License
+
+<a rel="license" href="http://creativecommons.org/licenses/by-sa/4.0/"><img alt="Creative Commons License" style="border-width:0" src="https://i.creativecommons.org/l/by-sa/4.0/88x31.png" class="center-image" /></a><br />This work is licensed under a <a rel="license" href="http://creativecommons.org/licenses/by-sa/4.0/">Creative Commons Attribution-ShareAlike 4.0 International License</a>.
+

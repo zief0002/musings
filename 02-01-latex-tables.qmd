@@ -1,0 +1,577 @@
+# Creating Tables: LaTeX and Quarto {-}
+
+
+```{r}
+#| echo: false
+#| message: false
+#| warning: false
+
+source("scripts/_common.R")
+```
+
+This document includes the LaTeX syntax to create the tables from the **Creating Tables to Present Statistical Results** document. You can download the original [QMD file here](files/creating-tables-latex.qmd) or view a [rendered PDF here](files/creating-tables-latex.pdf).
+
+<br />
+
+
+## YAML
+
+At the beginning of the QMD document, the YAML I used is below. The `header-includes:` line loads the `{xfrac}` LaTeX package. The `\floatplacement{table}[H]` is used to place the table in the rendered document exactly where the code appears rather than floating the table.
+
+
+```
+---
+title: "Creating Tables - LaTeX Tables"
+format: 
+  pdf:
+    highlight: tango
+    latex_engine: xelatex
+    fig_width: 6
+    fig_height: 6
+header-includes:
+   - \usepackage{xfrac}
+   - \floatplacement{table}{H}
+mainfont: "Sabon"
+sansfont: "Helvetica Neue UltraLight"
+monofont: Inconsolata
+always_allow_html: yes
+---
+```
+
+<br />
+
+
+## Setup Chunk
+
+The `setup` chunk loads the R packages, sets different knitr and R options, and imports the data used in the tables.
+
+
+```{r}
+#| label: setup
+#| echo: fenced
+#| message: false
+#| warning: false
+
+# Load libraries
+library(corrr)
+library(knitr)
+library(kableExtra)
+library(tidyverse)
+library(tidyr)
+
+# Ignore NAs and replace with blank space
+options(knitr.kable.NA = '')
+
+# Import data
+usnews = read_csv(file = "https://raw.githubusercontent.com/zief0002/musings/refs/heads/main/data/ed-schools-2018.csv") |> drop_na()
+riverview = read_csv(file = "https://raw.githubusercontent.com/zief0002/musings/refs/heads/main/data/riverview.csv")
+```
+
+
+<br />
+
+
+## Table 1
+
+The key to these tables is to understand that the information in the tables' cells needs to be included in a data frame or tibble. This information can either be typed in manually or computation on the data can produce a data frame. For example, the data in Table 1 was entered manually:
+
+```{r}
+# Set up data frame
+data.frame(
+  Measure = c("Peer rating", "Acceptance rate for Ph.D. students", "Enrollment", "GRE score (verbal)", "GRE score (quantitative)"),
+  M  = c(mean(usnews$peer), mean(usnews$doc_accept), mean(usnews$enroll), 
+         mean(usnews$gre_verbal), mean(usnews$gre_quant)),
+  SD = c(sd(usnews$peer), sd(usnews$doc_accept), sd(usnews$enroll), 
+         sd(usnews$gre_verbal), sd(usnews$gre_quant))
+)
+```
+
+The resulting data frame includes all of the data in the table...just without table formatting, etc. This data frame is then piped into the `kable()` function (which is in the `{knitr}` package). This function does all of the formatting, etc. by setting different arguments.
+
+```{r}
+#| eval: false
+
+kable(
+    col.names = c("Measure", "\\textit{M}", "\\textit{SD}"),
+    align = c("l", "c", "c"),
+    digits = 1,
+    format = "latex",
+    booktabs = TRUE,
+    escape = FALSE
+    )
+```
+
+- The argument `col.names=` indicates the column names to be used the table's header row. The `\\textit{}` is an escaped LaTeX command to make everything in the curly braces italics. The actual command is `\textit{}` but the initial `\` is an escape character to ensure the LaTeX command is interpreted properly.
+- The `align=` argument sets the alignment within each of the columns. In this case, the content in the first column is left-aligned and the content in the remaining two columns are centered.
+- `digits=` sets the rounding. Here 1 sets the rounding to a single decimal place for all numerical columns. You could also use a `c()` function to specify different rounding for each column.
+- The `format="latex"` indicates the resulting output should be LaTeX syntax.
+- The `booktabs=TRUE` argument uses the `{booktabs}` LaTeX package for better formatting.
+- Lastly, the `escape=FALSE` argument allows us to use LaTeX commands in the code (e.g., in the `col.names=` argument)...but, they need to be properly escaped with the `\` character. 
+
+The captioning of the table is done with the code chunk option `tbl-cap:`.
+
+```{{r}}
+#| label: tbl-01
+#| tbl-cap: "Means and standard deviations for five measures of graduate programs of education."
+
+
+# Set up data frame
+data.frame(
+  Measure = c("Peer rating", "Acceptance rate for Ph.D. students", "Enrollment", "GRE score (verbal)", "GRE score (quantitative)"),
+  M  = c(mean(usnews$peer), mean(usnews$doc_accept), mean(usnews$enroll), 
+         mean(usnews$gre_verbal), mean(usnews$gre_quant)),
+  SD = c(sd(usnews$peer), sd(usnews$doc_accept), sd(usnews$enroll), 
+         sd(usnews$gre_verbal), sd(usnews$gre_quant))
+) |>
+  kable(
+    col.names = c("Measure", "\\textit{M}", "\\textit{SD}"),
+    align = c("l", "c", "c"),
+    digits = 1,
+    format = "latex",
+    booktabs = TRUE,
+    escape = FALSE
+    )
+```
+
+Finally, note that is you ran the syntax for Table 1 in the console, the output is LaTeX syntax that creates the table when rendered via a LaTeX engine. The actual LaTeX syntax to create Table 1 is below.
+
+```{{r}}
+\begin{tabular}{lcc}
+\toprule
+Measure & \textit{M} & \textit{SD}\\
+\midrule
+Peer rating & 3.3 & 0.5\\
+Acceptance rate for Ph.D. students & 40.1 & 20.2\\
+Enrollment & 969.8 & 664.9\\
+GRE score (verbal) & 154.9 & 3.7\\
+GRE score (quantitative) & 151.0 & 4.4\\
+\bottomrule
+\end{tabular}
+```
+
+Looking at the resulting table and the syntax, you might be able to discern what some of this syntax does:
+
+- `&` separates the content in a row into different columns
+- `\\` is a newline indicator
+- `\toprule`, `\midrule`, and `\bottomrule` add horizontal rules (lines) in the table
+
+
+
+<br />
+
+
+## Table 2
+
+Table 2's syntax is quite similar to that for Table 1. The only additional syntax is the `add_header_above()` function (from the `{kableExtra}` package). This adds a second header row above the original header row. In this case this second header includes blank space above column 1, the label "Females" above column 2, and the label "Males" above column 3.
+
+
+```{{r}}
+#| label: tbl-02
+#| tbl-cap: "Means and standard deviations for three measures of Riverview employees conditioned on sex."
+#| echo: false
+
+# Set up data frame
+data.frame(
+  Measure = c("Education level (in years)", "Seniority (in years)", "Income (in U.S. dollars"),
+  M_f  = c(
+    mean(riverview$education[riverview$gender == "female"]),
+    mean(riverview$seniority[riverview$gender == "female"]),
+    mean(riverview$income[riverview$gender == "female"])
+  ),
+  SD_f = c(
+    sd(riverview$education[riverview$gender == "female"]),
+    sd(riverview$seniority[riverview$gender == "female"]),
+    sd(riverview$income[riverview$gender == "female"])
+  ),
+  M_m  = c(
+    mean(riverview$education[riverview$gender == "male"]),
+    mean(riverview$seniority[riverview$gender == "male"]),
+    mean(riverview$income[riverview$gender == "male"])
+  ),
+  SD_m = c(
+    sd(riverview$education[riverview$gender == "male"]),
+    sd(riverview$seniority[riverview$gender == "male"]),
+    sd(riverview$income[riverview$gender == "male"])
+  )
+) |>
+  kable(
+    col.names = c("Measure", "\\textit{M}", "\\textit{SD}", "\\textit{M}", "\\textit{SD}"),
+    align = c("l", "c", "c", "c", "c"),
+    digits = 0,
+    format = "latex",
+    booktabs = TRUE,
+    escape = FALSE
+  ) |>
+  add_header_above(
+    header = c(" " = 1, "Females" = 2, "Males" = 2)
+  )
+```
+
+<br />
+
+
+# Table 3
+
+Here most of the syntax should be familiar. One new piece of LaTeX syntax is `\\hspace{}`. This is an escaped form of `\hspace{}` which adds horizontal space. Here we are adding blank space that has a width of 2 ems in front of "Female" and "Non-female". This allows those labels to be indented when the table is rendered. Lastly, the `row_spec()` function (again from `{kableExtra}`) sets the content in the header row (row 0) to be centered.
+
+
+```{{r}}
+#| label: tbl-03
+#| tbl-cap: "Means and confidence intervals (CIs) for three measures of Riverview employees conditioned on sex."
+#| echo: false
+
+# Set up data frame
+data.frame(
+  Measure = c("Education level (in years)", "\\hspace{2em} Female", "\\hspace{2em} Non-female", "Seniority (in years)", "\\hspace{2em} Female", "\\hspace{2em} Non-female", "Income (in thousand of U.S. dollars)", "\\hspace{2em} Female", "\\hspace{2em} Non-female"),
+  M = c(NA, 16, 16, NA, 14, 16, NA, 48.9, 59.9),
+  S = c(NA, 4, 5, NA, 7, 7, NA, 13.2, 14.2),
+  LL = c(NA, 13.7, 13.5, NA, 10.7, 11.5, NA, 42.3, 51.7),
+  UL = c(NA, 17.8, 19.1, NA, 17.5, 19.9, NA, 55.5, 68.1)
+) |>
+  kable(
+    col.names = c("Measure", "\\textit{M}", "\\textit{SD}", "\\textit{LL}", "\\textit{UL}"),
+    align = c("l", "c", "c", "c", "c"),
+    format = "latex",
+    booktabs = TRUE,
+    escape = FALSE
+  ) |>
+  row_spec(row = 0, align = "c") |>
+  add_header_above(c(" " = 3, "95% CI" = 2))
+```
+
+
+<br />
+
+
+## Table 4
+
+To create the data frame for Table 4, rather thn manually entering the information, we are using the `correlate()` function to produce the content in the table. The output from this looks like it is formatted correctly, but is not really a dat frame. So to fix that we pipe that output into the `data.frame()` function.
+
+
+
+```{{r}}
+#| label: tbl-04
+#| tbl-cap: "Intercorrelations for five measures of graduate programs of education."
+#| echo: false
+#| message: false
+
+tab_04 = usnews |>
+  select(peer, doc_accept, enroll, gre_verbal, gre_quant) |>
+  correlate() |>
+  shave(upper = TRUE) |>
+  fashion(decimals = 2, na_print = "")  |>
+  data.frame()
+
+tab_04[1, 2] = "---"
+tab_04[2, 3] = "---"
+tab_04[3, 4] = "---"
+tab_04[4, 5] = "---"
+tab_04[5, 6] = "---"
+
+tab_04 |>
+  mutate(
+    term = c("1. Peer rating", "2. Acceptance rate for Ph.D. students", "3. Enrollment",
+                "4. GRE score (verbal)", "5. GRE score (quantitative)")
+  ) |>
+  kable(
+    col.names = c("Measure", "1", "2", "3", "4", "5"),
+    align = c("l", "c", "c", "c", "c", "c"),
+    format = "latex",
+    booktabs = TRUE,
+    escape = FALSE
+  )
+```
+
+
+<br />
+
+
+## Table 5
+
+The syntax here is similar to Table 4. We also set up a data fame manually that includes the means and SDs. This data frame is then combined with the correlation data frame using `cbind()`---which is short for column bind.
+
+
+```{{r}}
+#| label: tbl-05
+#| tbl-cap: "Means, standard deivations, and intercorrelations for five measures of graduate programs of education."
+#| echo: false
+#| message: false
+
+tab_05_2 = usnews |>
+  select(peer, doc_accept, enroll, gre_verbal, gre_quant) |>
+  correlate() |>
+  shave(upper = TRUE) |>
+  fashion(decimals = 2, na_print = "—")
+
+tab_05_1 = data.frame(
+  M = c(3.3, 40.1, 970, 154.9, 151.0),
+  SD = c(0.5, 20.2, 665, 3.7, 4.4)
+)
+
+tab_05 = cbind(tab_05_2[, 1], tab_05_1, tab_05_2[, 2:6])
+
+tab_05[1, 5:8] = ""
+tab_05[2, 6:8] = ""
+tab_05[3, 7:8] = ""
+tab_05[4, 8] = ""
+
+tab_05 |>
+  mutate(
+    `tab_05_2[, 1]` = c("1. Peer rating", "2. Acceptance rate for Ph.D. students", "3. Enrollment", "4. GRE score (verbal)", "5. GRE score (quantitative)")
+  ) |>
+  kable(
+    col.names = c("Measure", "\\textit{M}", "\\textit{SD}", "1", "2", "3", "4", "5"),
+    align = c("l", "c", "c", "c", "c", "c", "c", "c"),
+    format = "latex",
+    booktabs = TRUE,
+    escape = FALSE
+  )
+```
+
+
+<br />
+
+
+## Table 6
+
+Here, again, we use R functions to produce the table content---namely the `tidy()` function from the `{broom}` package. The output from `tidy()` is formatted as a data frame, so there is no need to pipe it into `data.frame()`; it can be piped directly into `kable()`.
+
+
+```{{r}
+#| label: tbl-06
+#| tbl-cap: "Unstandardized coefficients for an OLS regression model fitted to estimate variation in peer ratings."
+#| echo: false
+
+tab_06 = lm(peer ~ 1 + doc_accept + enroll + gre_verbal + gre_quant, data = usnews) |>
+  broom::tidy() |>
+  mutate(
+    term = c("Constant", "Acceptance rate for Ph.D. students", "Enrollment",
+             "GRE score (verbal)", "GRE score (quantitative)")
+  )
+
+tab_06 = tab_06[c(2:5, 1), ]
+
+tab_06 |>
+  kable(
+    col.names = c("Predictor", "\\textit{B}", "\\textit{SE}", "\\textit{t}", "\\textit{p}"),
+    align = c("l", "c", "c", "c", "c"),
+    digits = c(NA, 2, 2, 2, 3),
+    format = "latex",
+    booktabs = TRUE,
+    escape = FALSE
+  )
+```
+
+
+<br />
+
+
+## Table 7
+
+Nothing new here. Just a variation on Table 6.
+
+```{{r}}
+#| label: tbl-07
+#| tbl-cap: "Unstandardized coefficients and confidence intervals for an OLS regression model fitted to estimate variation in peer ratings."
+#| echo: false
+
+tab_07 = lm(peer ~ 1 + doc_accept + enroll + gre_verbal + gre_quant, data = usnews) |>
+  broom::tidy(conf.int = TRUE) |>
+  mutate(
+    term = c("Constant", "Acceptance rate for Ph.D. students", "Enrollment",
+             "GRE score (verbal)", "GRE score (quantitative)")
+  )
+
+tab_07[c(2:5, 1), ] |>
+  select(term, estimate, std.error, conf.low, conf.high)  |>
+  kable(
+    col.names = c("Predictor", "\\textit{B}", "\\textit{SE}", "\\textit{LL}", "\\textit{UL}"),
+    align = c("l", "c", "c", "c", "c"),
+    digits = c(NA, 2, 2, 2, 2),
+    format = "latex",
+    booktabs = TRUE,
+    escape = FALSE
+  ) |>
+  row_spec(row = 0, align = "c") |>
+  add_header_above(c(" " = 3, "95% CI" = 2))
+```
+
+
+
+<br />
+
+
+## Table 8
+
+Again, nothing new here. The `\\beta` create the Greek lower-case letter beta.
+
+
+```{{r}}
+#| label: tbl-08
+#| tbl-cap: "Unstandardized and standardized coefficients afor an OLS regression model fitted to estimate variation in peer ratings."
+#| echo: false
+
+tab_08 = broom::tidy(lm(peer ~ 1 + doc_accept + enroll + gre_verbal + gre_quant, data = usnews))
+
+tab_08[c(2:5, 1), ] |>
+  mutate(
+    term = c("Acceptance rate for Ph.D. students", "Enrollment", "GRE score (verbal)",
+             "GRE score (quantitative)", "Constant"),
+    beta = c("-0.41", "0.69", "0.007", "0.32", "---"),
+    p.value = scales::pvalue(p.value, accuracy = .001)
+  ) |>
+  select(term, estimate, beta, statistic, p.value) |>
+  kable(
+    col.names = c("Predictor", "\\textit{B}", "$\\beta$", "\\textit{t}", "\\textit{p}"),
+    align = c("l", "c", "c", "c", "c"),
+    digits = c(NA, 2, 2, 2, 3),
+    format = "latex",
+    booktabs = TRUE,
+    escape = FALSE
+  )
+```
+
+
+<br />
+
+
+## Table 9
+
+For Table 9, we use the `stargazer()` function from the `{stagazer}` package to initially create our table content. However, I don't love the exact output of the table. So rather than just using the rendered output, I run the syntax in the console to get the LaTeX syntax, and then copy-and-paste that syntax in my Quarto document (not in a code chunk) and modify it manually. I add the `eval: false` code chunk so that I can keep the syntax for reprodcibility, but when I render the document the table won't be produced from the `stargazer()` function.
+
+
+
+```{{r}}
+#| echo: false
+#| message: false
+#| results: "asis"
+#| eval: false
+
+library(stargazer)
+
+lm.1 = lm(peer ~ 1 + gre_verbal + gre_quant, data = usnews)
+lm.2 = lm(peer ~ 1 + doc_accept + enroll, data = usnews)
+lm.3 = lm(peer ~ 1 + doc_accept + enroll + gre_verbal + gre_quant, data = usnews)
+
+stargazer(lm.1, lm.2, lm.3,
+          ci = TRUE,
+          column.labels = c("Model 1", "Model 2", "Model 3"),
+          covariate.labels = c("GRE score (verbal)", "GRE score (quantitative)", "Acceptance rate for Ph.D. students", "Enrollment"),
+          dep.var.caption = "Outcome variable: Peer ratings",
+          dep.var.labels = NULL,
+          dep.var.labels.include = FALSE,
+          type = "latex",
+          keep.stat = c("rsq","ser"),
+          star.cutoffs = NA,
+          header = FALSE,
+          table.placement = 'H',
+          title = "Unstandardized Coefficients and Confidence Intervals for a Series of Regression Models Fitted to Data from $n=129$ Graduate Schools of Education to Predict Variation in Peer Ratings",
+          omit.table.layout = "n"
+)
+```
+
+The modified syntax I have in the document is as follows:
+
+```{{r}}
+\begin{table}[H]
+\caption{Unstandardized coefficients and confidence intervals for a series of OLS regression models fitted to estimate variation in peer ratings.}
+\label{}
+\begin{tabular}{@{\extracolsep{5pt}}lccc}
+\\[-1.8ex]\hline\\[1ex]
+& Model 1 & Model 2 & Model 3 \\
+\hline \\[-1.8ex]
+GRE score (verbal) & 0.011 &  & 0.001 \\
+& ($-$0.024, 0.046) &  & ($-$0.031, 0.033) \\
+& & & \\
+GRE score (quantitative) & 0.047 &  & 0.036 \\
+& (0.017, 0.076) &  & (0.009, 0.063) \\
+& & & \\
+Acceptance rate for Ph.D. students &  & $-$0.013 & $-$0.010 \\
+&  & ($-$0.017, $-$0.009) & ($-$0.014, $-$0.006) \\
+& & & \\
+Enrollment &  & 0.0001 & 0.0001 \\
+&  & ($-$0.00004, 0.0002) & ($-$0.0001, 0.0002) \\
+& & & \\
+Constant & $-$5.488 & 3.769 & $-$1.857 \\
+& ($-$8.683, $-$2.294) & (3.572, 3.967) & ($-$5.054, 1.340) \\
+& & & \\
+\hline \\[-1.8ex]
+R$^{2}$ & 0.243 & 0.300 & 0.390 \\
+RMSE & 0.429 & 0.413 & 0.389 \\
+\hline
+\end{tabular}
+\end{table}
+```
+
+<br />
+
+
+## Table 10
+
+I used the same process for Table 10 as I did for Table 9
+
+```{{r}}
+#| echo: false
+#| message: false
+#| results: "asis"
+#| eval: false
+
+stargazer(lm.1, lm.2, lm.3,
+          column.labels = c("Model 1", "Model 2", "Model 3"),
+          covariate.labels = c("GRE score (verbal)", "GRE score (quantitative)", "Acceptance rate for Ph.D. students", "Enrollment"),
+          dep.var.caption = "Outcome variable: Peer ratings",
+          dep.var.labels = NULL,
+          dep.var.labels.include = FALSE,
+          type = "latex",
+          keep.stat = c("rsq","ser"),
+          report = c("vcsp"),
+          star.cutoffs = NA,
+          header = FALSE,
+          table.placement = 'H',
+          title = "Unstandardized Coefficients and Confidence Intervals for a Series of Regression Models Fitted to Data from $n=129$ Graduate Schools of Education to Predict Variation in Peer Ratings",
+          omit.table.layout = "n"
+)
+```
+
+And the modified syntax for Table 10 is:
+
+
+```{{r}}
+\begin{table}[H]
+\caption{Unstandardized coefficients (standard errors) and $p$-Values for a series of OLS regression models fitted to estimate variation in peer ratings.}
+\label{}
+\begin{tabular}{@{\extracolsep{5pt}}lccc}
+\\[-1.8ex]\hline\\[1ex]
+& Model 1 & Model 2 & Model 3 \\
+\hline \\[-1.8ex]
+GRE score (verbal) & 0.011 &  & 0.001 \\
+& (0.018) &  & (0.016) \\
+& $p = 0.531$ &  & $p = 0.950$ \\
+& & & \\
+GRE score (quantitative) & 0.047 &  & 0.036 \\
+& (0.015) &  & (0.014) \\
+& $p = 0.003$ &  & $p = 0.012$ \\
+& & & \\
+Acceptance rate for Ph.D. students &  & $-$0.013 & $-$0.010 \\
+&  & (0.002) & (0.002) \\
+&  & $p = 0.000$ & $p = 0.00000$ \\
+& & & \\
+Enrollment &  & 0.0001 & 0.0001 \\
+&  & (0.0001) & (0.0001) \\
+&  & $p = 0.239$ & $p = 0.347$ \\
+& & & \\
+Constant & $-$5.488 & 3.769 & $-$1.857 \\
+& (1.630) & (0.101) & (1.631) \\
+& $p = 0.002$ & $p = 0.000$ & $p = 0.258$ \\
+& & & \\
+\hline \\[-1.8ex]
+R$^{2}$ & 0.243 & 0.300 & 0.390 \\
+RMSE & 0.429 & 0.413 & 0.389 \\
+\hline
+\hline \\[-1.8ex]
+\end{tabular}
+\end{table}
+```
+
+
+

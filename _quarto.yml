@@ -1,0 +1,90 @@
+project:
+  type: book
+  output-dir: docs
+  preview:
+    port: 4200
+    browser: true
+  # resources: 
+  #   - codebooks/ #Add codebooks to docs
+
+book:
+  title: "Old Notes, Musings, and Miscellany"
+  author: "Andrew Zieffler"
+  date: today
+  page-navigation: false
+  bread-crumbs: false
+  sidebar:
+    search: true
+    background: '#001D3D'
+  chapters:
+    - index.qmd
+    - 01-intro.qmd
+    - 02-creating-tables.qmd
+    - 02-01-latex-tables.qmd
+    - 04-kde.qmd
+    - 05-exploration.qmd
+    #   chapters:
+    #     - 
+    #     - 01-02-getting-started-with-r.qmd
+    #     - 01-03-data-structures-in-r.qmd
+    #     - 01-04-data-wrangling-with-dplyr.qmd
+    #     - 01-05-visualizing-with-ggplot2.qmd
+    # - part: 02-00-intro-to-regression.qmd
+    #   chapters:
+    #     - 02-01-data-exploration-for-regression.qmd
+    #     - 02-02-simple-regression-and-correlation.qmd
+    #     - 02-03-ols-estimation.qmd
+    #     - 02-04-anova-decomposition.qmd
+    #     - 02-05-standardized-regression.qmd
+    # - part: 03-00-regression-inference.qmd
+    #   chapters:
+    #     - 03-01-coefficient-level-inference.qmd
+    #     - 03-02-model-level-inference.qmd
+    #     - 03-03-model-assumptions.qmd
+    # - part: 04-00-multiple-regression.qmd
+    #   chapters:
+    #     - 04-01-intro-to-multiple-regression.qmd
+    #     - 04-02-multiple-regression-anova.qmd
+    #     - 04-03-understanding-statistical-control.qmd
+    #     - 04-04-assumptions.qmd
+    # - part: 05-00-categorical-predictors.qmd
+    #   chapters:
+    #     - 05-01-dichotomous-predictors.qmd
+    #     - 05-02-polychotomous-predictors.qmd
+    #     - 05-03-multiple-comparisons.qmd
+    # - part: 06-00-interaction-effects.qmd
+    #   chapters:
+    #     - 06-01-intro-to-interaction-effects.qmd
+    #     - 06-02-more-interaction-effects.qmd
+  # appendices:
+  #   - 07-00-data-codebooks.qmd
+
+language:
+  section-title-appendices: "Appendices"
+bibliography: ["assets/musings.bib"]
+csl: 'assets/apa-single-spaced.csl'
+
+format:
+  html:
+    theme: 
+      - cosmo
+      - "assets/theme.scss"
+    #css: ["assets/table-styles.css"] #"assets/style.css", , "assets/syntax.css", "assets/navbar.css"]
+    header-includes: |
+      <link rel="preconnect" href="https://fonts.googleapis.com">
+      <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+      <link href="https://fonts.googleapis.com/css2?family=Atkinson+Hyperlegible:ital,wght@0,400;0,700;1,400;1,700&display=swap" rel="stylesheet">
+    code-copy: true
+    code-overflow: wrap
+    highlight-style: 'a11y-dark'
+    mainfont: 'Atkinson Hyperlegible'
+    fontsize: '13pt'
+    linestretch: '1.5em'
+    linkcolor: '#A4508B' #'#7d12ba'
+    toc: false
+    toc-title: "On This Page"
+    tbl-cap-location: "top"
+    html-table-processing: none
+    fig-cap-location: "top"
+editor: source
+

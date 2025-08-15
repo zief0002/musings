@@ -1,0 +1,12 @@
+# Introduction {-}
+
+```{r}
+#| echo: false
+#| message: false
+#| warning: false
+
+source("scripts/_common.R")
+```
+
+
+Add introduction at some point.

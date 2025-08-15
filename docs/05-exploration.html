@@ -1,0 +1,1013 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
+
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.7.32">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+
+<title>Exploration: Comparing Two Groups – Old Notes, Musings, and Miscellany</title>
+<style>
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: min(4vw, 1.5em);}
+div.column{flex: auto; overflow-x: auto;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+  width: 0.8em;
+  margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
+  vertical-align: middle;
+}
+/* CSS for syntax highlighting */
+html { -webkit-text-size-adjust: 100%; }
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+  }
+pre.numberSource { margin-left: 3em;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+/* CSS for citations */
+div.csl-bib-body { }
+div.csl-entry {
+  clear: both;
+  margin-bottom: 0em;
+}
+.hanging-indent div.csl-entry {
+  margin-left:2em;
+  text-indent:-2em;
+}
+div.csl-left-margin {
+  min-width:2em;
+  float:left;
+}
+div.csl-right-inline {
+  margin-left:2em;
+  padding-left:1em;
+}
+div.csl-indent {
+  margin-left: 2em;
+}</style>
+
+
+<script src="site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="site_libs/quarto-nav/headroom.min.js"></script>
+<script src="site_libs/clipboard/clipboard.min.js"></script>
+<script src="site_libs/quarto-search/autocomplete.umd.js"></script>
+<script src="site_libs/quarto-search/fuse.min.js"></script>
+<script src="site_libs/quarto-search/quarto-search.js"></script>
+<meta name="quarto:offset" content="./">
+<script src="site_libs/quarto-html/quarto.js" type="module"></script>
+<script src="site_libs/quarto-html/tabsets/tabsets.js" type="module"></script>
+<script src="site_libs/quarto-html/popper.min.js"></script>
+<script src="site_libs/quarto-html/tippy.umd.min.js"></script>
+<script src="site_libs/quarto-html/anchor.min.js"></script>
+<link href="site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="site_libs/quarto-html/quarto-syntax-highlighting-c3c2c9e745155556954bc4da23476b10.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<script src="site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="site_libs/bootstrap/bootstrap-5f5b9442e630c68306c055f3bb9ec513.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
+<script id="quarto-search-options" type="application/json">{
+  "location": "sidebar",
+  "copy-button": false,
+  "collapse-after": 3,
+  "panel-placement": "start",
+  "type": "textbox",
+  "limit": 50,
+  "keyboard-shortcut": [
+    "f",
+    "/",
+    "s"
+  ],
+  "show-item-context": false,
+  "language": {
+    "search-no-results-text": "No results",
+    "search-matching-documents-text": "matching documents",
+    "search-copy-link-title": "Copy link to search",
+    "search-hide-matches-text": "Hide additional matches",
+    "search-more-match-text": "more match in this document",
+    "search-more-matches-text": "more matches in this document",
+    "search-clear-button-title": "Clear",
+    "search-text-placeholder": "",
+    "search-detached-cancel-button-title": "Cancel",
+    "search-submit-button-title": "Submit",
+    "search-label": "Search"
+  }
+}</script>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin="">
+<link href="https://fonts.googleapis.com/css2?family=Atkinson+Hyperlegible:ital,wght@0,400;0,700;1,400;1,700&amp;display=swap" rel="stylesheet">
+
+  <script src="https://cdnjs.cloudflare.com/polyfill/v3/polyfill.min.js?features=es6"></script>
+  <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js" type="text/javascript"></script>
+
+<script type="text/javascript">
+const typesetMath = (el) => {
+  if (window.MathJax) {
+    // MathJax Typeset
+    window.MathJax.typeset([el]);
+  } else if (window.katex) {
+    // KaTeX Render
+    var mathElements = el.getElementsByClassName("math");
+    var macros = [];
+    for (var i = 0; i < mathElements.length; i++) {
+      var texText = mathElements[i].firstChild;
+      if (mathElements[i].tagName == "SPAN") {
+        window.katex.render(texText.data, mathElements[i], {
+          displayMode: mathElements[i].classList.contains('display'),
+          throwOnError: false,
+          macros: macros,
+          fleqn: false
+        });
+      }
+    }
+  }
+}
+window.Quarto = {
+  typesetMath
+};
+</script>
+
+</head>
+
+<body class="nav-sidebar floating fullcontent quarto-light">
+
+<div id="quarto-search-results"></div>
+  <header id="quarto-header" class="headroom fixed-top">
+  <nav class="quarto-secondary-nav">
+    <div class="container-fluid d-flex">
+      <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" role="button" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+        <i class="bi bi-layout-text-sidebar-reverse"></i>
+      </button>
+        <a class="flex-grow-1 no-decor" role="navigation" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
+          <h1 class="quarto-secondary-nav-title">Exploration: Comparing Two Groups</h1>
+        </a>     
+      <button type="button" class="btn quarto-search-button" aria-label="Search" onclick="window.quartoOpenSearch();">
+        <i class="bi bi-search"></i>
+      </button>
+    </div>
+  </nav>
+</header>
+<!-- content -->
+<div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article">
+<!-- sidebar -->
+  <nav id="quarto-sidebar" class="sidebar collapse collapse-horizontal quarto-sidebar-collapse-item sidebar-navigation floating overflow-auto">
+    <div class="pt-lg-2 mt-2 text-left sidebar-header">
+    <div class="sidebar-title mb-0 py-0">
+      <a href="./">Old Notes, Musings, and Miscellany</a> 
+    </div>
+      </div>
+        <div class="mt-2 flex-shrink-0 align-items-center">
+        <div class="sidebar-search">
+        <div id="quarto-search" class="" title="Search"></div>
+        </div>
+        </div>
+    <div class="sidebar-menu-container"> 
+    <ul class="list-unstyled mt-1">
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./index.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Foreword</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./01-intro.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Introduction</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./02-creating-tables.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Creating Tables to Present Statistical Results</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./04-kde.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Kernel Density Estimation</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./05-exploration.html" class="sidebar-item-text sidebar-link active">
+ <span class="menu-text">Exploration: Comparing Two Groups</span></a>
+  </div>
+</li>
+    </ul>
+    </div>
+</nav>
+<div id="quarto-sidebar-glass" class="quarto-sidebar-collapse-item" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item"></div>
+<!-- margin-sidebar -->
+    
+<!-- main -->
+<main class="content" id="quarto-document-content">
+
+<header id="title-block-header" class="quarto-title-block default">
+<div class="quarto-title">
+<h1 class="title d-none d-lg-block">Exploration: Comparing Two Groups</h1>
+</div>
+
+
+
+<div class="quarto-title-meta">
+
+    
+  
+    
+  </div>
+  
+
+
+</header>
+
+
+<p>Adapted from <span class="citation" data-cites="Zieffler:2011">Zieffler et al. (<a href="#ref-Zieffler:2011" role="doc-biblioref">2011</a>)</span></p>
+<p><br><br></p>
+<div class="fyi">
+<p><strong>FYI</strong></p>
+<p>This chapter assumes a working knowledge of <code>{dplyr}</code> and <code>{ggplot2}</code> functionality to work with and plot data.</p>
+</div>
+<p><br></p>
+<p>In the chapter on kernel density estimation the Vietnam Living Standards Survey (VLSS) was introduced. The survey was designed to provide an up-to-date source of data on households to be used in public policy formation, to assess current living standards, and to evaluate the impact of public programs. In this chapter, we will address the following research question:</p>
+<blockquote class="blockquote">
+<p>Are there differences in the annual household per capita expenditures between the rural and urban populations in Vietnam?</p>
+</blockquote>
+<p>To address these research questions, we will use the <a href="https://raw.githubusercontent.com/zief0002/musings/master/data/vlss-per-capita.csv">vlss-per-capita.csv</a> to explore and compare the household expenditures across different demographic variables in the sample data.</p>
+<p><br></p>
+<section id="loading-packages-and-importing-the-data" class="level2">
+<h2 class="anchored" data-anchor-id="loading-packages-and-importing-the-data">Loading Packages and Importing the Data</h2>
+<p>To begin, we will load three packages that we will use in this analysis.</p>
+<div class="cell" data-layout-align="center">
+<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Load libraries</span></span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(e1071)</span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(tidyverse)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>The data contains the household per capita expenditures for 5,999 households along with two demographic variables.</p>
+<div class="cell" data-layout-align="center">
+<div class="sourceCode cell-code" id="cb2"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Import data</span></span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a>vlss <span class="ot">=</span> <span class="fu">read_csv</span>(<span class="st">"https://raw.githubusercontent.com/zief0002/musings/master/data/vlss-per-capita.csv"</span>)</span>
+<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a><span class="co"># View data</span></span>
+<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a>vlss</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 5,999 × 3
+   expend area  region
+    &lt;dbl&gt; &lt;chr&gt;  &lt;dbl&gt;
+ 1  184.  Rural      5
+ 2   62.7 Rural      5
+ 3  119.  Rural      5
+ 4   76.6 Rural      5
+ 5   97.5 Rural      5
+ 6  132.  Rural      5
+ 7   99.9 Rural      5
+ 8   80.0 Rural      5
+ 9   88.6 Rural      5
+10  161.  Rural      5
+# ℹ 5,989 more rows</code></pre>
+</div>
+</div>
+<p><br></p>
+</section>
+<section id="graphically-summarizing-the-marginal-distribution" class="level2">
+<h2 class="anchored" data-anchor-id="graphically-summarizing-the-marginal-distribution">Graphically Summarizing the Marginal Distribution</h2>
+<p>Initially, the distribution of the per capita expenditures for all 5,999 households—ignoring whether they are urban or rural—is examined. The distribution ignoring the population area is known as the <strong>marginal distribution</strong>. The syntax to create a plot of the kernel density estimate (KDE) for the marginal distribution of the per capita expenditures is show below.</p>
+<div class="cell" data-layout-align="center">
+<div class="cell-output-display">
+<div id="fig-01" class="quarto-float quarto-figure quarto-figure-center anchored" alt="Kernel density estimate for the marginal distribution of household per capita expenditures." data-fig-align="center">
+<figure class="quarto-float quarto-float-fig figure">
+<figcaption class="quarto-float-caption-top quarto-float-caption quarto-float-fig" id="fig-01-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure&nbsp;1: Kernel density estimate for the marginal distribution of household per capita expenditures.
+</figcaption>
+<div aria-describedby="fig-01-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="05-exploration_files/figure-html/fig-01-1.png" class="img-fluid quarto-figure quarto-figure-center figure-img" style="width:70.0%" alt="Kernel density estimate for the marginal distribution of household per capita expenditures.">
+</div>
+</figure>
+</div>
+</div>
+</div>
+<p>The plot of the marginal distribution shown in <a href="#fig-01" class="quarto-xref">Figure&nbsp;<span>1</span></a> indicates that the per capita expenditures data is right skewed, as the majority of household per capita expenditures pile up at the low end, and taper off moving to the right. This suggests that many of the households in Vietnam have a low per capita expenditure (around $100 U.S.). It also shows some households that may be potential outliers in the marginal distribution. These are households with very high expenditures relative to the rest of the households in the sample.</p>
+<p><br></p>
+</section>
+<section id="graphically-summarizing-conditional-distributions" class="level2">
+<h2 class="anchored" data-anchor-id="graphically-summarizing-conditional-distributions">Graphically Summarizing Conditional Distributions</h2>
+<p>Examining the marginal distribution is useful in an initial examination of the data, but it does not help in answering the research question about rural and urban differences. To help address the first research question, the distribution of per capita expenditures for each area must be examined separately. The distributions of per capita household expenditures for each area are called <strong>conditional distributions</strong> because they are defined conditional on area.</p>
+<p>To graphically examine the conditional distributions, we will plot the KDE for the distribution of household per capita expenditures separately for the urban and rural households. There are many ways to do this using the <code>{tidyverse}</code> functionality. Below we will map the fill aesthetic to the <code>area</code> attribute in the dataframe. This will create the two KDEs in different colors in our plot. Because we are mapping an attribute in the data to an aesthetic, this is included inside the <code>aes()</code> function. The <code>alpha=0.6</code> argument makes the density plots semi-transparent<a href="#fn1" class="footnote-ref" id="fnref1" role="doc-noteref"><sup>1</sup></a> so that we can see both plots in the figure. The <code>scale_fill_manual()</code> layer changes the fill color used to shade in the density plots.</p>
+<div class="cell" data-layout-align="center">
+<div class="cell-output-display">
+<div id="fig-02" class="quarto-float quarto-figure quarto-figure-center anchored" alt="Kernel density estimate for the distribution of household per capita expenditures conditioned on area." data-fig-align="center">
+<figure class="quarto-float quarto-float-fig figure">
+<figcaption class="quarto-float-caption-top quarto-float-caption quarto-float-fig" id="fig-02-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure&nbsp;2: Kernel density estimate for the distribution of household per capita expenditures conditioned on area.
+</figcaption>
+<div aria-describedby="fig-02-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="05-exploration_files/figure-html/fig-02-1.png" class="img-fluid quarto-figure quarto-figure-center figure-img" style="width:70.0%" alt="Kernel density estimate for the distribution of household per capita expenditures conditioned on area.">
+</div>
+</figure>
+</div>
+</div>
+</div>
+<p><a href="#fig-02" class="quarto-xref">Figure&nbsp;<span>2</span></a> shows a single graph—or panel—with the conditional density curves superimposed and coded by line color. By having both conditional distributions in the same panel, this type of plot makes it psychologically easier for people to make comparisons. As can be seen in the plot, the urban curve is shifted to the right of the rural curve toward higher per capita household expenditures. In addition, the peak of the urban curve is lower than that of the rural curve, and both distributions are positively skewed.</p>
+<p><br></p>
+</section>
+<section id="numerical-summaries-of-data-estimates-of-the-population-parameters" class="level2">
+<h2 class="anchored" data-anchor-id="numerical-summaries-of-data-estimates-of-the-population-parameters">Numerical Summaries of Data: Estimates of the Population Parameters</h2>
+<p>After graphically examining the data, it is desirable to obtain a more precise numerical summarization of the estimated population distribution. The numerical summaries can generally be split into two different types:</p>
+<ul>
+<li>Measures of location, or central tendency</li>
+<li>Measures of variability, or dispersion</li>
+</ul>
+<p>Measures of location are single values that represent the measurement of a typical individual or unit in the distribution being studied. For example, in <a href="#fig-02" class="quarto-xref">Figure&nbsp;<span>2</span></a>, a typical household in the distribution might be defined as having a per capita expenditure at the dollar amount directly below the peak of the curve. Based on this, the typical urban household has a higher per capita expenditure than the typical rural household.</p>
+<p>Measures of variability provide an indication of how different, or variable, the measurements in the distribution happen to be. For instance, <a href="#fig-02" class="quarto-xref">Figure&nbsp;<span>2</span></a> also shows that the urban distribution spans a longer interval than the rural distribution, indicating urban household have more variation in their per capita expenditures than rural households. Researchers are often interested in the measures of location and variation in the population as they constitute relatively clear summaries of important aspects of distributions. The numerical summaries of the population distribution are called <strong>parameters</strong>. Parameters are estimated using sample data.</p>
+<p><br></p>
+<section id="measuring-central-tendency" class="level3">
+<h3 class="anchored" data-anchor-id="measuring-central-tendency">Measuring Central Tendency</h3>
+<p>The three most common measures of location are the <strong>mean</strong>, the <strong>median</strong>, and the <strong>mode</strong>. The mode describes a typical measurement in terms of the most common outcome or most frequently occurring score. In <a href="#fig-02" class="quarto-xref">Figure&nbsp;<span>2</span></a>, the mode of each distribution is the household expenditure value directly under the peak of the curve. A limitation in using the mode is that a distribution can have more than one. This indicates that the mode will not always have a unique value and, thus, cannot be recommended for general use.</p>
+<p>In contrast to the mode, the median and mean are always unique values. The median is the middle-most score in a distribution. The <code>median()</code> function is used to find the median of the distribution. The best known and most frequently used measure of central tendency is the mean, or the average. The <code>mean()</code> function is used to find the mean of a distribution.</p>
+<!-- The `summarize()` function (from the **tidyverse** package) is used to indicate a data frame (`vlss` in this case) and then the `mean()` or `median()` functions are called on an attribute in that data frame. The use of the `median()` and `mean()` functions to find the median and mean household per capita expenditure, respectively, are shown the syntax below.  -->
+<div class="cell" data-layout-align="center">
+<div class="sourceCode cell-code" id="cb4"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="do">## Marginal mean and median household per capita expenditure</span></span>
+<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a>vlss <span class="sc">|&gt;</span></span>
+<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summarize</span>(</span>
+<span id="cb4-4"><a href="#cb4-4" aria-hidden="true" tabindex="-1"></a>    <span class="at">M =</span> <span class="fu">mean</span>(expend),</span>
+<span id="cb4-5"><a href="#cb4-5" aria-hidden="true" tabindex="-1"></a>    <span class="at">Med =</span> <span class="fu">median</span>(expend)</span>
+<span id="cb4-6"><a href="#cb4-6" aria-hidden="true" tabindex="-1"></a>    )</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 1 × 2
+      M   Med
+  &lt;dbl&gt; &lt;dbl&gt;
+1  213.  160.</code></pre>
+</div>
+</div>
+<p>The median household per capita expenditure is $160, and the mean household per capita expenditure is $213. In symmetric distributions, the mean and median can be equal or nearly so. However, in asymmetric distributions, the two can differ, sometimes drastically.</p>
+<p><br></p>
+</section>
+<section id="conditional-means-and-medians" class="level3">
+<h3 class="anchored" data-anchor-id="conditional-means-and-medians">Conditional Means and Medians</h3>
+<p>The mean and median computed in the previous section summarize the marginal distribution, as <code>area</code> is ignored. Though the marginal estimates are useful, the goal is to compute the conditional estimates of a typical household per capita expenditure for each area. To do this we add a <code>group_by()</code> layer into our piping syntax prior to computing the summary values. Consider the following syntax:</p>
+<div class="cell" data-layout-align="center">
+<div class="sourceCode cell-code" id="cb6"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="do">## Condition mean and median household per capita expenditure</span></span>
+<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a>vlss <span class="sc">|&gt;</span></span>
+<span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(area) <span class="sc">|&gt;</span></span>
+<span id="cb6-4"><a href="#cb6-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summarize</span>(</span>
+<span id="cb6-5"><a href="#cb6-5" aria-hidden="true" tabindex="-1"></a>    <span class="at">M =</span> <span class="fu">mean</span>(expend),</span>
+<span id="cb6-6"><a href="#cb6-6" aria-hidden="true" tabindex="-1"></a>    <span class="at">Med =</span> <span class="fu">median</span>(expend)</span>
+<span id="cb6-7"><a href="#cb6-7" aria-hidden="true" tabindex="-1"></a>    )</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 2 × 3
+  area      M   Med
+  &lt;chr&gt; &lt;dbl&gt; &lt;dbl&gt;
+1 Rural  157.  135.
+2 Urban  349.  279.</code></pre>
+</div>
+</div>
+<p>The mean household per capita expenditure for the urban area is more than twice that for the rural area. This is consistent with <a href="#fig-02" class="quarto-xref">Figure&nbsp;<span>2</span></a> that shows the urban distribution being right-shifted relative to the rural distribution. This suggests that the average household per capita expenditure differs for urban and rural areas in the sample.</p>
+<p><br></p>
+</section>
+<section id="measuring-variation" class="level3">
+<h3 class="anchored" data-anchor-id="measuring-variation">Measuring Variation</h3>
+<p>When an analysis deals with at least two groups, as in the rural/urban comparisons, it is important to consider group differences in variability and well as location. Variability within the groups influences the evaluation of location differences. High within-group variability can be an overwhelming feature that can render location differences as irrelevant, or at least less relevant. On the other hand, low within-group variability can work to accentuate location differences.</p>
+<p>Consider the examples in <a href="#fig-04" class="quarto-xref">Figure&nbsp;<span>3</span></a>. In both panels the mean difference between the distributions is the same. However, the large within-group variation in the rural distribution in the left-panel makes the interpretation of group differences less clear for these data than for the data shown in the right-panel. In fact, it can be argued that the most important feature is the fact that the urban distribution is almost entirely contained within the rural distributions. This means, for example, that though the rural mean is lower than the urban mean, there are several rural households that are higher than the urban mean, and some that are higher than <em>any</em> urban households.</p>
+<p>In contrast, in the right-panel of <a href="#fig-04" class="quarto-xref">Figure&nbsp;<span>3</span></a>, there is essentially no overlap between the two distributions. This means that the mean difference also characterizes the difference between almost every pair of households from the two distributions. If we were to randomly select one rural and one urban household, the rural household would almost surely have a lower annual income. The same cannot be said of the overlapping distributions in the right-panel of <a href="#fig-04" class="quarto-xref">Figure&nbsp;<span>3</span></a>.</p>
+<div class="cell" data-layout-align="center">
+<div class="cell-output-display">
+<div id="fig-04" class="quarto-float quarto-figure quarto-figure-center anchored" alt="Simulated density plots for the distribution of household per capita expenditures conditioned on area showing large within-group variation (LEFT PANEL) and small within-group variation (RIGHT PANEL)." data-fig-align="center">
+<figure class="quarto-float quarto-float-fig figure">
+<figcaption class="quarto-float-caption-top quarto-float-caption quarto-float-fig" id="fig-04-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure&nbsp;3: Simulated density plots for the distribution of household per capita expenditures conditioned on area showing large within-group variation (LEFT PANEL) and small within-group variation (RIGHT PANEL).
+</figcaption>
+<div aria-describedby="fig-04-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="05-exploration_files/figure-html/fig-04-1.png" class="img-fluid quarto-figure quarto-figure-center figure-img" style="width:100.0%" alt="Simulated density plots for the distribution of household per capita expenditures conditioned on area showing large within-group variation (LEFT PANEL) and small within-group variation (RIGHT PANEL).">
+</div>
+</figure>
+</div>
+</div>
+</div>
+<p>Two summary measures of variation—the standard deviation and variance—are based on the deviations of the data from the mean. The <code>sd()</code> and <code>var()</code> functions can be used to compute these quantities, respectively. The syntax below illustrates the use of the functions to find the standard deviation for both the marginal and conditional distributions of household per capita expenditures.</p>
+<div class="cell" data-layout-align="center">
+<div class="sourceCode cell-code" id="cb8"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="do">## SD and variance of the marginal distribution of household per capita expenditure</span></span>
+<span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a>vlss <span class="sc">|&gt;</span></span>
+<span id="cb8-3"><a href="#cb8-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summarize</span>(</span>
+<span id="cb8-4"><a href="#cb8-4" aria-hidden="true" tabindex="-1"></a>    <span class="at">SD =</span> <span class="fu">sd</span>(expend),</span>
+<span id="cb8-5"><a href="#cb8-5" aria-hidden="true" tabindex="-1"></a>    <span class="at">Variance =</span> <span class="fu">var</span>(expend)</span>
+<span id="cb8-6"><a href="#cb8-6" aria-hidden="true" tabindex="-1"></a>    )</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 1 × 2
+     SD Variance
+  &lt;dbl&gt;    &lt;dbl&gt;
+1  180.   32222.</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb10"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a><span class="do">## SD and variance of the conditional distributions of household per capita expenditure</span></span>
+<span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a>vlss <span class="sc">|&gt;</span></span>
+<span id="cb10-3"><a href="#cb10-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(area) <span class="sc">|&gt;</span></span>
+<span id="cb10-4"><a href="#cb10-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summarize</span>(</span>
+<span id="cb10-5"><a href="#cb10-5" aria-hidden="true" tabindex="-1"></a>    <span class="at">SD =</span> <span class="fu">sd</span>(expend),</span>
+<span id="cb10-6"><a href="#cb10-6" aria-hidden="true" tabindex="-1"></a>    <span class="at">Variance =</span> <span class="fu">var</span>(expend)</span>
+<span id="cb10-7"><a href="#cb10-7" aria-hidden="true" tabindex="-1"></a>  )</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 2 × 3
+  area     SD Variance
+  &lt;chr&gt; &lt;dbl&gt;    &lt;dbl&gt;
+1 Rural  96.9    9385.
+2 Urban 250.    62564.</code></pre>
+</div>
+</div>
+<p>Based on these conditional summaries, the rural households show less variation than the urban households. This is consistent with <a href="#fig-02" class="quarto-xref">Figure&nbsp;<span>2</span></a> that shows the urban distribution being wider relative to the rural distribution. The average household per capita expenditure is more homogeneous for rural than for urban households. There are some caveats regarding indexes of variation. Most notably, measures of variation are sensitive to asymmetry, and their values can be inflated by even a single extreme value. For this reason, the skewness of the distributions should be considered when comparing measures of variation computed on such distributions.</p>
+<p>Another measure of variation that often gets reported in the educational and behavioral sciences, is the <strong>standard error of the mean</strong>. The idea underlying the standard error is that different samples drawn from the same population have different values of the sample mean. This is a consequence of random sampling and the fact that sample information is always incomplete relative to the population. The standard error of the mean is the standard deviation of all the possible sample means for a given sample size. As such, this measure offers an indication of the precision of the sample mean, when it is used as an estimate of the population mean. The smaller the standard error the greater the precision. The standard error for the mean is computed as</p>
+<p><span class="math display">\[
+\mathrm{SE}_{\bar{Y}}=\frac{\mathrm{SD}_Y}{\sqrt{n}}.
+\]</span></p>
+<p>where <span class="math inline">\(\mathrm{SD}_Y\)</span> is the standard deviation of the observed measurements on some variable <span class="math inline">\(Y\)</span>. The standard error of the mean is computed for both the urban and rural households in the syntax below. The standard error for the rural group is approximately four times smaller than that of the urban group (<span class="math inline">\(\frac{6.01}{1.48} \approx 4\)</span>). This suggests that the sample mean for the rural households is a more precise estimate of the rural population mean than the sample urban mean is for the urban population. The use of the sample estimates and standard error for estimating population parameters is discussed further in Chapter 9.</p>
+<div class="cell" data-layout-align="center">
+<div class="sourceCode cell-code" id="cb12"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a>vlss <span class="sc">|&gt;</span></span>
+<span id="cb12-2"><a href="#cb12-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(area) <span class="sc">|&gt;</span></span>
+<span id="cb12-3"><a href="#cb12-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summarize</span>(</span>
+<span id="cb12-4"><a href="#cb12-4" aria-hidden="true" tabindex="-1"></a>    <span class="at">SD =</span> <span class="fu">sd</span>(expend),</span>
+<span id="cb12-5"><a href="#cb12-5" aria-hidden="true" tabindex="-1"></a>    <span class="at">N =</span> <span class="fu">n</span>()</span>
+<span id="cb12-6"><a href="#cb12-6" aria-hidden="true" tabindex="-1"></a>    ) <span class="sc">|&gt;</span></span>
+<span id="cb12-7"><a href="#cb12-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(</span>
+<span id="cb12-8"><a href="#cb12-8" aria-hidden="true" tabindex="-1"></a>    <span class="at">SE =</span> SD <span class="sc">/</span> <span class="fu">sqrt</span>(N)</span>
+<span id="cb12-9"><a href="#cb12-9" aria-hidden="true" tabindex="-1"></a>  )</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 2 × 4
+  area     SD     N    SE
+  &lt;chr&gt; &lt;dbl&gt; &lt;int&gt; &lt;dbl&gt;
+1 Rural  96.9  4269  1.48
+2 Urban 250.   1730  6.01</code></pre>
+</div>
+</div>
+<p><br></p>
+</section>
+<section id="measuring-skewness" class="level3">
+<h3 class="anchored" data-anchor-id="measuring-skewness">Measuring Skewness</h3>
+<p>Skewness is a numerical measure that helps summarize a distribution’s departure from symmetry about its mean. A completely symmetric distribution has a skewness value of zero.<a href="#fn2" class="footnote-ref" id="fnref2" role="doc-noteref"><sup>2</sup></a> Positive values suggest a positively skewed (right-tailed) distribution with an asymmetric tail extending toward more positive values, whereas negative values suggest a negatively skewed (left-tailed) distribution with an asymmetric tail extending toward more negative values.</p>
+<p>The <code>{e1071}</code> package<a href="#fn3" class="footnote-ref" id="fnref3" role="doc-noteref"><sup>3</sup></a> provides a function called <code>skewness()</code>, which computes the skewness value for a sample distribution based on three common algorithms. This function is supplied with the argument <code>type=2</code> to compute <em>G1</em>, a slightly modified version of skewness that is a better population estimate <span class="citation" data-cites="joanes-gill">(e.g., <a href="#ref-joanes-gill" role="doc-biblioref">Joanes &amp; Gill, 1998</a>)</span>. The syntax below shows the use of <code>skewness()</code> to find the <em>G1</em> values for the conditional distributions.</p>
+<div class="cell" data-layout-align="center">
+<div class="sourceCode cell-code" id="cb14"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a><span class="do">## Skewness (G1) of the conditional distributions of household per capita expenditure</span></span>
+<span id="cb14-2"><a href="#cb14-2" aria-hidden="true" tabindex="-1"></a>vlss <span class="sc">|&gt;</span></span>
+<span id="cb14-3"><a href="#cb14-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(area) <span class="sc">|&gt;</span></span>
+<span id="cb14-4"><a href="#cb14-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summarize</span>(</span>
+<span id="cb14-5"><a href="#cb14-5" aria-hidden="true" tabindex="-1"></a>    <span class="at">G1 =</span> <span class="fu">skewness</span>(expend, <span class="at">type =</span> <span class="dv">2</span>) </span>
+<span id="cb14-6"><a href="#cb14-6" aria-hidden="true" tabindex="-1"></a>  )</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 2 × 2
+  area     G1
+  &lt;chr&gt; &lt;dbl&gt;
+1 Rural  4.28
+2 Urban  2.73</code></pre>
+</div>
+</div>
+<p>These values suggest that both the urban and rural distributions are positively skewed, but more so for the rural group. The following guidelines are offered as help in interpreting the skewness statistic. Like all guidelines these should be used with a healthy amount of skepticism. All statistics should be interpreted in terms of the types and purposes of the data analysis, as well as the substantive area of the research.</p>
+<ul>
+<li>If <span class="math inline">\(G_1=0\)</span>, the distribution is symmetric.</li>
+<li>If <span class="math inline">\(\left|G_1\right| &lt; 1\)</span>, the skewness of the distribution is slight.<a href="#fn4" class="footnote-ref" id="fnref4" role="doc-noteref"><sup>4</sup></a></li>
+<li>If <span class="math inline">\(1 &lt; \left|G_1\right| &lt; 2\)</span>, the the skewness of the distribution is moderate.</li>
+<li>If <span class="math inline">\(\left|G_1\right| &gt;2\)</span>, the distribution is quite skewed.</li>
+</ul>
+<p>The above guidelines indicate that both distributions in the example are severely positively skewed. Furthermore, the rural distribution is more asymmetric than the urban distribution. This is again consistent with <a href="#fig-02" class="quarto-xref">Figure&nbsp;<span>2</span></a>, which shows the rural distribution has a longer tail relative to its mean than the urban distribution. The distribution of rural households shows relatively less density for household per capita expenditures above the mean than below the mean. This asymmetry is even more evident for urban households.</p>
+<p><br></p>
+</section>
+<section id="measuring-kurtosis" class="level3">
+<h3 class="anchored" data-anchor-id="measuring-kurtosis">Measuring Kurtosis</h3>
+<p>Kurtosis is often used as a numerical summarization of the “peakedness” of a distribution, referring to the relative concentration of scores in the center, tail, and shoulders. Normal distributions have a kurtosis value of zero and are called <strong>mesokurtic</strong>.<a href="#fn5" class="footnote-ref" id="fnref5" role="doc-noteref"><sup>5</sup></a> Distributions that reflect a more peaked and heavy-tailed distribution than the normal distribution have positive kurtosis values, and are said to be <strong>leptokurtic</strong>. Distributions which are flatter and lighter-tailed than the normal distribution have negative kurtosis values and are said to be <strong>platykurtic</strong>. <span class="citation" data-cites="dyson">Dyson &amp; Cantab (<a href="#ref-dyson" role="doc-biblioref">1943, p. 360</a>)</span> suggest an “amusing mnemonic”—which was attributed to Gossett <span class="citation" data-cites="student">(<a href="#ref-student" role="doc-biblioref">Student, 1927</a>)</span>—for the above terms:</p>
+<blockquote class="blockquote">
+<p>Platykurtic curves, like the platypus, are squat with short tails. Leptokurtic curves are high with long tails, like the kangaroo—noted for “lepping”.</p>
+</blockquote>
+<p>The left- and right-hand panels of <a href="#fig-05" class="quarto-xref">Figure&nbsp;<span>4</span></a> depict distributions with different kurtosis values. The mesokurtic distribution is shown for a basis of comparison in both figures. The distributions in the left-hand panel show positive kurtosis, whereas the distributions in the right-hand panel show negative kurtosis.</p>
+<div class="cell" data-layout-align="center">
+<div class="cell-output-display">
+<div id="fig-05" class="quarto-float quarto-figure quarto-figure-center anchored" alt="LEFT PANEL: Kernel density estimate for a mesokurtic distribution (dashed, orange line) and a leptokurtic distribution (solid, purple line). The leptokurtic distributions are skinnier and more peaked than the mesokurtic distribution. RIGHT PANEL: Kernel density estimate for a mesokurtic distribution (dashed, orange line) and a platykurtic distribution (solid, blue line). The platykurtic distribution is flatter than the mesokurtic distribution." data-fig-align="center">
+<figure class="quarto-float quarto-float-fig figure">
+<figcaption class="quarto-float-caption-top quarto-float-caption quarto-float-fig" id="fig-05-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure&nbsp;4: LEFT PANEL: Kernel density estimate for a mesokurtic distribution (dashed, orange line) and a leptokurtic distribution (solid, purple line). The leptokurtic distributions are skinnier and more peaked than the mesokurtic distribution. RIGHT PANEL: Kernel density estimate for a mesokurtic distribution (dashed, orange line) and a platykurtic distribution (solid, blue line). The platykurtic distribution is flatter than the mesokurtic distribution.
+</figcaption>
+<div aria-describedby="fig-05-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="05-exploration_files/figure-html/fig-05-1.png" class="img-fluid quarto-figure quarto-figure-center figure-img" style="width:100.0%" alt="LEFT PANEL: Kernel density estimate for a mesokurtic distribution (dashed, orange line) and a leptokurtic distribution (solid, purple line). The leptokurtic distributions are skinnier and more peaked than the mesokurtic distribution. RIGHT PANEL: Kernel density estimate for a mesokurtic distribution (dashed, orange line) and a platykurtic distribution (solid, blue line). The platykurtic distribution is flatter than the mesokurtic distribution.">
+</div>
+</figure>
+</div>
+</div>
+</div>
+<p>The <code>kurtosis()</code> function provided in the <code>{e1071}</code> package can be used to compute the sample kurtosis value for a distribution based on three common algorithms. We use this function with the argument <code>type=2</code> to compute <em>G2</em>, a slightly modified version of the kurtosis statistic that is a better population estimate of kurtosis <span class="citation" data-cites="joanes-gill">(e.g., <a href="#ref-joanes-gill" role="doc-biblioref">Joanes &amp; Gill, 1998</a>)</span>. The syntax below shows the use of <code>kurtosis()</code> to find the <em>G2</em> values for the conditional distributions.</p>
+<div class="cell" data-layout-align="center">
+<div class="sourceCode cell-code" id="cb16"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a><span class="do">## Kurtosis (G2) of the conditional distributions of household per capita expenditure</span></span>
+<span id="cb16-2"><a href="#cb16-2" aria-hidden="true" tabindex="-1"></a>vlss <span class="sc">|&gt;</span></span>
+<span id="cb16-3"><a href="#cb16-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(area) <span class="sc">|&gt;</span></span>
+<span id="cb16-4"><a href="#cb16-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summarize</span>(</span>
+<span id="cb16-5"><a href="#cb16-5" aria-hidden="true" tabindex="-1"></a>    <span class="at">G2 =</span> <span class="fu">kurtosis</span>(expend, <span class="at">type =</span> <span class="dv">2</span>) </span>
+<span id="cb16-6"><a href="#cb16-6" aria-hidden="true" tabindex="-1"></a>  )</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 2 × 2
+  area     G2
+  &lt;chr&gt; &lt;dbl&gt;
+1 Rural  42.7
+2 Urban  14.0</code></pre>
+</div>
+</div>
+<p>The kurtosis statistics for the conditional distributions suggest that both distributions are severely leptokurtic indicating that these distributions are more peaked than a normal distribution. They also have more density in the tails of the distribution than we would expect to see in a normal distribution. One can see in <a href="#fig-02" class="quarto-xref">Figure&nbsp;<span>2</span></a> that the rural distribution is even more peaked than the urban distribution.</p>
+<p>While the kurtosis statistic is often examined and reported by educational and behavioral scientists who want to numerically describe their samples, it should be noted that “there seems to be no universal agreement about the meaning and interpretation of kurtosis” <span class="citation" data-cites="moors">(<a href="#ref-moors" role="doc-biblioref">Moors, 1986, p. 283</a>)</span>. Most textbooks in the social sciences describe kurtosis in terms of peakedness and tail weight. <span class="citation" data-cites="balanda">Balanda &amp; MacGillivray (<a href="#ref-balanda" role="doc-biblioref">1988, p. 116</a>)</span> define kurtosis as “the location- and scale free movement of probability mass from the shoulders of a distribution into its center and tails”. Other statisticians have suggested that it is a measure of the bimodality present in a distribution <span class="citation" data-cites="darlington finucan">(e.g., <a href="#ref-darlington" role="doc-biblioref">Darlington, 1970</a>; <a href="#ref-finucan" role="doc-biblioref">Finucan, 1964</a>)</span>. Perhaps it is best defined by <span class="citation" data-cites="mosteller">Mosteller &amp; Tukey (<a href="#ref-mosteller" role="doc-biblioref">1977</a>)</span>, who suggest that like location, variation, and skewness, kurtosis should be viewed as a “vague concept” that can be formalized in a variety of ways.</p>
+<p><br></p>
+</section>
+</section>
+<section id="summarizing-the-findings" class="level2">
+<h2 class="anchored" data-anchor-id="summarizing-the-findings">Summarizing the Findings</h2>
+<p>The APA manual <span class="citation" data-cites="apa">(<a href="#ref-apa" role="doc-biblioref">American Psychological Association, 2019</a>)</span> provides suggestions for presenting descriptive statistics for groups of individuals. The information should be presented in the text when there are three or fewer groups and in a table when there are more than three groups. While this number is not set in stone, we want to present results in a manner that will facilitate understanding. Typically we report measures of location, variation, and sample size for each group, at the very least. We present the results of our data analysis below.</p>
+<blockquote class="blockquote">
+<p>Empirical evidence on the process of urbanization has shown increased economic segregation among urban and rural households, as well as increased spatial differentiation of land uses <span class="citation" data-cites="leaf">(e.g., <a href="#ref-leaf" role="doc-biblioref">Leaf, 2002</a>)</span>. The Socialist Republic of Vietnam, for the last decade, has experienced an industrialization characterized by economic growth and urbanization.</p>
+<p>Statistical analysis shows that the typical household per capita expenditure is higher for urban households (<span class="math inline">\(M=\$349\)</span>, <span class="math inline">\(\mathrm{SE}=\$6\)</span>) than for rural households (<span class="math inline">\(M=\$157\)</span>, <span class="math inline">\(\mathrm{SE}=\$1\)</span>). The distribution for urban households (<span class="math inline">\(\mathrm{SD}=\$250\)</span>) also shows more variation than the distribution for rural households (<span class="math inline">\(\mathrm{SD}=\$97\)</span>) indicating that rural areas tend to be more homogeneous in their household per capita expenditures. This evidence is further strengthened by the difference in asymmetry and heavy-tailedness in the urban (<span class="math inline">\(G1=2.73\)</span>, <span class="math inline">\(G2=42.66\)</span>) and rural (<span class="math inline">\(G1=4.28\)</span>, <span class="math inline">\(G2=14.03\)</span>) distributions.</p>
+<p>In contrast to their urban counterparts, the economic stimulation in rural areas of Vietnam seems not to have been as dynamic. The typical household for rural areas is only $15 U.S. above the poverty line. Furthermore, except for a rather small number of wealthier rural households, the majority of rural households show little variation in their household per capita expenditures. This shared level of poverty could be due to the fact that a substantial share of the populace living in rural areas of Vietnam are now unemployed or underemployed.</p>
+<p>It is worth noting, that the poverty line—established in 1998 by the General Statistical Office at $119 U.S. <span class="citation" data-cites="gso">(<a href="#ref-gso" role="doc-biblioref">General Statistical Office, 2001</a>)</span>—is close to the mode of the rural expenditure per capita distribution, which could indicate that a small increase in household expenditure per capita is enough to shift many of the rural households to a position above the poverty line. This is one likely explanation for recent dramatic reductions in poverty rates in Vietnam. As the poverty line moves higher, further reductions in poverty rates are likely to be smaller in magnitude.</p>
+</blockquote>
+<p><br></p>
+</section>
+<section id="references" class="level2">
+<h2 class="anchored" data-anchor-id="references">References</h2>
+<!-- FIX MATH -->
+<script type="text/x-mathjax-config">
+  MathJax.Hub.Config({ CommonHTML: { scale: 180 } });
+</script>
+
+
+<div id="refs" class="references csl-bib-body hanging-indent" data-entry-spacing="0" role="list">
+<div id="ref-apa" class="csl-entry" role="listitem">
+American Psychological Association. (2019). <em>Publication manual of the <span>A</span>merican <span>P</span>sychological <span>A</span>ssociation</em> (7th ed.). Author.
+</div>
+<div id="ref-balanda" class="csl-entry" role="listitem">
+Balanda, K. P., &amp; MacGillivray, H. L. (1988). Kurtosis: A critical review. <em>The American Statistician</em>, <em>42</em>(2), 111–119.
+</div>
+<div id="ref-darlington" class="csl-entry" role="listitem">
+Darlington, R. B. (1970). Is kurtosis really <span>“peakedness?”</span> <em>The American Statistician</em>, <em>24</em>(2), 19–22.
+</div>
+<div id="ref-dyson" class="csl-entry" role="listitem">
+Dyson, F. J., &amp; Cantab, B. A. (1943). A note on kurtosis. <em>Journal of the Royal Statistical Society</em>, <em>106</em>(4), 360–361.
+</div>
+<div id="ref-finucan" class="csl-entry" role="listitem">
+Finucan, H. M. (1964). A note on kurtosis. <em>Journal of the Royal Statistical Society. Series B (Methodological)</em>, <em>26</em>(1), 111–112.
+</div>
+<div id="ref-gso" class="csl-entry" role="listitem">
+General Statistical Office. (2001). <em>Statistical yearbook</em>. Statistical Publishing House.
+</div>
+<div id="ref-joanes-gill" class="csl-entry" role="listitem">
+Joanes, D. N., &amp; Gill, C. A. (1998). Comparing measures of sample skewness and kurtosis. <em>The Statistician</em>, <em>47</em>(Part 1), 183–189.
+</div>
+<div id="ref-leaf" class="csl-entry" role="listitem">
+Leaf, M. (2002). A tale of two villages: Globalization and peri-urban change in china and vietnam. <em>Cities</em>, <em>19</em>(1), 23–31.
+</div>
+<div id="ref-moors" class="csl-entry" role="listitem">
+Moors, J. J. A. (1986). The meaning of kurtosis: Darlington reexamined. <em>The American Statistician</em>, <em>40</em>(4), 283–284.
+</div>
+<div id="ref-mosteller" class="csl-entry" role="listitem">
+Mosteller, F., &amp; Tukey, J. W. (1977). <em>Data analysis and regression</em>. Addison-Wesley.
+</div>
+<div id="ref-student" class="csl-entry" role="listitem">
+Student. (1927). Errors of routine analysis. <em>Biometrika</em>, <em>19</em>(1/2), 151–164.
+</div>
+<div id="ref-Zieffler:2011" class="csl-entry" role="listitem">
+Zieffler, A. S., Harring, J. R., &amp; Long, J. D. (2011). <em>Comparing groups: Randomization and bootstrap methods using <span>R</span></em>. Wiley.
+</div>
+</div>
+</section>
+<section id="footnotes" class="footnotes footnotes-end-of-document" role="doc-endnotes">
+<hr>
+<ol>
+<li id="fn1"><p>Any value from 0–1 can be used, where <code>alpha=0</code> is fully transparent and <code>alpha=1</code> is fully opaque.<a href="#fnref1" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
+<li id="fn2"><p>Technically this is only true for an index of skewness that has been “corrected” or “standardized” so that the normal distribution has a skewness of zero. Skewness indices need not be zero for a normal distribution in general.<a href="#fnref2" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
+<li id="fn3"><p>An alternative package is <code>{moments}</code>.<a href="#fnref3" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
+<li id="fn4"><p><span class="math inline">\(\left|G_1\right|\)</span> indicates the absolute value of <span class="math inline">\(G1\)</span> (cut off the sign).<a href="#fnref4" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
+<li id="fn5"><p>Again, technically this is only true for indices of kurtosis that have been “corrected” so that a normal distribution has a kurtosis of zero.<a href="#fnref5" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
+</ol>
+</section>
+
+</main> <!-- /main -->
+<script id="quarto-html-after-body" type="application/javascript">
+  window.document.addEventListener("DOMContentLoaded", function (event) {
+    const icon = "";
+    const anchorJS = new window.AnchorJS();
+    anchorJS.options = {
+      placement: 'right',
+      icon: icon
+    };
+    anchorJS.add('.anchored');
+    const isCodeAnnotation = (el) => {
+      for (const clz of el.classList) {
+        if (clz.startsWith('code-annotation-')) {                     
+          return true;
+        }
+      }
+      return false;
+    }
+    const onCopySuccess = function(e) {
+      // button target
+      const button = e.trigger;
+      // don't keep focus
+      button.blur();
+      // flash "checked"
+      button.classList.add('code-copy-button-checked');
+      var currentTitle = button.getAttribute("title");
+      button.setAttribute("title", "Copied!");
+      let tooltip;
+      if (window.bootstrap) {
+        button.setAttribute("data-bs-toggle", "tooltip");
+        button.setAttribute("data-bs-placement", "left");
+        button.setAttribute("data-bs-title", "Copied!");
+        tooltip = new bootstrap.Tooltip(button, 
+          { trigger: "manual", 
+            customClass: "code-copy-button-tooltip",
+            offset: [0, -8]});
+        tooltip.show();    
+      }
+      setTimeout(function() {
+        if (tooltip) {
+          tooltip.hide();
+          button.removeAttribute("data-bs-title");
+          button.removeAttribute("data-bs-toggle");
+          button.removeAttribute("data-bs-placement");
+        }
+        button.setAttribute("title", currentTitle);
+        button.classList.remove('code-copy-button-checked');
+      }, 1000);
+      // clear code selection
+      e.clearSelection();
+    }
+    const getTextToCopy = function(trigger) {
+        const codeEl = trigger.previousElementSibling.cloneNode(true);
+        for (const childEl of codeEl.children) {
+          if (isCodeAnnotation(childEl)) {
+            childEl.remove();
+          }
+        }
+        return codeEl.innerText;
+    }
+    const clipboard = new window.ClipboardJS('.code-copy-button:not([data-in-quarto-modal])', {
+      text: getTextToCopy
+    });
+    clipboard.on('success', onCopySuccess);
+    if (window.document.getElementById('quarto-embedded-source-code-modal')) {
+      const clipboardModal = new window.ClipboardJS('.code-copy-button[data-in-quarto-modal]', {
+        text: getTextToCopy,
+        container: window.document.getElementById('quarto-embedded-source-code-modal')
+      });
+      clipboardModal.on('success', onCopySuccess);
+    }
+      var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
+      var mailtoRegex = new RegExp(/^mailto:/);
+        var filterRegex = new RegExp('/' + window.location.host + '/');
+      var isInternal = (href) => {
+          return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
+      }
+      // Inspect non-navigation links and adorn them if external
+     var links = window.document.querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item):not(.quarto-navigation-tool):not(.about-link)');
+      for (var i=0; i<links.length; i++) {
+        const link = links[i];
+        if (!isInternal(link.href)) {
+          // undo the damage that might have been done by quarto-nav.js in the case of
+          // links that we want to consider external
+          if (link.dataset.originalHref !== undefined) {
+            link.href = link.dataset.originalHref;
+          }
+        }
+      }
+    function tippyHover(el, contentFn, onTriggerFn, onUntriggerFn) {
+      const config = {
+        allowHTML: true,
+        maxWidth: 500,
+        delay: 100,
+        arrow: false,
+        appendTo: function(el) {
+            return el.parentElement;
+        },
+        interactive: true,
+        interactiveBorder: 10,
+        theme: 'quarto',
+        placement: 'bottom-start',
+      };
+      if (contentFn) {
+        config.content = contentFn;
+      }
+      if (onTriggerFn) {
+        config.onTrigger = onTriggerFn;
+      }
+      if (onUntriggerFn) {
+        config.onUntrigger = onUntriggerFn;
+      }
+      window.tippy(el, config); 
+    }
+    const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+    for (var i=0; i<noterefs.length; i++) {
+      const ref = noterefs[i];
+      tippyHover(ref, function() {
+        // use id or data attribute instead here
+        let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+        try { href = new URL(href).hash; } catch {}
+        const id = href.replace(/^#\/?/, "");
+        const note = window.document.getElementById(id);
+        if (note) {
+          return note.innerHTML;
+        } else {
+          return "";
+        }
+      });
+    }
+    const xrefs = window.document.querySelectorAll('a.quarto-xref');
+    const processXRef = (id, note) => {
+      // Strip column container classes
+      const stripColumnClz = (el) => {
+        el.classList.remove("page-full", "page-columns");
+        if (el.children) {
+          for (const child of el.children) {
+            stripColumnClz(child);
+          }
+        }
+      }
+      stripColumnClz(note)
+      if (id === null || id.startsWith('sec-')) {
+        // Special case sections, only their first couple elements
+        const container = document.createElement("div");
+        if (note.children && note.children.length > 2) {
+          container.appendChild(note.children[0].cloneNode(true));
+          for (let i = 1; i < note.children.length; i++) {
+            const child = note.children[i];
+            if (child.tagName === "P" && child.innerText === "") {
+              continue;
+            } else {
+              container.appendChild(child.cloneNode(true));
+              break;
+            }
+          }
+          if (window.Quarto?.typesetMath) {
+            window.Quarto.typesetMath(container);
+          }
+          return container.innerHTML
+        } else {
+          if (window.Quarto?.typesetMath) {
+            window.Quarto.typesetMath(note);
+          }
+          return note.innerHTML;
+        }
+      } else {
+        // Remove any anchor links if they are present
+        const anchorLink = note.querySelector('a.anchorjs-link');
+        if (anchorLink) {
+          anchorLink.remove();
+        }
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(note);
+        }
+        if (note.classList.contains("callout")) {
+          return note.outerHTML;
+        } else {
+          return note.innerHTML;
+        }
+      }
+    }
+    for (var i=0; i<xrefs.length; i++) {
+      const xref = xrefs[i];
+      tippyHover(xref, undefined, function(instance) {
+        instance.disable();
+        let url = xref.getAttribute('href');
+        let hash = undefined; 
+        if (url.startsWith('#')) {
+          hash = url;
+        } else {
+          try { hash = new URL(url).hash; } catch {}
+        }
+        if (hash) {
+          const id = hash.replace(/^#\/?/, "");
+          const note = window.document.getElementById(id);
+          if (note !== null) {
+            try {
+              const html = processXRef(id, note.cloneNode(true));
+              instance.setContent(html);
+            } finally {
+              instance.enable();
+              instance.show();
+            }
+          } else {
+            // See if we can fetch this
+            fetch(url.split('#')[0])
+            .then(res => res.text())
+            .then(html => {
+              const parser = new DOMParser();
+              const htmlDoc = parser.parseFromString(html, "text/html");
+              const note = htmlDoc.getElementById(id);
+              if (note !== null) {
+                const html = processXRef(id, note);
+                instance.setContent(html);
+              } 
+            }).finally(() => {
+              instance.enable();
+              instance.show();
+            });
+          }
+        } else {
+          // See if we can fetch a full url (with no hash to target)
+          // This is a special case and we should probably do some content thinning / targeting
+          fetch(url)
+          .then(res => res.text())
+          .then(html => {
+            const parser = new DOMParser();
+            const htmlDoc = parser.parseFromString(html, "text/html");
+            const note = htmlDoc.querySelector('main.content');
+            if (note !== null) {
+              // This should only happen for chapter cross references
+              // (since there is no id in the URL)
+              // remove the first header
+              if (note.children.length > 0 && note.children[0].tagName === "HEADER") {
+                note.children[0].remove();
+              }
+              const html = processXRef(null, note);
+              instance.setContent(html);
+            } 
+          }).finally(() => {
+            instance.enable();
+            instance.show();
+          });
+        }
+      }, function(instance) {
+      });
+    }
+        let selectedAnnoteEl;
+        const selectorForAnnotation = ( cell, annotation) => {
+          let cellAttr = 'data-code-cell="' + cell + '"';
+          let lineAttr = 'data-code-annotation="' +  annotation + '"';
+          const selector = 'span[' + cellAttr + '][' + lineAttr + ']';
+          return selector;
+        }
+        const selectCodeLines = (annoteEl) => {
+          const doc = window.document;
+          const targetCell = annoteEl.getAttribute("data-target-cell");
+          const targetAnnotation = annoteEl.getAttribute("data-target-annotation");
+          const annoteSpan = window.document.querySelector(selectorForAnnotation(targetCell, targetAnnotation));
+          const lines = annoteSpan.getAttribute("data-code-lines").split(",");
+          const lineIds = lines.map((line) => {
+            return targetCell + "-" + line;
+          })
+          let top = null;
+          let height = null;
+          let parent = null;
+          if (lineIds.length > 0) {
+              //compute the position of the single el (top and bottom and make a div)
+              const el = window.document.getElementById(lineIds[0]);
+              top = el.offsetTop;
+              height = el.offsetHeight;
+              parent = el.parentElement.parentElement;
+            if (lineIds.length > 1) {
+              const lastEl = window.document.getElementById(lineIds[lineIds.length - 1]);
+              const bottom = lastEl.offsetTop + lastEl.offsetHeight;
+              height = bottom - top;
+            }
+            if (top !== null && height !== null && parent !== null) {
+              // cook up a div (if necessary) and position it 
+              let div = window.document.getElementById("code-annotation-line-highlight");
+              if (div === null) {
+                div = window.document.createElement("div");
+                div.setAttribute("id", "code-annotation-line-highlight");
+                div.style.position = 'absolute';
+                parent.appendChild(div);
+              }
+              div.style.top = top - 2 + "px";
+              div.style.height = height + 4 + "px";
+              div.style.left = 0;
+              let gutterDiv = window.document.getElementById("code-annotation-line-highlight-gutter");
+              if (gutterDiv === null) {
+                gutterDiv = window.document.createElement("div");
+                gutterDiv.setAttribute("id", "code-annotation-line-highlight-gutter");
+                gutterDiv.style.position = 'absolute';
+                const codeCell = window.document.getElementById(targetCell);
+                const gutter = codeCell.querySelector('.code-annotation-gutter');
+                gutter.appendChild(gutterDiv);
+              }
+              gutterDiv.style.top = top - 2 + "px";
+              gutterDiv.style.height = height + 4 + "px";
+            }
+            selectedAnnoteEl = annoteEl;
+          }
+        };
+        const unselectCodeLines = () => {
+          const elementsIds = ["code-annotation-line-highlight", "code-annotation-line-highlight-gutter"];
+          elementsIds.forEach((elId) => {
+            const div = window.document.getElementById(elId);
+            if (div) {
+              div.remove();
+            }
+          });
+          selectedAnnoteEl = undefined;
+        };
+          // Handle positioning of the toggle
+      window.addEventListener(
+        "resize",
+        throttle(() => {
+          elRect = undefined;
+          if (selectedAnnoteEl) {
+            selectCodeLines(selectedAnnoteEl);
+          }
+        }, 10)
+      );
+      function throttle(fn, ms) {
+      let throttle = false;
+      let timer;
+        return (...args) => {
+          if(!throttle) { // first call gets through
+              fn.apply(this, args);
+              throttle = true;
+          } else { // all the others get throttled
+              if(timer) clearTimeout(timer); // cancel #2
+              timer = setTimeout(() => {
+                fn.apply(this, args);
+                timer = throttle = false;
+              }, ms);
+          }
+        };
+      }
+        // Attach click handler to the DT
+        const annoteDls = window.document.querySelectorAll('dt[data-target-cell]');
+        for (const annoteDlNode of annoteDls) {
+          annoteDlNode.addEventListener('click', (event) => {
+            const clickedEl = event.target;
+            if (clickedEl !== selectedAnnoteEl) {
+              unselectCodeLines();
+              const activeEl = window.document.querySelector('dt[data-target-cell].code-annotation-active');
+              if (activeEl) {
+                activeEl.classList.remove('code-annotation-active');
+              }
+              selectCodeLines(clickedEl);
+              clickedEl.classList.add('code-annotation-active');
+            } else {
+              // Unselect the line
+              unselectCodeLines();
+              clickedEl.classList.remove('code-annotation-active');
+            }
+          });
+        }
+    const findCites = (el) => {
+      const parentEl = el.parentElement;
+      if (parentEl) {
+        const cites = parentEl.dataset.cites;
+        if (cites) {
+          return {
+            el,
+            cites: cites.split(' ')
+          };
+        } else {
+          return findCites(el.parentElement)
+        }
+      } else {
+        return undefined;
+      }
+    };
+    var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+    for (var i=0; i<bibliorefs.length; i++) {
+      const ref = bibliorefs[i];
+      const citeInfo = findCites(ref);
+      if (citeInfo) {
+        tippyHover(citeInfo.el, function() {
+          var popup = window.document.createElement('div');
+          citeInfo.cites.forEach(function(cite) {
+            var citeDiv = window.document.createElement('div');
+            citeDiv.classList.add('hanging-indent');
+            citeDiv.classList.add('csl-entry');
+            var biblioDiv = window.document.getElementById('ref-' + cite);
+            if (biblioDiv) {
+              citeDiv.innerHTML = biblioDiv.innerHTML;
+            }
+            popup.appendChild(citeDiv);
+          });
+          return popup.innerHTML;
+        });
+      }
+    }
+  });
+  </script>
+</div> <!-- /content -->
+
+
+
+
+</body></html>

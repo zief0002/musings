@@ -1,0 +1,1003 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
+
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.7.32">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+
+<title>Kernel Density Estimation – Old Notes, Musings, and Miscellany</title>
+<style>
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: min(4vw, 1.5em);}
+div.column{flex: auto; overflow-x: auto;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+  width: 0.8em;
+  margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
+  vertical-align: middle;
+}
+/* CSS for syntax highlighting */
+html { -webkit-text-size-adjust: 100%; }
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+  }
+pre.numberSource { margin-left: 3em;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+/* CSS for citations */
+div.csl-bib-body { }
+div.csl-entry {
+  clear: both;
+  margin-bottom: 0em;
+}
+.hanging-indent div.csl-entry {
+  margin-left:2em;
+  text-indent:-2em;
+}
+div.csl-left-margin {
+  min-width:2em;
+  float:left;
+}
+div.csl-right-inline {
+  margin-left:2em;
+  padding-left:1em;
+}
+div.csl-indent {
+  margin-left: 2em;
+}</style>
+
+
+<script src="site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="site_libs/quarto-nav/headroom.min.js"></script>
+<script src="site_libs/clipboard/clipboard.min.js"></script>
+<script src="site_libs/quarto-search/autocomplete.umd.js"></script>
+<script src="site_libs/quarto-search/fuse.min.js"></script>
+<script src="site_libs/quarto-search/quarto-search.js"></script>
+<meta name="quarto:offset" content="./">
+<script src="site_libs/quarto-html/quarto.js" type="module"></script>
+<script src="site_libs/quarto-html/tabsets/tabsets.js" type="module"></script>
+<script src="site_libs/quarto-html/popper.min.js"></script>
+<script src="site_libs/quarto-html/tippy.umd.min.js"></script>
+<script src="site_libs/quarto-html/anchor.min.js"></script>
+<link href="site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="site_libs/quarto-html/quarto-syntax-highlighting-c3c2c9e745155556954bc4da23476b10.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<script src="site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="site_libs/bootstrap/bootstrap-5f5b9442e630c68306c055f3bb9ec513.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
+<script id="quarto-search-options" type="application/json">{
+  "location": "sidebar",
+  "copy-button": false,
+  "collapse-after": 3,
+  "panel-placement": "start",
+  "type": "textbox",
+  "limit": 50,
+  "keyboard-shortcut": [
+    "f",
+    "/",
+    "s"
+  ],
+  "show-item-context": false,
+  "language": {
+    "search-no-results-text": "No results",
+    "search-matching-documents-text": "matching documents",
+    "search-copy-link-title": "Copy link to search",
+    "search-hide-matches-text": "Hide additional matches",
+    "search-more-match-text": "more match in this document",
+    "search-more-matches-text": "more matches in this document",
+    "search-clear-button-title": "Clear",
+    "search-text-placeholder": "",
+    "search-detached-cancel-button-title": "Cancel",
+    "search-submit-button-title": "Submit",
+    "search-label": "Search"
+  }
+}</script>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin="">
+<link href="https://fonts.googleapis.com/css2?family=Atkinson+Hyperlegible:ital,wght@0,400;0,700;1,400;1,700&amp;display=swap" rel="stylesheet">
+
+  <script src="https://cdnjs.cloudflare.com/polyfill/v3/polyfill.min.js?features=es6"></script>
+  <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js" type="text/javascript"></script>
+
+<script type="text/javascript">
+const typesetMath = (el) => {
+  if (window.MathJax) {
+    // MathJax Typeset
+    window.MathJax.typeset([el]);
+  } else if (window.katex) {
+    // KaTeX Render
+    var mathElements = el.getElementsByClassName("math");
+    var macros = [];
+    for (var i = 0; i < mathElements.length; i++) {
+      var texText = mathElements[i].firstChild;
+      if (mathElements[i].tagName == "SPAN") {
+        window.katex.render(texText.data, mathElements[i], {
+          displayMode: mathElements[i].classList.contains('display'),
+          throwOnError: false,
+          macros: macros,
+          fleqn: false
+        });
+      }
+    }
+  }
+}
+window.Quarto = {
+  typesetMath
+};
+</script>
+
+</head>
+
+<body class="nav-sidebar floating fullcontent quarto-light">
+
+<div id="quarto-search-results"></div>
+  <header id="quarto-header" class="headroom fixed-top">
+  <nav class="quarto-secondary-nav">
+    <div class="container-fluid d-flex">
+      <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" role="button" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+        <i class="bi bi-layout-text-sidebar-reverse"></i>
+      </button>
+        <a class="flex-grow-1 no-decor" role="navigation" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
+          <h1 class="quarto-secondary-nav-title">Kernel Density Estimation</h1>
+        </a>     
+      <button type="button" class="btn quarto-search-button" aria-label="Search" onclick="window.quartoOpenSearch();">
+        <i class="bi bi-search"></i>
+      </button>
+    </div>
+  </nav>
+</header>
+<!-- content -->
+<div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article">
+<!-- sidebar -->
+  <nav id="quarto-sidebar" class="sidebar collapse collapse-horizontal quarto-sidebar-collapse-item sidebar-navigation floating overflow-auto">
+    <div class="pt-lg-2 mt-2 text-left sidebar-header">
+    <div class="sidebar-title mb-0 py-0">
+      <a href="./">Old Notes, Musings, and Miscellany</a> 
+    </div>
+      </div>
+        <div class="mt-2 flex-shrink-0 align-items-center">
+        <div class="sidebar-search">
+        <div id="quarto-search" class="" title="Search"></div>
+        </div>
+        </div>
+    <div class="sidebar-menu-container"> 
+    <ul class="list-unstyled mt-1">
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./index.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Foreword</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./01-intro.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Introduction</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./02-creating-tables.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Creating Tables to Present Statistical Results</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./04-kde.html" class="sidebar-item-text sidebar-link active">
+ <span class="menu-text">Kernel Density Estimation</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./05-exploration.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Exploration: Comparing Two Groups</span></a>
+  </div>
+</li>
+    </ul>
+    </div>
+</nav>
+<div id="quarto-sidebar-glass" class="quarto-sidebar-collapse-item" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item"></div>
+<!-- margin-sidebar -->
+    
+<!-- main -->
+<main class="content" id="quarto-document-content">
+
+<header id="title-block-header" class="quarto-title-block default">
+<div class="quarto-title">
+<h1 class="title d-none d-lg-block">Kernel Density Estimation</h1>
+</div>
+
+
+
+<div class="quarto-title-meta">
+
+    
+  
+    
+  </div>
+  
+
+
+</header>
+
+
+<p>Adapted from <span class="citation" data-cites="Zieffler:2011">Zieffler et al. (<a href="#ref-Zieffler:2011" role="doc-biblioref">2011</a>)</span></p>
+<p><br></p>
+<div class="fyi">
+<p><strong>FYI</strong></p>
+<p>This chapter assumes a working knowledge of <code>{dplyr}</code> and <code>{ggplot2}</code> functionality to work with and plot data.</p>
+</div>
+<p><br></p>
+<p>In 1986, the Vietnamese government began a policy of <em>doi moi</em> (renovation) and decided to move from a centrally planned command economy to a “market economy with socialist direction.” As a result, Vietnam was able to evolve from near famine conditions in 1986 to a position as the world’s third largest exporter of rice in the mid-1990s. Between 1992 and 1997 Vietnam’s gross domestic product (GDP) rose by 8.9% annually <span class="citation" data-cites="worldbank">(<a href="#ref-worldbank" role="doc-biblioref">WorldBank, 1999</a>)</span>.</p>
+<p>The first Vietnam Living Standards Survey (VLSS) was conducted in 1992–93 by the State Planning Committee (SPC) (now Ministry of Planning and Investment) along with the General Statistical Office (GSO). The second VLSS was conducted by the GSO in 1997–98. The survey was part of the Living Standards Measurement Study (LSMS) that was conducted in a number of developing countries with technical assistance from the World Bank.</p>
+<p>The second VLSS was designed to provide an up-to-date source of data on households to be used in policy design, monitoring of living standards, and evaluation of policies and programs. One part of the evaluation was whether the policies and programs that were currently available were age appropriate for the population. For example, if a country has a higher proportion of older people, then there needs to be programs available that appeal to that sector of the population. Another concern was whether the living standards for different sections of the country were equitable.</p>
+<p>Given the background above, data from the second VLSS (available in the <a href="https://raw.githubusercontent.com/zief0002/musings/master/data/vlss-age.csv">vlss-age.csv</a> data set) is used to examine the following research question:</p>
+<blockquote class="blockquote">
+<p>What is the age distribution for the Vietnamese population?</p>
+</blockquote>
+<p>To address this research question, we will use kernel density estimation to visually explore the age distribution in the sample data.</p>
+<p><br></p>
+<section id="loading-packages-and-importing-the-data" class="level2">
+<h2 class="anchored" data-anchor-id="loading-packages-and-importing-the-data">Loading Packages and Importing the Data</h2>
+<p>To begin, we will load two packages that we will use in this analysis.</p>
+<div class="cell" data-layout-align="center">
+<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Load libraries</span></span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(quantreg)</span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(tidyverse)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>The <a href="https://raw.githubusercontent.com/zief0002/musings/master/data/vlss-age.csv">vlss-age.csv</a> data contains the ages of 28,633 individuals (in years ranging from 0 to 99). We will import this data using the <code>read_csv()</code> function from the <strong>tidyverse</strong> package<a href="#fn1" class="footnote-ref" id="fnref1" role="doc-noteref"><sup>1</sup></a>.</p>
+<div class="cell" data-layout-align="center">
+<div class="sourceCode cell-code" id="cb2"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Import data</span></span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a>vlss <span class="ot">=</span> <span class="fu">read_csv</span>(<span class="st">"https://raw.githubusercontent.com/zief0002/musings/master/data/vlss-age.csv"</span>)</span>
+<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a><span class="co"># View data</span></span>
+<span id="cb2-5"><a href="#cb2-5" aria-hidden="true" tabindex="-1"></a>vlss</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 28,633 × 1
+     age
+   &lt;dbl&gt;
+ 1    68
+ 2    70
+ 3    31
+ 4    28
+ 5    22
+ 6     7
+ 7    57
+ 8    27
+ 9    23
+10     0
+# ℹ 28,623 more rows</code></pre>
+</div>
+</div>
+<p><br></p>
+</section>
+<section id="nonparametric-density-estimation" class="level2">
+<h2 class="anchored" data-anchor-id="nonparametric-density-estimation">Nonparametric Density Estimation</h2>
+<p>Density estimation is one of the most useful methods for examining sample distributions. Nonparametric density estimation is an approach to estimating the distribution of the population from which the sample was drawn. This allows the observed sample data to provide insight into the structure of the unknown probability distribution underlying the population. The density estimation is nonparametric in the sense that the sample data suggest the shape, rather than imposing the shape of a known population distribution with particular values of its parameters.</p>
+<div class="cell" data-layout-align="center">
+<div class="cell-output-display">
+<div id="fig-hist" class="quarto-float quarto-figure quarto-figure-center anchored" data-fig-align="center" alt="Histogram of the age distribution.">
+<figure class="quarto-float quarto-float-fig figure">
+<figcaption class="quarto-float-caption-top quarto-float-caption quarto-float-fig" id="fig-hist-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure&nbsp;1: Histogram of the age distribution.
+</figcaption>
+<div aria-describedby="fig-hist-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="04-kde_files/figure-html/fig-hist-1.png" class="img-fluid quarto-figure quarto-figure-center figure-img" style="width:70.0%" alt="Histogram of the age distribution.">
+</div>
+</figure>
+</div>
+</div>
+</div>
+<p>In the past, it was common for behavioral scientists to use a histogram to estimate the population density. A histogram is one of the simplest nonparametric estimators of a population density. Histograms, usually displayed as a graph, are essentially enumerations, or counts, of the observed data for each of a number of disjoint categories, or bins. Despite the popularity of the histogram, it has a number of drawbacks that suggest it is not always the best method to use.</p>
+<p>The bin width—which is often chosen by the software rather than the researcher—has a great deal of influence on the shape of the histogram, and thus, on the inferences made by the researcher. Most methods for creating histograms partition the observed data into equally spaced bins using algorithms that typically focus on producing the optimal bin count given the observed data <span class="citation" data-cites="freedman scott sturges">(<a href="#ref-freedman" role="doc-biblioref">Freedman &amp; Diaconis, 1981</a>; <a href="#ref-scott" role="doc-biblioref">Scott, 1979</a>; <a href="#ref-sturges" role="doc-biblioref">Sturges, 1926</a>)</span>. These methods often have strong assumptions about the shape of the underlying population distribution.</p>
+<p>For example, when distributions are strongly skewed, the density estimate produced by the histogram may be misleading, since several of the bins chosen in the optimization process can have very little data <span class="citation" data-cites="rissanen">(e.g., <a href="#ref-rissanen" role="doc-biblioref">Rissanen et al., 1992</a>)</span>. While there have been methodological advances in selecting the bin width in a histogram <span class="citation" data-cites="wand2">(e.g., <a href="#ref-wand2" role="doc-biblioref">Wand, 1997</a>)</span>, histograms are still essentially modeling the data using discontinuous step functions. These functions assume gaps in the underlying population density (i.e., a certain discontinuity or discreteness) when the graph of the function jumps to each new <em>x</em>-value. So, if the researcher believes that the observed sample data comes from a population with a continuous density, then other estimation methods are preferable. Fortunately, there are substantially better methods of estimating populations with a continuous density.</p>
+<p><br></p>
+</section>
+<section id="kernel-density-estimators" class="level2">
+<h2 class="anchored" data-anchor-id="kernel-density-estimators">Kernel Density Estimators</h2>
+<p>A much better estimate of the population density for continuous variables can be obtained by using kernel methods. Nonparametric kernel density estimation can be thought of as a method of averaging and smoothing the density estimate provided by the histogram. More formally, kernel density estimation is a sophisticated form of locally weighted averaging of the sample distribution.</p>
+<p>Kernel density estimation works by estimating the density at each observation, <em>x</em>, using a smooth, weighted function, known as a <em>kernel</em>. The figure below shows a conceptual illustration of kernel density estimation <span class="citation" data-cites="sain">(adapted from <a href="#ref-sain" role="doc-biblioref">Sain, 1994</a>)</span>. The vertical lines below the axis represent the <span class="math inline">\(N=6\)</span> sample observations. The dashed lines represent the Gaussian kernel function, and the solid line represents the overall density estimate. The smoothing parameter, represented by the variation in each distribution, is fixed (i.e., it is the same value in each kernel).</p>
+<div class="cell" data-layout-align="center">
+<div class="cell-output-display">
+<div id="fig-kde" class="quarto-float quarto-figure quarto-figure-center anchored" data-fig-align="center" alt="Illustration of the kernel density estimation (solid line) for *N=6* observations (vertical lines). A Gaussian kernel function (dashed lines) with a fixed smoothing parameter was centered at each observation. The figure was adapted from Sain (1994).">
+<figure class="quarto-float quarto-float-fig figure">
+<figcaption class="quarto-float-caption-top quarto-float-caption quarto-float-fig" id="fig-kde-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure&nbsp;2: Illustration of the kernel density estimation (solid line) for <em>N=6</em> observations (vertical lines). A Gaussian kernel function (dashed lines) with a fixed smoothing parameter was centered at each observation. The figure was adapted from <span class="citation" data-cites="sain">Sain (<a href="#ref-sain" role="doc-biblioref">1994</a>)</span>.
+</figcaption>
+<div aria-describedby="fig-kde-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="figs/fig-03-01.png" class="img-fluid quarto-figure quarto-figure-center figure-img" style="width:70.0%" alt="Illustration of the kernel density estimation (solid line) for *N=6* observations (vertical lines). A Gaussian kernel function (dashed lines) with a fixed smoothing parameter was centered at each observation. The figure was adapted from Sain (1994).">
+</div>
+</figure>
+</div>
+</div>
+</div>
+<p>In the figure, the kernel function is the normal, or Gaussian, distribution.<a href="#fn2" class="footnote-ref" id="fnref2" role="doc-noteref"><sup>2</sup></a> Each kernel function is centered at one of the <span class="math inline">\(N=6\)</span> observations and identically scaled. An estimate of the overall density can then be found by summing the height of all the kernel densities at each observation.</p>
+<p>Note that the variation (width) in the kernel determines the amount of overlap at each observed value. Skinnier kernels have less overlap resulting in a smaller overall sum, while wider kernels would result in more overlap and a larger sum. The data analyst not only specifies the kernel function, but also the variation in the kernel function. The kernel density illustration shows a visual depiction of the variation in the kernel functions based on the half-width of the kernel (i.e., half the width of each kernel). This is also referred to as the <strong>smoothing parameter</strong> since it has a direct impact on the overall smoothness of the plot.</p>
+<p><br></p>
+</section>
+<section id="plotting-a-kernel-density-estimate" class="level2">
+<h2 class="anchored" data-anchor-id="plotting-a-kernel-density-estimate">Plotting a Kernel Density Estimate</h2>
+<p>To plot a kernel density estimate of a distribution, we will use the <code>geom_density()</code> function from the <code>{tidyverse}</code> package<a href="#fn3" class="footnote-ref" id="fnref3" role="doc-noteref"><sup>3</sup></a>.</p>
+<div class="cell" data-layout-align="center">
+<div class="sourceCode cell-code" id="cb4"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Create density plot</span></span>
+<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(<span class="at">data =</span> vlss, <span class="fu">aes</span>(<span class="at">x =</span> age)) <span class="sc">+</span></span>
+<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_density</span>() <span class="sc">+</span></span>
+<span id="cb4-4"><a href="#cb4-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_bw</span>() <span class="sc">+</span></span>
+<span id="cb4-5"><a href="#cb4-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">xlab</span>(<span class="st">"Age"</span>) <span class="sc">+</span></span>
+<span id="cb4-6"><a href="#cb4-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ylab</span>(<span class="st">"Density"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<div id="fig-kde-age" class="quarto-float quarto-figure quarto-figure-center anchored" data-fig-align="center" alt="Kernel density plot of the age distribution using the default (Gaussian) kernel.">
+<figure class="quarto-float quarto-float-fig figure">
+<figcaption class="quarto-float-caption-top quarto-float-caption quarto-float-fig" id="fig-kde-age-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure&nbsp;3: Kernel density plot of the age distribution using the default (Gaussian) kernel.
+</figcaption>
+<div aria-describedby="fig-kde-age-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="04-kde_files/figure-html/fig-kde-age-1.png" class="img-fluid quarto-figure quarto-figure-center figure-img" style="width:70.0%" alt="Kernel density plot of the age distribution using the default (Gaussian) kernel.">
+</div>
+</figure>
+</div>
+</div>
+</div>
+<p>Changing either the kernel function or the smoothing parameter affects the overall density that is estimated. There are several kernel functions that can be used in R. You can change the kernel function by adding the <code>kernel=</code> argument to <code>geom_density()</code> layer. For example, to use the Epanechnikov kernel, we would add <code>kernel="epanechnikov"</code> to the <code>geom_density()</code> layer.</p>
+<div class="cell" data-layout-align="center">
+<div class="sourceCode cell-code" id="cb5"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Change kernel function</span></span>
+<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(<span class="at">data =</span> vlss, <span class="fu">aes</span>(<span class="at">x =</span> age)) <span class="sc">+</span></span>
+<span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_density</span>(<span class="at">kernel=</span><span class="st">"epanechnikov"</span>) <span class="sc">+</span></span>
+<span id="cb5-4"><a href="#cb5-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_bw</span>() <span class="sc">+</span></span>
+<span id="cb5-5"><a href="#cb5-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">xlab</span>(<span class="st">"Age"</span>) <span class="sc">+</span></span>
+<span id="cb5-6"><a href="#cb5-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ylab</span>(<span class="st">"Density"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<div id="fig-kde-age-epi" class="quarto-float quarto-figure quarto-figure-center anchored" data-fig-align="center" alt="Kernel density plot of the age distribution using the Epanechnikov kernel. Changing the kernel has little effect on the estimation of the density; this plot looks almost identical to the density plot using the Gaussian kernel.">
+<figure class="quarto-float quarto-float-fig figure">
+<figcaption class="quarto-float-caption-top quarto-float-caption quarto-float-fig" id="fig-kde-age-epi-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure&nbsp;4: Kernel density plot of the age distribution using the Epanechnikov kernel. Changing the kernel has little effect on the estimation of the density; this plot looks almost identical to the density plot using the Gaussian kernel.
+</figcaption>
+<div aria-describedby="fig-kde-age-epi-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="04-kde_files/figure-html/fig-kde-age-epi-1.png" class="img-fluid quarto-figure quarto-figure-center figure-img" style="width:70.0%" alt="Kernel density plot of the age distribution using the Epanechnikov kernel. Changing the kernel has little effect on the estimation of the density; this plot looks almost identical to the density plot using the Gaussian kernel.">
+</div>
+</figure>
+</div>
+</div>
+</div>
+<p>Changing the kernel function uses a different shaped distribution to estimate the density at each observation. The methodological research literature suggests that the choice of the functional form of the kernel has little effect on the estimation of the density—all are essentially equivalently efficient in minimizing the error when approximating the true density <span class="citation" data-cites="epanechnikov silverman">(e.g., <a href="#ref-epanechnikov" role="doc-biblioref">Epanechnikov, 1969</a>; <a href="#ref-silverman" role="doc-biblioref">Silverman, 1986</a>)</span>—and thus it is reasonable to simply use the default Gaussian kernel function.</p>
+<p>Selecting the smoothing parameter is another matter. Change in the amount of variation in the kernel has a large effect on the appearance and interpretation of the density estimate. This is similar to forcing fewer or additional bins in the traditional histogram. The figure below shows the difference in appearance in the overall plot of the kernel density that is associated with changing the smoothing parameter. The three density estimates are based on the same sample of data, and all use the Gaussian kernel function. It can be seen that using a smoothing parameter of 0.5 produces an estimate of the density which is quite rough (left-hand plot), while using a smoothing parameter of 2 (middle plot) produces a smoother estimate. A smoothing parameter of 10 (right-hand plot) produces an even smoother plot. As the smoothing parameter increases, the density curve becomes smoother.</p>
+<div class="cell" data-layout-align="center">
+<div class="cell-output-display">
+<div id="fig-kde-age-three" class="quarto-float quarto-figure quarto-figure-center anchored" data-fig-align="center" alt="Kernel density estimates using three different smoothing parameters. Each estimate used a Gaussian kernel. The estimate on the left used a smoothing parameter of 0.5. The estimate in the middle used a smoothing parameter of 2. The estimate on the right used a smoothing parameter of 10.">
+<figure class="quarto-float quarto-float-fig figure">
+<figcaption class="quarto-float-caption-top quarto-float-caption quarto-float-fig" id="fig-kde-age-three-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure&nbsp;5: Kernel density estimates using three different smoothing parameters. Each estimate used a Gaussian kernel. The estimate on the left used a smoothing parameter of 0.5. The estimate in the middle used a smoothing parameter of 2. The estimate on the right used a smoothing parameter of 10.
+</figcaption>
+<div aria-describedby="fig-kde-age-three-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="04-kde_files/figure-html/fig-kde-age-three-1.png" class="img-fluid quarto-figure quarto-figure-center figure-img" style="width:100.0%" alt="Kernel density estimates using three different smoothing parameters. Each estimate used a Gaussian kernel. The estimate on the left used a smoothing parameter of 0.5. The estimate in the middle used a smoothing parameter of 2. The estimate on the right used a smoothing parameter of 10.">
+</div>
+</figure>
+</div>
+</div>
+</div>
+<p>To set the smoothing parameter, we use the <code>bw=</code> argument in the <code>geom_density()</code> layer of the plot. For example, to set the smoothing parameter to 10, we would use the following syntax:</p>
+<div class="cell" data-layout-align="center">
+<div class="sourceCode cell-code" id="cb6"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Change smoothing parameter</span></span>
+<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(<span class="at">data =</span> vlss, <span class="fu">aes</span>(<span class="at">x =</span> age)) <span class="sc">+</span></span>
+<span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_density</span>(<span class="at">bw =</span> <span class="dv">10</span>) <span class="sc">+</span></span>
+<span id="cb6-4"><a href="#cb6-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_bw</span>() <span class="sc">+</span></span>
+<span id="cb6-5"><a href="#cb6-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">xlab</span>(<span class="st">"Age"</span>) <span class="sc">+</span></span>
+<span id="cb6-6"><a href="#cb6-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ylab</span>(<span class="st">"Density"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>If the researcher chooses a smoothing parameter that is too small, the density estimate will appear jagged, spuriously highlighting anomalies of the data such as asymmetry and multiple modes. Such features can appear because of chance variation rather than because they are structures present in the probability distribution. If the researcher chooses a smoothing parameter that is too large, she may obscure much of the structure in the data, a phenomenon known as oversmoothing. Ideally a smoothing parameter is chosen that is small enough to reveal detail in the graph but large enough to inhibit random noise.</p>
+<p>Several methods have been proposed to choose an optimum smoothing parameter based on the data <span class="citation" data-cites="sheather">(see <a href="#ref-sheather" role="doc-biblioref">Sheather, 2004</a>)</span>. While these methods tend to compute smoothing parameters that perform well in simulation studies, for sample data that is substantially nonnormal, some manual adjustment may be required. The method that the <code>geom_density()</code> function uses to compute the value of the smoothing parameter is based on Silverman’s rule of thumb <span class="citation" data-cites="silverman">(<a href="#ref-silverman" role="doc-biblioref">Silverman, 1986</a>)</span>. The method popularized by Silverman—which was originally proposed for improved density estimation in histograms <span class="citation" data-cites="deheuvels scott">(e.g., <a href="#ref-deheuvels" role="doc-biblioref">Deheuvels, 1977</a>; <a href="#ref-scott" role="doc-biblioref">Scott, 1979</a>)</span>—is a computationally simple method for choosing the smoothing parameter. The <code>geom_density()</code> function computes the density based on several popular methods:</p>
+<ul>
+<li>Silverman’s method (default); <code>bw="nrd0"</code></li>
+<li>Scott’s method; <code>bw="nrd"</code></li>
+<li>Sheather and Jones’ method; <code>bw="sj"</code></li>
+<li>Unbiased cross-validation; <code>bw="ucv"</code></li>
+<li>Biased cross-validation; <code>bw="bcv"</code></li>
+</ul>
+<p>This actual value of the smoothing parameter can be obtained by employing the <code>density()</code> function.</p>
+<div class="cell" data-layout-align="center">
+<div class="sourceCode cell-code" id="cb7"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Obtain smoothing parameter for Silverman's method</span></span>
+<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a>d <span class="ot">=</span> <span class="fu">density</span>(vlss<span class="sc">$</span>age, <span class="at">bw =</span> <span class="st">"nrd0"</span>)</span>
+<span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a>d</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>
+Call:
+    density.default(x = vlss$age, bw = "nrd0")
+
+Data: vlss$age (28633 obs.);    Bandwidth 'bw' = 2.344
+
+       x                 y            
+ Min.   : -7.033   Min.   :9.980e-08  
+ 1st Qu.: 21.234   1st Qu.:1.406e-03  
+ Median : 49.500   Median :6.410e-03  
+ Mean   : 49.500   Mean   :8.827e-03  
+ 3rd Qu.: 77.766   3rd Qu.:1.384e-02  
+ Max.   :106.033   Max.   :2.585e-02  </code></pre>
+</div>
+</div>
+<p>For Silverman’s method, the default used in the <code>geom_density()</code> function, the numerical value of the smoothing parameter for the age variable is 2.344. Although the default smoothing parameter in this case seems reasonable in providing a smooth plot, the prudent data analyst should try several smoothing parameters to ensure that the plot is not oversmoothed. The figure below shows the original plot, as well as additional kernel density plots using the Sheather and Jones method of computing the smoothing parameter. All the methods yield similar curves for the age variable.</p>
+<div class="cell" data-layout-align="center">
+<div class="cell-output-display">
+<div id="fig-kde-age-two" class="quarto-float quarto-figure quarto-figure-center anchored" data-fig-align="center" alt="Kernel density estimates using Silverman's rule of thumb for the smoothing parameter (left-hand plot) and Sheather and Jones' method of computing the smoothing parameter, (right-hand plot).">
+<figure class="quarto-float quarto-float-fig figure">
+<figcaption class="quarto-float-caption-top quarto-float-caption quarto-float-fig" id="fig-kde-age-two-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure&nbsp;6: Kernel density estimates using Silverman’s rule of thumb for the smoothing parameter (left-hand plot) and Sheather and Jones’ method of computing the smoothing parameter, (right-hand plot).
+</figcaption>
+<div aria-describedby="fig-kde-age-two-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="04-kde_files/figure-html/fig-kde-age-two-1.png" class="img-fluid quarto-figure quarto-figure-center figure-img" style="width:100.0%" alt="Kernel density estimates using Silverman's rule of thumb for the smoothing parameter (left-hand plot) and Sheather and Jones' method of computing the smoothing parameter, (right-hand plot).">
+</div>
+</figure>
+</div>
+</div>
+</div>
+<p><br></p>
+</section>
+<section id="adaptive-kernel-density-estimation" class="level2">
+<h2 class="anchored" data-anchor-id="adaptive-kernel-density-estimation">Adaptive Kernel Density Estimation</h2>
+<p>One promising method for computing the degree of smoothing is the use of <strong>adaptive kernel estimation</strong> <span class="citation" data-cites="bowman silverman terrell2">(e.g., <a href="#ref-bowman" role="doc-biblioref">Bowman &amp; Azzalini, 1997</a>; <a href="#ref-silverman" role="doc-biblioref">Silverman, 1986</a>; <a href="#ref-terrell2" role="doc-biblioref">Terrell &amp; Scott, 1992</a>)</span>. This method seems especially well-suited for estimating densities of long-tailed or multi-modal data. Adaptive kernel density estimation allows the kernels to have differing widths. Varying the smoothing parameter reduces the potential of undersmoothing the density estimate where there are sparse data and also reduces the potential of oversmoothing the density estimate where there are heavy data.</p>
+<p>Adaptive kernel densities can be estimated using the <code>akj()</code> function from the <code>{quantreg}</code> package. The <code>z=</code> argument takes an equispace sequence of values for which the density should be estimated. From the computations earlier, recall that the density object, <code>d</code>, contains a set of equispaced <span class="math inline">\(x\)</span>-values at which the density was estimated. These can be accessed using <code>d$x</code>, which is then supplied to the <code>z=</code> argument in the <code>akj()</code> function. The estimated density is assigned to the object <code>adapt</code>. Because of the iterative method that adaptive kernel estimation uses, running the function can take some time depending on the computer’s processor and the size of the sample.</p>
+<div class="cell" data-layout-align="center">
+<div class="sourceCode cell-code" id="cb9"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Create density plot using adaptive kernel density estimation</span></span>
+<span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a>adapt <span class="ot">=</span> <span class="fu">akj</span>(<span class="at">x =</span> vlss<span class="sc">$</span>age, <span class="at">z =</span> d<span class="sc">$</span>x) </span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>To plot this, we first dreate a data frame that includes the <em>x</em>-values used in the <code>z=</code> argument and the density estimates, stored in <code>adapt$dens</code>. Then we can use <code>geom_line()</code> to plot the actual density estimates.</p>
+<div class="cell" data-layout-align="center">
+<div class="sourceCode cell-code" id="cb10"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Set up data frame</span></span>
+<span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a>density_est <span class="ot">=</span> <span class="fu">data.frame</span>(</span>
+<span id="cb10-3"><a href="#cb10-3" aria-hidden="true" tabindex="-1"></a>  <span class="at">x =</span> d<span class="sc">$</span>x,</span>
+<span id="cb10-4"><a href="#cb10-4" aria-hidden="true" tabindex="-1"></a>  <span class="at">y =</span> adapt<span class="sc">$</span>dens</span>
+<span id="cb10-5"><a href="#cb10-5" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb10-6"><a href="#cb10-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb10-7"><a href="#cb10-7" aria-hidden="true" tabindex="-1"></a><span class="co"># Plot density estimates</span></span>
+<span id="cb10-8"><a href="#cb10-8" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(<span class="at">data =</span> density_est, <span class="fu">aes</span>(<span class="at">x =</span> x, <span class="at">y =</span> y)) <span class="sc">+</span></span>
+<span id="cb10-9"><a href="#cb10-9" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_line</span>() <span class="sc">+</span></span>
+<span id="cb10-10"><a href="#cb10-10" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_bw</span>() <span class="sc">+</span></span>
+<span id="cb10-11"><a href="#cb10-11" aria-hidden="true" tabindex="-1"></a>  <span class="fu">xlab</span>(<span class="st">"Age"</span>) <span class="sc">+</span></span>
+<span id="cb10-12"><a href="#cb10-12" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ylab</span>(<span class="st">"Density"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<div id="fig-kde-age-adapt" class="quarto-float quarto-figure quarto-figure-center anchored" data-fig-align="center" alt="Density plot using adaptive kernel density estimation.">
+<figure class="quarto-float quarto-float-fig figure">
+<figcaption class="quarto-float-caption-top quarto-float-caption quarto-float-fig" id="fig-kde-age-adapt-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure&nbsp;7: Density plot using adaptive kernel density estimation.
+</figcaption>
+<div aria-describedby="fig-kde-age-adapt-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="04-kde_files/figure-html/fig-kde-age-adapt-1.png" class="img-fluid quarto-figure quarto-figure-center figure-img" style="width:70.0%" alt="Density plot using adaptive kernel density estimation.">
+</div>
+</figure>
+</div>
+</div>
+</div>
+<p><br></p>
+</section>
+<section id="density-estimation-in-practice" class="level2">
+<h2 class="anchored" data-anchor-id="density-estimation-in-practice">Density Estimation in Practice</h2>
+<p>Unfortunately, there is no one uniform best method for choosing the smoothing parameter <span class="citation" data-cites="simonoff">(<a href="#ref-simonoff" role="doc-biblioref">Simonoff, 1996</a>)</span>. <span class="citation" data-cites="terrell">Terrell (<a href="#ref-terrell" role="doc-biblioref">1990, p. 470</a>)</span> asserts that “most density estimates are presumably designed on aesthetic grounds: The practitioner picks the smoothing parameter so that the density looks good. Clearly, though, such an individualistic approach does not lead to replicable results; nor does it lead reliably to sensible estimates from a novice.”</p>
+<p>While researchers may make different analytic decisions about the choice of kernel and smoothing parameters, hopefully, the substantive findings about the research questions will not change (although it is possible that they may). For example, in all three methods of smoothing preseneted, the estimated kernel density shows that the population has three potential modes in the distribution. These likely refer to three distinct age groups or subpopulations. Each of these age groups has a higher density (taller distribution) and seems to have less variation (a thinner distribution) than the subsequent younger age group.</p>
+<p>Regardless of the analytic decisions made, any statistical results presented need to include sufficient information included to judge the soundness of the conclusions drawn. This helps the researcher either verify or call into question what she is seeing from the analysis. There are two things to keep in mind:</p>
+<ul>
+<li>There is no “right” answer in statistical analysis <span class="citation" data-cites="box box2">(<a href="#ref-box2" role="doc-biblioref">G. E. P. Box, 1979</a>; <a href="#ref-box" role="doc-biblioref">George E. P. Box &amp; Draper, 1987</a>)</span> but only explanation and presentation.</li>
+<li>There is a distinction between how most researchers do their analysis and how they present their results.</li>
+</ul>
+<p>When presenting results, researchers should integrate or synthesize information from the data analysis with the content and findings from the substantive literature. Relating the findings back to previous research helps the researcher evaluate her findings. The results might verify other findings or question them. The researcher might also question her own results if they are not consistent with expectations and other studies. Remember, the statistical analysis is used to inform the substantive area, and the writing should reflect this. An example of a write-up for the age distribution analysis might be as follows.</p>
+<blockquote class="blockquote">
+<p>The density for a sample of ages from <span class="math inline">\(N=28,633\)</span> Vietnamese citizens was estimated using an adaptive kernel method <span class="citation" data-cites="portnoy">(<a href="#ref-portnoy" role="doc-biblioref">Portnoy &amp; Koenker, 1989</a>)</span>. The plot of the estimated kernel density reveals three potential subpopulations in the distribution which depict three distinct age groups: a younger, middle-aged, and older generation. The population pyramid based on the 1999 Vietnam census also seems to indicate the presence of three subpopulations <span class="citation" data-cites="gso">(<a href="#ref-gso" role="doc-biblioref">General Statistical Office, 2001</a>)</span>. The overall positive skew in the distribution also suggests that the population of each subsequently higher age group has relatively lower frequency. Two other interesting features emerge in the density plot that have also been documented in the research literature <span class="citation" data-cites="haughton">(e.g., <a href="#ref-haughton" role="doc-biblioref">Haughton et al., 2001</a>)</span>. The second mode in the age distribution occurs near the age of 40. This mode has lower frequency in part because of lives lost during the Vietnam War, which ended in 1975 with the reunification of North and South Vietnam. One can also see the effect of decreasing fertility rates in the fact that estimated density decreases as ages decrease from about 16 to zero.</p>
+</blockquote>
+<p><br></p>
+</section>
+<section id="references" class="level2">
+<h2 class="anchored" data-anchor-id="references">References</h2>
+<!-- FIX MATH -->
+<script type="text/x-mathjax-config">
+  MathJax.Hub.Config({ CommonHTML: { scale: 180 } });
+</script>
+
+
+<div id="refs" class="references csl-bib-body hanging-indent" data-entry-spacing="0" role="list">
+<div id="ref-bowman" class="csl-entry" role="listitem">
+Bowman, A., &amp; Azzalini, A. (1997). <em>Applied smoothing techniques for data analysis: The kernel approach with <span>S</span>-<span>P</span>lus illustrations</em>. Oxford University Press.
+</div>
+<div id="ref-box2" class="csl-entry" role="listitem">
+Box, G. E. P. (1979). Robustness in the strategy of scientific model building. In R. L. Launer &amp; G. N. Wilkinson (Eds.), <em>Robustness in statistics</em> (pp. 201–236). Academic Press.
+</div>
+<div id="ref-box" class="csl-entry" role="listitem">
+Box, George E. P., &amp; Draper, N. R. (1987). <em>Empirical model-building and response surfaces</em>. Wiley.
+</div>
+<div id="ref-deheuvels" class="csl-entry" role="listitem">
+Deheuvels, P. (1977). Estimation nonparamètrique de la densitè par histogrammes gènèralisès. <em>Rivista Di Statistica Applicata</em>, <em>25</em>, 5–42.
+</div>
+<div id="ref-epanechnikov" class="csl-entry" role="listitem">
+Epanechnikov, V. A. (1969). Nonparametric estimation of a multivariate probability density. <em>Theory of Probability and Its Applications</em>, <em>14</em>, 153–158.
+</div>
+<div id="ref-freedman" class="csl-entry" role="listitem">
+Freedman, D., &amp; Diaconis, P. (1981). On the histogram as a density estimator: <span class="math inline">\(\mathrm{L}_2\)</span> theory. <em>Zeitschrift Für Wahrscheinlichkeitstheorie Und Verwandte Gebiete</em>, <em>57</em>, 453–476.
+</div>
+<div id="ref-gso" class="csl-entry" role="listitem">
+General Statistical Office. (2001). <em>Statistical yearbook</em>. Statistical Publishing House.
+</div>
+<div id="ref-haughton" class="csl-entry" role="listitem">
+Haughton, D., Haughton, J., &amp; Phong, N. (2001). <em>Living standards during an economic boom: The case of vietnam</em>. Statistical Publishing House; United Nations Development Programme.
+</div>
+<div id="ref-portnoy" class="csl-entry" role="listitem">
+Portnoy, S., &amp; Koenker, R. (1989). Adaptive <span>L</span> estimation of linear models. <em>Annals of Statistics</em>, <em>17</em>, 362–381.
+</div>
+<div id="ref-rissanen" class="csl-entry" role="listitem">
+Rissanen, J., Speed, T., &amp; Yu, B. (1992). Density estimation by stochastic complexity. <em>IEEE Trans. On Information Theory</em>, <em>38</em>, 315–323.
+</div>
+<div id="ref-sain" class="csl-entry" role="listitem">
+Sain, S. R. (1994). <em>Adaptive kernel density estimation</em> [PhD thesis]. Rice University.
+</div>
+<div id="ref-scott" class="csl-entry" role="listitem">
+Scott, D. W. (1979). On optimal and data-based histograms. <em>Biometrika</em>, <em>66</em>, 605–610.
+</div>
+<div id="ref-sheather" class="csl-entry" role="listitem">
+Sheather, S. J. (2004). Density estimation. <em>Statistical Science</em>, <em>19</em>(4), 588–597.
+</div>
+<div id="ref-silverman" class="csl-entry" role="listitem">
+Silverman, B. W. (1986). <em>Density estimation for statistics and data analysis</em>. Chapman; Hall.
+</div>
+<div id="ref-simonoff" class="csl-entry" role="listitem">
+Simonoff, J. S. (1996). <em>Smoothing methods in statistics</em>. Springer.
+</div>
+<div id="ref-sturges" class="csl-entry" role="listitem">
+Sturges, H. (1926). The choice of a class-interval. <em>Journal of the American Statistical Association</em>, <em>21</em>, 65–66.
+</div>
+<div id="ref-terrell" class="csl-entry" role="listitem">
+Terrell, G. R. (1990). The maximal smoothing principle in density estimation. <em>Journal of the American Statistical Association</em>, <em>85</em>(410), 470–477.
+</div>
+<div id="ref-terrell2" class="csl-entry" role="listitem">
+Terrell, G. R., &amp; Scott, D. W. (1992). Variable kernel density estimation. <em>The Annals of Statistics</em>, <em>20</em>, 1236–1265.
+</div>
+<div id="ref-wand2" class="csl-entry" role="listitem">
+Wand, M. P. (1997). Data-based choice of histogram bin width. <em>The American Statistician</em>, <em>51</em>, 59–64.
+</div>
+<div id="ref-worldbank" class="csl-entry" role="listitem">
+WorldBank. (1999). <em>World development indicators 1999</em>. CD-ROM; <span>WorldBank</span>.
+</div>
+<div id="ref-Zieffler:2011" class="csl-entry" role="listitem">
+Zieffler, A. S., Harring, J. R., &amp; Long, J. D. (2011). <em>Comparing groups: Randomization and bootstrap methods using <span>R</span></em>. Wiley.
+</div>
+</div>
+</section>
+<section id="footnotes" class="footnotes footnotes-end-of-document" role="doc-endnotes">
+<hr>
+<ol>
+<li id="fn1"><p>The <code>read_csv()</code> function is technically included in the <strong>readr</strong> package which is included in the <strong>tidyverse</strong> package.<a href="#fnref1" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
+<li id="fn2"><p>There are several kernel functions that can be used in density estimation.<a href="#fnref2" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
+<li id="fn3"><p>The <code>geom_density()</code> function is technically included in the <code>{ggplot2}</code> package, which is included in the <code>{tidyverse}</code> package.<a href="#fnref3" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
+</ol>
+</section>
+
+</main> <!-- /main -->
+<script id="quarto-html-after-body" type="application/javascript">
+  window.document.addEventListener("DOMContentLoaded", function (event) {
+    const icon = "";
+    const anchorJS = new window.AnchorJS();
+    anchorJS.options = {
+      placement: 'right',
+      icon: icon
+    };
+    anchorJS.add('.anchored');
+    const isCodeAnnotation = (el) => {
+      for (const clz of el.classList) {
+        if (clz.startsWith('code-annotation-')) {                     
+          return true;
+        }
+      }
+      return false;
+    }
+    const onCopySuccess = function(e) {
+      // button target
+      const button = e.trigger;
+      // don't keep focus
+      button.blur();
+      // flash "checked"
+      button.classList.add('code-copy-button-checked');
+      var currentTitle = button.getAttribute("title");
+      button.setAttribute("title", "Copied!");
+      let tooltip;
+      if (window.bootstrap) {
+        button.setAttribute("data-bs-toggle", "tooltip");
+        button.setAttribute("data-bs-placement", "left");
+        button.setAttribute("data-bs-title", "Copied!");
+        tooltip = new bootstrap.Tooltip(button, 
+          { trigger: "manual", 
+            customClass: "code-copy-button-tooltip",
+            offset: [0, -8]});
+        tooltip.show();    
+      }
+      setTimeout(function() {
+        if (tooltip) {
+          tooltip.hide();
+          button.removeAttribute("data-bs-title");
+          button.removeAttribute("data-bs-toggle");
+          button.removeAttribute("data-bs-placement");
+        }
+        button.setAttribute("title", currentTitle);
+        button.classList.remove('code-copy-button-checked');
+      }, 1000);
+      // clear code selection
+      e.clearSelection();
+    }
+    const getTextToCopy = function(trigger) {
+        const codeEl = trigger.previousElementSibling.cloneNode(true);
+        for (const childEl of codeEl.children) {
+          if (isCodeAnnotation(childEl)) {
+            childEl.remove();
+          }
+        }
+        return codeEl.innerText;
+    }
+    const clipboard = new window.ClipboardJS('.code-copy-button:not([data-in-quarto-modal])', {
+      text: getTextToCopy
+    });
+    clipboard.on('success', onCopySuccess);
+    if (window.document.getElementById('quarto-embedded-source-code-modal')) {
+      const clipboardModal = new window.ClipboardJS('.code-copy-button[data-in-quarto-modal]', {
+        text: getTextToCopy,
+        container: window.document.getElementById('quarto-embedded-source-code-modal')
+      });
+      clipboardModal.on('success', onCopySuccess);
+    }
+      var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
+      var mailtoRegex = new RegExp(/^mailto:/);
+        var filterRegex = new RegExp('/' + window.location.host + '/');
+      var isInternal = (href) => {
+          return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
+      }
+      // Inspect non-navigation links and adorn them if external
+     var links = window.document.querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item):not(.quarto-navigation-tool):not(.about-link)');
+      for (var i=0; i<links.length; i++) {
+        const link = links[i];
+        if (!isInternal(link.href)) {
+          // undo the damage that might have been done by quarto-nav.js in the case of
+          // links that we want to consider external
+          if (link.dataset.originalHref !== undefined) {
+            link.href = link.dataset.originalHref;
+          }
+        }
+      }
+    function tippyHover(el, contentFn, onTriggerFn, onUntriggerFn) {
+      const config = {
+        allowHTML: true,
+        maxWidth: 500,
+        delay: 100,
+        arrow: false,
+        appendTo: function(el) {
+            return el.parentElement;
+        },
+        interactive: true,
+        interactiveBorder: 10,
+        theme: 'quarto',
+        placement: 'bottom-start',
+      };
+      if (contentFn) {
+        config.content = contentFn;
+      }
+      if (onTriggerFn) {
+        config.onTrigger = onTriggerFn;
+      }
+      if (onUntriggerFn) {
+        config.onUntrigger = onUntriggerFn;
+      }
+      window.tippy(el, config); 
+    }
+    const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+    for (var i=0; i<noterefs.length; i++) {
+      const ref = noterefs[i];
+      tippyHover(ref, function() {
+        // use id or data attribute instead here
+        let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+        try { href = new URL(href).hash; } catch {}
+        const id = href.replace(/^#\/?/, "");
+        const note = window.document.getElementById(id);
+        if (note) {
+          return note.innerHTML;
+        } else {
+          return "";
+        }
+      });
+    }
+    const xrefs = window.document.querySelectorAll('a.quarto-xref');
+    const processXRef = (id, note) => {
+      // Strip column container classes
+      const stripColumnClz = (el) => {
+        el.classList.remove("page-full", "page-columns");
+        if (el.children) {
+          for (const child of el.children) {
+            stripColumnClz(child);
+          }
+        }
+      }
+      stripColumnClz(note)
+      if (id === null || id.startsWith('sec-')) {
+        // Special case sections, only their first couple elements
+        const container = document.createElement("div");
+        if (note.children && note.children.length > 2) {
+          container.appendChild(note.children[0].cloneNode(true));
+          for (let i = 1; i < note.children.length; i++) {
+            const child = note.children[i];
+            if (child.tagName === "P" && child.innerText === "") {
+              continue;
+            } else {
+              container.appendChild(child.cloneNode(true));
+              break;
+            }
+          }
+          if (window.Quarto?.typesetMath) {
+            window.Quarto.typesetMath(container);
+          }
+          return container.innerHTML
+        } else {
+          if (window.Quarto?.typesetMath) {
+            window.Quarto.typesetMath(note);
+          }
+          return note.innerHTML;
+        }
+      } else {
+        // Remove any anchor links if they are present
+        const anchorLink = note.querySelector('a.anchorjs-link');
+        if (anchorLink) {
+          anchorLink.remove();
+        }
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(note);
+        }
+        if (note.classList.contains("callout")) {
+          return note.outerHTML;
+        } else {
+          return note.innerHTML;
+        }
+      }
+    }
+    for (var i=0; i<xrefs.length; i++) {
+      const xref = xrefs[i];
+      tippyHover(xref, undefined, function(instance) {
+        instance.disable();
+        let url = xref.getAttribute('href');
+        let hash = undefined; 
+        if (url.startsWith('#')) {
+          hash = url;
+        } else {
+          try { hash = new URL(url).hash; } catch {}
+        }
+        if (hash) {
+          const id = hash.replace(/^#\/?/, "");
+          const note = window.document.getElementById(id);
+          if (note !== null) {
+            try {
+              const html = processXRef(id, note.cloneNode(true));
+              instance.setContent(html);
+            } finally {
+              instance.enable();
+              instance.show();
+            }
+          } else {
+            // See if we can fetch this
+            fetch(url.split('#')[0])
+            .then(res => res.text())
+            .then(html => {
+              const parser = new DOMParser();
+              const htmlDoc = parser.parseFromString(html, "text/html");
+              const note = htmlDoc.getElementById(id);
+              if (note !== null) {
+                const html = processXRef(id, note);
+                instance.setContent(html);
+              } 
+            }).finally(() => {
+              instance.enable();
+              instance.show();
+            });
+          }
+        } else {
+          // See if we can fetch a full url (with no hash to target)
+          // This is a special case and we should probably do some content thinning / targeting
+          fetch(url)
+          .then(res => res.text())
+          .then(html => {
+            const parser = new DOMParser();
+            const htmlDoc = parser.parseFromString(html, "text/html");
+            const note = htmlDoc.querySelector('main.content');
+            if (note !== null) {
+              // This should only happen for chapter cross references
+              // (since there is no id in the URL)
+              // remove the first header
+              if (note.children.length > 0 && note.children[0].tagName === "HEADER") {
+                note.children[0].remove();
+              }
+              const html = processXRef(null, note);
+              instance.setContent(html);
+            } 
+          }).finally(() => {
+            instance.enable();
+            instance.show();
+          });
+        }
+      }, function(instance) {
+      });
+    }
+        let selectedAnnoteEl;
+        const selectorForAnnotation = ( cell, annotation) => {
+          let cellAttr = 'data-code-cell="' + cell + '"';
+          let lineAttr = 'data-code-annotation="' +  annotation + '"';
+          const selector = 'span[' + cellAttr + '][' + lineAttr + ']';
+          return selector;
+        }
+        const selectCodeLines = (annoteEl) => {
+          const doc = window.document;
+          const targetCell = annoteEl.getAttribute("data-target-cell");
+          const targetAnnotation = annoteEl.getAttribute("data-target-annotation");
+          const annoteSpan = window.document.querySelector(selectorForAnnotation(targetCell, targetAnnotation));
+          const lines = annoteSpan.getAttribute("data-code-lines").split(",");
+          const lineIds = lines.map((line) => {
+            return targetCell + "-" + line;
+          })
+          let top = null;
+          let height = null;
+          let parent = null;
+          if (lineIds.length > 0) {
+              //compute the position of the single el (top and bottom and make a div)
+              const el = window.document.getElementById(lineIds[0]);
+              top = el.offsetTop;
+              height = el.offsetHeight;
+              parent = el.parentElement.parentElement;
+            if (lineIds.length > 1) {
+              const lastEl = window.document.getElementById(lineIds[lineIds.length - 1]);
+              const bottom = lastEl.offsetTop + lastEl.offsetHeight;
+              height = bottom - top;
+            }
+            if (top !== null && height !== null && parent !== null) {
+              // cook up a div (if necessary) and position it 
+              let div = window.document.getElementById("code-annotation-line-highlight");
+              if (div === null) {
+                div = window.document.createElement("div");
+                div.setAttribute("id", "code-annotation-line-highlight");
+                div.style.position = 'absolute';
+                parent.appendChild(div);
+              }
+              div.style.top = top - 2 + "px";
+              div.style.height = height + 4 + "px";
+              div.style.left = 0;
+              let gutterDiv = window.document.getElementById("code-annotation-line-highlight-gutter");
+              if (gutterDiv === null) {
+                gutterDiv = window.document.createElement("div");
+                gutterDiv.setAttribute("id", "code-annotation-line-highlight-gutter");
+                gutterDiv.style.position = 'absolute';
+                const codeCell = window.document.getElementById(targetCell);
+                const gutter = codeCell.querySelector('.code-annotation-gutter');
+                gutter.appendChild(gutterDiv);
+              }
+              gutterDiv.style.top = top - 2 + "px";
+              gutterDiv.style.height = height + 4 + "px";
+            }
+            selectedAnnoteEl = annoteEl;
+          }
+        };
+        const unselectCodeLines = () => {
+          const elementsIds = ["code-annotation-line-highlight", "code-annotation-line-highlight-gutter"];
+          elementsIds.forEach((elId) => {
+            const div = window.document.getElementById(elId);
+            if (div) {
+              div.remove();
+            }
+          });
+          selectedAnnoteEl = undefined;
+        };
+          // Handle positioning of the toggle
+      window.addEventListener(
+        "resize",
+        throttle(() => {
+          elRect = undefined;
+          if (selectedAnnoteEl) {
+            selectCodeLines(selectedAnnoteEl);
+          }
+        }, 10)
+      );
+      function throttle(fn, ms) {
+      let throttle = false;
+      let timer;
+        return (...args) => {
+          if(!throttle) { // first call gets through
+              fn.apply(this, args);
+              throttle = true;
+          } else { // all the others get throttled
+              if(timer) clearTimeout(timer); // cancel #2
+              timer = setTimeout(() => {
+                fn.apply(this, args);
+                timer = throttle = false;
+              }, ms);
+          }
+        };
+      }
+        // Attach click handler to the DT
+        const annoteDls = window.document.querySelectorAll('dt[data-target-cell]');
+        for (const annoteDlNode of annoteDls) {
+          annoteDlNode.addEventListener('click', (event) => {
+            const clickedEl = event.target;
+            if (clickedEl !== selectedAnnoteEl) {
+              unselectCodeLines();
+              const activeEl = window.document.querySelector('dt[data-target-cell].code-annotation-active');
+              if (activeEl) {
+                activeEl.classList.remove('code-annotation-active');
+              }
+              selectCodeLines(clickedEl);
+              clickedEl.classList.add('code-annotation-active');
+            } else {
+              // Unselect the line
+              unselectCodeLines();
+              clickedEl.classList.remove('code-annotation-active');
+            }
+          });
+        }
+    const findCites = (el) => {
+      const parentEl = el.parentElement;
+      if (parentEl) {
+        const cites = parentEl.dataset.cites;
+        if (cites) {
+          return {
+            el,
+            cites: cites.split(' ')
+          };
+        } else {
+          return findCites(el.parentElement)
+        }
+      } else {
+        return undefined;
+      }
+    };
+    var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+    for (var i=0; i<bibliorefs.length; i++) {
+      const ref = bibliorefs[i];
+      const citeInfo = findCites(ref);
+      if (citeInfo) {
+        tippyHover(citeInfo.el, function() {
+          var popup = window.document.createElement('div');
+          citeInfo.cites.forEach(function(cite) {
+            var citeDiv = window.document.createElement('div');
+            citeDiv.classList.add('hanging-indent');
+            citeDiv.classList.add('csl-entry');
+            var biblioDiv = window.document.getElementById('ref-' + cite);
+            if (biblioDiv) {
+              citeDiv.innerHTML = biblioDiv.innerHTML;
+            }
+            popup.appendChild(citeDiv);
+          });
+          return popup.innerHTML;
+        });
+      }
+    }
+  });
+  </script>
+</div> <!-- /content -->
+
+
+
+
+</body></html>

@@ -23,6 +23,7 @@ book:
     - 02-01-latex-tables.qmd
     - 04-kde.qmd
     - 05-exploration.qmd
+    - 06-rm-anova.qmd
 language:
   section-title-appendices: "Appendices"
 bibliography: ["assets/musings.bib"]

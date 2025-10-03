@@ -228,6 +228,12 @@ window.Quarto = {
  <span class="menu-text">Exploration: Comparing Two Groups</span></a>
   </div>
 </li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./06-rm-anova.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Classical Methods in Longitudinal (Repeated Measures) Analysis</span></a>
+  </div>
+</li>
     </ul>
     </div>
 </nav>
@@ -319,7 +325,7 @@ Figure&nbsp;1: Kernel density estimate for the marginal distribution of househol
 </div>
 </div>
 </div>
-<p>The plot of the marginal distribution shown in <a href="#fig-01" class="quarto-xref">Figure&nbsp;<span>1</span></a> indicates that the per capita expenditures data is right skewed, as the majority of household per capita expenditures pile up at the low end, and taper off moving to the right. This suggests that many of the households in Vietnam have a low per capita expenditure (around $100 U.S.). It also shows some households that may be potential outliers in the marginal distribution. These are households with very high expenditures relative to the rest of the households in the sample.</p>
+<p>The plot of the marginal distribution shown in <a href="06-rm-anova.html#fig-01" class="quarto-xref">Figure&nbsp;<span>1</span></a> indicates that the per capita expenditures data is right skewed, as the majority of household per capita expenditures pile up at the low end, and taper off moving to the right. This suggests that many of the households in Vietnam have a low per capita expenditure (around $100 U.S.). It also shows some households that may be potential outliers in the marginal distribution. These are households with very high expenditures relative to the rest of the households in the sample.</p>
 <p><br></p>
 </section>
 <section id="graphically-summarizing-conditional-distributions" class="level2">
@@ -340,7 +346,7 @@ Figure&nbsp;2: Kernel density estimate for the distribution of household per cap
 </div>
 </div>
 </div>
-<p><a href="#fig-02" class="quarto-xref">Figure&nbsp;<span>2</span></a> shows a single graph—or panel—with the conditional density curves superimposed and coded by line color. By having both conditional distributions in the same panel, this type of plot makes it psychologically easier for people to make comparisons. As can be seen in the plot, the urban curve is shifted to the right of the rural curve toward higher per capita household expenditures. In addition, the peak of the urban curve is lower than that of the rural curve, and both distributions are positively skewed.</p>
+<p><a href="06-rm-anova.html#fig-02" class="quarto-xref">Figure&nbsp;<span>2</span></a> shows a single graph—or panel—with the conditional density curves superimposed and coded by line color. By having both conditional distributions in the same panel, this type of plot makes it psychologically easier for people to make comparisons. As can be seen in the plot, the urban curve is shifted to the right of the rural curve toward higher per capita household expenditures. In addition, the peak of the urban curve is lower than that of the rural curve, and both distributions are positively skewed.</p>
 <p><br></p>
 </section>
 <section id="numerical-summaries-of-data-estimates-of-the-population-parameters" class="level2">
@@ -350,12 +356,12 @@ Figure&nbsp;2: Kernel density estimate for the distribution of household per cap
 <li>Measures of location, or central tendency</li>
 <li>Measures of variability, or dispersion</li>
 </ul>
-<p>Measures of location are single values that represent the measurement of a typical individual or unit in the distribution being studied. For example, in <a href="#fig-02" class="quarto-xref">Figure&nbsp;<span>2</span></a>, a typical household in the distribution might be defined as having a per capita expenditure at the dollar amount directly below the peak of the curve. Based on this, the typical urban household has a higher per capita expenditure than the typical rural household.</p>
-<p>Measures of variability provide an indication of how different, or variable, the measurements in the distribution happen to be. For instance, <a href="#fig-02" class="quarto-xref">Figure&nbsp;<span>2</span></a> also shows that the urban distribution spans a longer interval than the rural distribution, indicating urban household have more variation in their per capita expenditures than rural households. Researchers are often interested in the measures of location and variation in the population as they constitute relatively clear summaries of important aspects of distributions. The numerical summaries of the population distribution are called <strong>parameters</strong>. Parameters are estimated using sample data.</p>
+<p>Measures of location are single values that represent the measurement of a typical individual or unit in the distribution being studied. For example, in <a href="06-rm-anova.html#fig-02" class="quarto-xref">Figure&nbsp;<span>2</span></a>, a typical household in the distribution might be defined as having a per capita expenditure at the dollar amount directly below the peak of the curve. Based on this, the typical urban household has a higher per capita expenditure than the typical rural household.</p>
+<p>Measures of variability provide an indication of how different, or variable, the measurements in the distribution happen to be. For instance, <a href="06-rm-anova.html#fig-02" class="quarto-xref">Figure&nbsp;<span>2</span></a> also shows that the urban distribution spans a longer interval than the rural distribution, indicating urban household have more variation in their per capita expenditures than rural households. Researchers are often interested in the measures of location and variation in the population as they constitute relatively clear summaries of important aspects of distributions. The numerical summaries of the population distribution are called <strong>parameters</strong>. Parameters are estimated using sample data.</p>
 <p><br></p>
 <section id="measuring-central-tendency" class="level3">
 <h3 class="anchored" data-anchor-id="measuring-central-tendency">Measuring Central Tendency</h3>
-<p>The three most common measures of location are the <strong>mean</strong>, the <strong>median</strong>, and the <strong>mode</strong>. The mode describes a typical measurement in terms of the most common outcome or most frequently occurring score. In <a href="#fig-02" class="quarto-xref">Figure&nbsp;<span>2</span></a>, the mode of each distribution is the household expenditure value directly under the peak of the curve. A limitation in using the mode is that a distribution can have more than one. This indicates that the mode will not always have a unique value and, thus, cannot be recommended for general use.</p>
+<p>The three most common measures of location are the <strong>mean</strong>, the <strong>median</strong>, and the <strong>mode</strong>. The mode describes a typical measurement in terms of the most common outcome or most frequently occurring score. In <a href="06-rm-anova.html#fig-02" class="quarto-xref">Figure&nbsp;<span>2</span></a>, the mode of each distribution is the household expenditure value directly under the peak of the curve. A limitation in using the mode is that a distribution can have more than one. This indicates that the mode will not always have a unique value and, thus, cannot be recommended for general use.</p>
 <p>In contrast to the mode, the median and mean are always unique values. The median is the middle-most score in a distribution. The <code>median()</code> function is used to find the median of the distribution. The best known and most frequently used measure of central tendency is the mean, or the average. The <code>mean()</code> function is used to find the mean of a distribution.</p>
 <!-- The `summarize()` function (from the **tidyverse** package) is used to indicate a data frame (`vlss` in this case) and then the `mean()` or `median()` functions are called on an attribute in that data frame. The use of the `median()` and `mean()` functions to find the median and mean household per capita expenditure, respectively, are shown the syntax below.  -->
 <div class="cell" data-layout-align="center">
@@ -394,7 +400,7 @@ Figure&nbsp;2: Kernel density estimate for the distribution of household per cap
 2 Urban  349.  279.</code></pre>
 </div>
 </div>
-<p>The mean household per capita expenditure for the urban area is more than twice that for the rural area. This is consistent with <a href="#fig-02" class="quarto-xref">Figure&nbsp;<span>2</span></a> that shows the urban distribution being right-shifted relative to the rural distribution. This suggests that the average household per capita expenditure differs for urban and rural areas in the sample.</p>
+<p>The mean household per capita expenditure for the urban area is more than twice that for the rural area. This is consistent with <a href="06-rm-anova.html#fig-02" class="quarto-xref">Figure&nbsp;<span>2</span></a> that shows the urban distribution being right-shifted relative to the rural distribution. This suggests that the average household per capita expenditure differs for urban and rural areas in the sample.</p>
 <p><br></p>
 </section>
 <section id="measuring-variation" class="level3">
@@ -445,7 +451,7 @@ Figure&nbsp;3: Simulated density plots for the distribution of household per cap
 2 Urban 250.    62564.</code></pre>
 </div>
 </div>
-<p>Based on these conditional summaries, the rural households show less variation than the urban households. This is consistent with <a href="#fig-02" class="quarto-xref">Figure&nbsp;<span>2</span></a> that shows the urban distribution being wider relative to the rural distribution. The average household per capita expenditure is more homogeneous for rural than for urban households. There are some caveats regarding indexes of variation. Most notably, measures of variation are sensitive to asymmetry, and their values can be inflated by even a single extreme value. For this reason, the skewness of the distributions should be considered when comparing measures of variation computed on such distributions.</p>
+<p>Based on these conditional summaries, the rural households show less variation than the urban households. This is consistent with <a href="06-rm-anova.html#fig-02" class="quarto-xref">Figure&nbsp;<span>2</span></a> that shows the urban distribution being wider relative to the rural distribution. The average household per capita expenditure is more homogeneous for rural than for urban households. There are some caveats regarding indexes of variation. Most notably, measures of variation are sensitive to asymmetry, and their values can be inflated by even a single extreme value. For this reason, the skewness of the distributions should be considered when comparing measures of variation computed on such distributions.</p>
 <p>Another measure of variation that often gets reported in the educational and behavioral sciences, is the <strong>standard error of the mean</strong>. The idea underlying the standard error is that different samples drawn from the same population have different values of the sample mean. This is a consequence of random sampling and the fact that sample information is always incomplete relative to the population. The standard error of the mean is the standard deviation of all the possible sample means for a given sample size. As such, this measure offers an indication of the precision of the sample mean, when it is used as an estimate of the population mean. The smaller the standard error the greater the precision. The standard error for the mean is computed as</p>
 <p><span class="math display">\[
 \mathrm{SE}_{\bar{Y}}=\frac{\mathrm{SD}_Y}{\sqrt{n}}.
@@ -497,7 +503,7 @@ Figure&nbsp;3: Simulated density plots for the distribution of household per cap
 <li>If <span class="math inline">\(1 &lt; \left|G_1\right| &lt; 2\)</span>, the the skewness of the distribution is moderate.</li>
 <li>If <span class="math inline">\(\left|G_1\right| &gt;2\)</span>, the distribution is quite skewed.</li>
 </ul>
-<p>The above guidelines indicate that both distributions in the example are severely positively skewed. Furthermore, the rural distribution is more asymmetric than the urban distribution. This is again consistent with <a href="#fig-02" class="quarto-xref">Figure&nbsp;<span>2</span></a>, which shows the rural distribution has a longer tail relative to its mean than the urban distribution. The distribution of rural households shows relatively less density for household per capita expenditures above the mean than below the mean. This asymmetry is even more evident for urban households.</p>
+<p>The above guidelines indicate that both distributions in the example are severely positively skewed. Furthermore, the rural distribution is more asymmetric than the urban distribution. This is again consistent with <a href="06-rm-anova.html#fig-02" class="quarto-xref">Figure&nbsp;<span>2</span></a>, which shows the rural distribution has a longer tail relative to its mean than the urban distribution. The distribution of rural households shows relatively less density for household per capita expenditures above the mean than below the mean. This asymmetry is even more evident for urban households.</p>
 <p><br></p>
 </section>
 <section id="measuring-kurtosis" class="level3">
@@ -537,7 +543,7 @@ Figure&nbsp;4: LEFT PANEL: Kernel density estimate for a mesokurtic distribution
 2 Urban  14.0</code></pre>
 </div>
 </div>
-<p>The kurtosis statistics for the conditional distributions suggest that both distributions are severely leptokurtic indicating that these distributions are more peaked than a normal distribution. They also have more density in the tails of the distribution than we would expect to see in a normal distribution. One can see in <a href="#fig-02" class="quarto-xref">Figure&nbsp;<span>2</span></a> that the rural distribution is even more peaked than the urban distribution.</p>
+<p>The kurtosis statistics for the conditional distributions suggest that both distributions are severely leptokurtic indicating that these distributions are more peaked than a normal distribution. They also have more density in the tails of the distribution than we would expect to see in a normal distribution. One can see in <a href="06-rm-anova.html#fig-02" class="quarto-xref">Figure&nbsp;<span>2</span></a> that the rural distribution is even more peaked than the urban distribution.</p>
 <p>While the kurtosis statistic is often examined and reported by educational and behavioral scientists who want to numerically describe their samples, it should be noted that “there seems to be no universal agreement about the meaning and interpretation of kurtosis” <span class="citation" data-cites="moors">(<a href="#ref-moors" role="doc-biblioref">Moors, 1986, p. 283</a>)</span>. Most textbooks in the social sciences describe kurtosis in terms of peakedness and tail weight. <span class="citation" data-cites="balanda">Balanda &amp; MacGillivray (<a href="#ref-balanda" role="doc-biblioref">1988, p. 116</a>)</span> define kurtosis as “the location- and scale free movement of probability mass from the shoulders of a distribution into its center and tails”. Other statisticians have suggested that it is a measure of the bimodality present in a distribution <span class="citation" data-cites="darlington finucan">(e.g., <a href="#ref-darlington" role="doc-biblioref">Darlington, 1970</a>; <a href="#ref-finucan" role="doc-biblioref">Finucan, 1964</a>)</span>. Perhaps it is best defined by <span class="citation" data-cites="mosteller">Mosteller &amp; Tukey (<a href="#ref-mosteller" role="doc-biblioref">1977</a>)</span>, who suggest that like location, variation, and skewness, kurtosis should be viewed as a “vague concept” that can be formalized in a variety of ways.</p>
 <p><br></p>
 </section>

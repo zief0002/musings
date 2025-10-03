@@ -420,16 +420,6 @@
     ]
   },
   {
-    "objectID": "06-rm-anova.html#analyzing-the-data-using-rm-anova",
-    "href": "06-rm-anova.html#analyzing-the-data-using-rm-anova",
-    "title": "Classical Methods in Longitudinal (Repeated Measures) Analysis",
-    "section": "Analyzing the Data using RM-ANOVA",
-    "text": "Analyzing the Data using RM-ANOVA\nViolation of the independence asumption is a huge problem for the inferential results. When we have repeated measures data, it inevitably leads to a violation of the independence assumption. Because of that, we need to use a different model to analyze the data. One such model that allows for dependence in the residuals is the repeated measures analysis of variance (RM-ANOVA).\n\n\n\n\n\nLittle, R. J. A., & Rubin, D. B. (1940). Statistical analysis with missing data. Wiley.\n\n\nLong, J. D. (2011). Longitudinal data analysis for the behavioral sciences using R. Sage.",
-    "crumbs": [
-      "Classical Methods in Longitudinal (Repeated Measures) Analysis"
-    ]
-  },
-  {
     "objectID": "06-rm-anova.html#grade-by-student-interaction-model",
     "href": "06-rm-anova.html#grade-by-student-interaction-model",
     "title": "Classical Methods in Longitudinal (Repeated Measures) Analysis",
@@ -460,16 +450,6 @@
     ]
   },
   {
-    "objectID": "06-rm-anova.html#references",
-    "href": "06-rm-anova.html#references",
-    "title": "Classical Methods in Longitudinal (Repeated Measures) Analysis",
-    "section": "References",
-    "text": "References\n\n\n\n\nBox, G. E. P. (1954). Some theorems on quadrative forms applied to the study of analysis of variance problem; i: Effect of inequality of variance in the one way-classification. Annals of Mathematical Statistics, 25(2), 290–302. https://doi.org/10.1214/aoms/1177728786\n\n\nGeisser, S., & Greenhouse, S. W. (1958). An extension of Box’s result on the use of F distribution in multivariate analysis. Annals of Mathematical Statistics, 29(3), 885–891. https://doi.org/0.1214/aoms/1177706545\n\n\nHuynh, H., & Feldt, L. S. (1970). Conditions under which mean square ratios in repeated measurement designs have exact F–distributions. Journal of the American Statistical Association, 65(332), 1582–1589. https://doi.org/10.1080/01621459.1970.10481187\n\n\nLittle, R. J. A., & Rubin, D. B. (1940). Statistical analysis with missing data. Wiley.\n\n\nLong, J. D. (2011). Longitudinal data analysis for the behavioral sciences using R. Sage.",
-    "crumbs": [
-      "Classical Methods in Longitudinal (Repeated Measures) Analysis"
-    ]
-  },
-  {
     "objectID": "06-rm-anova.html#manova",
     "href": "06-rm-anova.html#manova",
     "title": "Classical Methods in Longitudinal (Repeated Measures) Analysis",
@@ -495,6 +475,16 @@
     "title": "Classical Methods in Longitudinal (Repeated Measures) Analysis",
     "section": "Methodological Concerns",
     "text": "Methodological Concerns\nThere are several methodological concerns directly related to the use of RM-ANOVA and MANOVA:\n\nIn practice, assumptions like sphericity and multivariate normality are seldom met when analyzing repeated measures.\nBoth methods require that all predictors are factors (i.e., categorical variables).\nBoth methods use listwise deletion on the wide data set; that is if any case is missing a value at any of the repeated measures the entire case is eliminated from the analysis.\nBoth methods treat time discreetly (it is a factor/categorical…not continuous). This also reduces power. To understand this, consider our reading example, if the relationship over time is linear, if we could treat time continuously we could include a single predictor of time in the model. However, since the models treat time discreetly, it means we need to include multiple grade predictors (three dummy coded time points) in the model.\nThis same issue makes it far more difficult to fit more complex functional forms (e.g., non-linear effects).\nLastly, these models only gives us information about mean differences in reading over time. We do not get an indication about how individual students’ reading scores change over time (or how variable their trajectories are).\n\n\nMETHODOLOGICAL ADVICE\nIf you are analyzing repeated measures data, do NOT use RM-ANOVA or MANOVA. Instead, use a linear mixed-effects model!",
+    "crumbs": [
+      "Classical Methods in Longitudinal (Repeated Measures) Analysis"
+    ]
+  },
+  {
+    "objectID": "06-rm-anova.html#references",
+    "href": "06-rm-anova.html#references",
+    "title": "Classical Methods in Longitudinal (Repeated Measures) Analysis",
+    "section": "References",
+    "text": "References\n\n\n\n\nBox, G. E. P. (1954). Some theorems on quadrative forms applied to the study of analysis of variance problem; i: Effect of inequality of variance in the one way-classification. Annals of Mathematical Statistics, 25(2), 290–302. https://doi.org/10.1214/aoms/1177728786\n\n\nGeisser, S., & Greenhouse, S. W. (1958). An extension of Box’s result on the use of F distribution in multivariate analysis. Annals of Mathematical Statistics, 29(3), 885–891. https://doi.org/0.1214/aoms/1177706545\n\n\nHuynh, H., & Feldt, L. S. (1970). Conditions under which mean square ratios in repeated measurement designs have exact F–distributions. Journal of the American Statistical Association, 65(332), 1582–1589. https://doi.org/10.1080/01621459.1970.10481187\n\n\nLittle, R. J. A., & Rubin, D. B. (1940). Statistical analysis with missing data. Wiley.\n\n\nLong, J. D. (2011). Longitudinal data analysis for the behavioral sciences using R. Sage.",
     "crumbs": [
       "Classical Methods in Longitudinal (Repeated Measures) Analysis"
     ]
